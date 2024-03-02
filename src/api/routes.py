@@ -165,32 +165,33 @@ def update_user(user_id):
     return jsonify({'message': 'Datos de usuario actualizados exitosamente'}), 200
 
 # Borra el perfil
-@api.route('/user/properties', methods=['DELETE'])
-@jwt_required()  # Asegura que el usuario esté autenticado con un token JWT
-def delete_user_properties():
+@api.route('/user/profile', methods=['DELETE'])
+@jwt_required()
+def delete_user_profile():
     # Obtener el ID de usuario del token JWT
     current_user_id = get_jwt_identity()
 
-    # Verificar si el usuario tiene propiedades que puedan eliminarse
-    user_properties = UserProperties.query.filter_by(user_id=current_user_id).first()
-
-    if not user_properties:
-        return jsonify({'message': 'El usuario no tiene propiedades'}), 404
-
-    # Eliminar las propiedades del usuario de la base de datos y confirmar los cambios
-    db.session.delete(user_properties)
+    # Verificar si el usuario existe 
+    user = User.query.filter_by(id=current_user_id).first()
+    if not user:
+        return jsonify({'message': 'Usuario no encontrado'}), 404
+    
+    # Eliminar las propiedades del usuario de la base de datos
+    UserProperties.query.filter_by(user_id=current_user_id).delete()
+    
+    # Eliminar el usuario de la base de datos y confirmar los cambios
+    db.session.delete(user)
     db.session.commit()
 
-    return jsonify({'message': 'Propiedades de usuario eliminadas exitosamente'}), 200
+    return jsonify({'message': 'Perfil de usuario eliminado exitosamente'}), 200
 
-# obtiene las propiedades de un usuario a traves de su id -> learn More
 @api.route('/user/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_user(user_id):
     # Obtener el usuario de la base de datos
     user = User.query.filter_by(id=user_id).first()
     
-    # Verificar si el usuario existe
+    # Verificar si el usuario existe 
     if not user:
         return jsonify({'message': 'Usuario no encontrado'}), 404
     
