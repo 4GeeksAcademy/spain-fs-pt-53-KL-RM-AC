@@ -1,6 +1,16 @@
 .form-select{
     width: 500px;
 }
-.form-control{
-    width: 500px;
+body{
+    background-color: #43A19E;
+}
+.btn{
+    background-color: #DD0025;
+    border: 0
+}
+footer{
+    background-color: #02323D;
+}
+.navbar{
+    background-color: #02323D;
 }

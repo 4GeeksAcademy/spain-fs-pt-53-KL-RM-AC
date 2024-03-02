@@ -13,6 +13,7 @@ import { Footer } from "./component/footer";
 import { MyProfile } from "./pages/MyProfile";
 import { CreateProfile } from "./pages/CreateProfile";
 import { EditProfile } from "./pages/EditProfile";
+import { Password } from "./pages/Password";
 
 //create your first component
 const Layout = () => {
@@ -27,13 +28,12 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    <Routes>
+                    <Routes className="body">
                         <Route element={<Home />} path="/" />
                         <Route element={<MyProfile />} path="/profile" />
                         <Route element={<CreateProfile />} path="/create" />
                         <Route element={<EditProfile />} path="/edit" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Password />} path="/password" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

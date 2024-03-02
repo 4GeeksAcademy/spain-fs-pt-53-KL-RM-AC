@@ -11,29 +11,28 @@ export const MyProfile = () => {
 			<h3 className="text-center">Mi Perfil</h3>
 			<form>
 				<div className="name d-flex">
-					<div className="m-3">
+					<div className="ms-2 col-3">
 						<label for="inputFirstName" className="form-label fw-bold">Nombre</label>
 						<div>
 							<p>Rocio</p>
 						</div>
 					</div>
-					<div className="m-3">
-					
-						<label for="inputLastName" className="form-label fw-bold">Apellidos</label>
-						<div >
-							<p>Santos Martinez</p>
+					<div className="ms-2 col-3">
+						<label for="inputFirstName" className="form-label fw-bold">Nombre</label>
+						<div>
+							<p>Santos</p>
 						</div>
 					</div>
-
-				</div>
-				<div className="m-3 justify-content-center">
+					<div className="ms-4 col-6">
 					<label for="inputEmail" className="form-label fw-bold">Email</label>
 					<div>
-						<p>rociosantos96@gmail.com</p>
+					<p>rociosantos96@gmail.com</p>
+					</div>
 					</div>
 				</div>
+
 				<div className="d-flex">
-					<div className="m-3 col-6">
+					<div className="m-2 col-6">
 					<label for="exampleFormControlTextarea1" className="form-label mt-2 fw-bold">Que es lo que buscas?</label>
 
 						<select className="form-select " aria-label="Default select example">
@@ -64,7 +63,7 @@ export const MyProfile = () => {
 							<option value="2">Hombre</option>
 						</select>
 					</div>
-					<div className="m-3 col-6">
+					<div className="m-2 col-6">
 					<label for="exampleFormControlTextarea1" className="form-label mt-2 fw-bold">Ubicacion</label>
 
 						<select className="form-select " aria-label="Default select example">
