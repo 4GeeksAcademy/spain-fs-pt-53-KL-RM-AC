@@ -1,3 +1,15 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
+body{
+    background-color: #43A19E;
+    font-family: AvertaStd-ExtraBold;
+    color:#014E60;
+}
+nav{
+    background-color: #02323D;
+}
+footer{
+    background-color: #02323D;
+}
+.btn{
+    background-color: #DD0025;
+    border: 0
+}

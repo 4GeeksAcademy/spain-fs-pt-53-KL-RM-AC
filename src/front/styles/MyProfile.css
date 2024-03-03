@@ -1,0 +1,9 @@
+.card{
+    background-color: #43A19E;
+    height: fit-content;
+    border: 0;
+}
+.img{
+    max-height: 100%;
+    background-color: aliceblue;
+}
