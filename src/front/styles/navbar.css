@@ -1,0 +1,17 @@
+.custom-navbar {
+   background-color: #02323D; 
+   font-family: Verdana;
+   padding: 0px;
+   height: 75px; 
+    /* Otros estilos personalizados si es necesario */
+  }
+
+  .custom-span {
+    color: white;
+    align-items: flex-end;
+  }
+
+  .custom-footer {
+    background-color: #02323D; 
+
+  }

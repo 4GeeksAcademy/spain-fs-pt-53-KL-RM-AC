@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import { ProfileCard } from "../component/profilecard";
 
 
 export const Finder = () => {
 
     return (
-        <div className="container">
+        <div className="container p-5">
             <div className="row">
-                <div className=" filter col-4">
+                <div className=" filter col-3 sticky-top">
                     <h4>Filtros</h4>
                     <form>
                     <div className="situation">
@@ -69,14 +70,13 @@ export const Finder = () => {
 
                         <hr></hr>
                     </form>
-
                 </div>
 
 
-                <div className="col-8">HOLA-8
-                
-                
+                <div className="col-9">
+                    <ProfileCard/>
                 </div>
+                
             </div>
         </div>
     );
