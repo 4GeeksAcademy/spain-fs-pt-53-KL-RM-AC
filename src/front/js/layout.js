@@ -12,7 +12,6 @@ import { MyProfile } from "./pages/MyProfile";
 import { CreateProfile } from "./pages/CreateProfile";
 import { EditProfile } from "./pages/EditProfile";
 import { Password } from "./pages/Password";
-import { Miperfil } from "./pages/Miperfil copy";
 
 //create your first component
 const Layout = () => {
@@ -30,7 +29,6 @@ const Layout = () => {
                     <Routes className="body">
                         <Route element={<Home />} path="/" />
                         <Route element={<MyProfile />} path="/profile" />
-                        <Route element={<Miperfil />} path="/perfil" />
                         <Route element={<CreateProfile />} path="/create" />
                         <Route element={<EditProfile />} path="/edit" />
                         <Route element={<Password />} path="/password" />
