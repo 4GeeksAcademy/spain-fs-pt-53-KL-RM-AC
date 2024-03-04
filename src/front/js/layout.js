@@ -12,6 +12,7 @@ import { MyProfile } from "./pages/MyProfile";
 import { CreateProfile } from "./pages/CreateProfile";
 import { EditProfile } from "./pages/EditProfile";
 import { Password } from "./pages/Password";
+import { SignUp } from "./pages/Signup";
 
 //create your first component
 const Layout = () => {
@@ -32,6 +33,7 @@ const Layout = () => {
                         <Route element={<CreateProfile />} path="/create" />
                         <Route element={<EditProfile />} path="/edit" />
                         <Route element={<Password />} path="/password" />
+                        <Route element={<SignUp/>} path="/signup" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
