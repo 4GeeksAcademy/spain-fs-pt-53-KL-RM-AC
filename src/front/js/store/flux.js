@@ -36,6 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				} catch (error) {
 					throw error;
+					throw error;
 				}
 			},
 

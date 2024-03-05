@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/signUp.css";
 
+
 export const SignUp = () => {
     const { actions, store } = useContext(Context);
     const [formData, setFormData] = useState({
