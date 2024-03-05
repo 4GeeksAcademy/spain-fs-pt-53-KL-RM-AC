@@ -13,5 +13,10 @@
 
   .custom-footer {
     background-color: #02323D; 
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 
   }
+
+ 

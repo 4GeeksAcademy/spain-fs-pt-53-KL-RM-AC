@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
+
 export const HomeLogged = () => {
     return (
         <div className="container p-5 mt-5">
