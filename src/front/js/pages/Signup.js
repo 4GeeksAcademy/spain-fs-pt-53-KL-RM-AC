@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect} from "react";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+
 
 export const SignUp = () => {
   const { store, actions } = useContext(Context);
