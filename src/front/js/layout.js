@@ -31,7 +31,7 @@ const Layout = () => {
                         <Route element={<Finder />} path="/finder" />
                         <Route element={<HomeLogged />} path="/homelogged" />
                         <Route element={<LearnMore />} path="/learnmore" />
-                        <Route element={<SignUp/>} path="/user-user-signup" />
+                        <Route element={<SignUp/>} path="/user-signup" />
                         <Route element={<Login/>} path="/user-login" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

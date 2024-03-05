@@ -21,7 +21,6 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 CORS(app)
-
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')   # Change this "super secret" to something else!
 jwt = JWTManager(app)
 

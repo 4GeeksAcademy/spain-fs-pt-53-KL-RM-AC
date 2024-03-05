@@ -46,7 +46,7 @@ export const SignUp = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="p-5">
+        <form onSubmit={handleSubmit} className="container justify-content-center">
             <div className="mb-3">
                 <label  className="form-label">Nombre</label>
                 <input type="text" className="form-control" id="user_name" name="user_name" value={formData.user_name} onChange={handleChange} />

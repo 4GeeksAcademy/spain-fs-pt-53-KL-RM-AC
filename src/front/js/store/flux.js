@@ -23,7 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			signUp : async (formData) => {
 				try {
-					const response = await fetch("https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.preview.app.github.dev/api/signup", {
+					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
@@ -36,13 +36,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				} catch (error) {
 					throw error;
-					throw error;
 				}
 			},
 
 			login : async(formData) =>{
 				try {
-					const response = await fetch("https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/token",{
+					const response = await fetch(process.env.BACKEND_URL + '/token',{
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
