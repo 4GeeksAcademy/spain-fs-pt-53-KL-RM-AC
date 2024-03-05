@@ -228,9 +228,9 @@ def delete_user_properties():
         db.session.rollback()
         return jsonify({'error': 'IntegrityError occurred'}), 500
 
+
 # filtra a travez de la properties
 # Funciona 
-
 @api.route('/users-filter', methods=['GET'])
 @jwt_required()  # Asegura que el endpoint esté protegido por autenticación JWT
 def get_users_filter():
@@ -268,6 +268,7 @@ def get_users_filter():
 
     return jsonify(serialized_users), 200
 
+#####################################################
 # OBTIENE EL USUARIO CON SUS PROPIEDADES A TRAVEZ DE SU ID. LEARN MORE  
 # FUNCIONA
 @api.route('/user/<int:user_id>', methods=['GET'])
@@ -298,7 +299,10 @@ def get_user(user_id):
 
     return jsonify(serialized_user), 200
 
-# obtiene todos los user con sus propiedades
+##########################################
+
+##########################################
+# obtiene todos los user con sus propiedades LO USO EN EL FLUX, ACTIONS, GETALLUSERS 
 # FUNCIONA
 @api.route('/users/properties', methods=['GET'])
 @jwt_required()
@@ -344,6 +348,7 @@ def get_users():
     # Retornar la lista de usuarios en formato JSON
     return jsonify(serialized_users), 200
 
+##########################
 #Favoritos
 @api.route('/user/favorite-profiles', methods=['POST'])
 @jwt_required()
@@ -369,7 +374,7 @@ def add_favorite_profile():
 
     return jsonify({'message': 'Perfil agregado a favoritos exitosamente'}), 201
 
-# Obtener un favorito
+# Obtener todos los favoritos
 @api.route('/user/favorite-profiles', methods=['GET'])
 @jwt_required()
 def get_favorite_profiles():
