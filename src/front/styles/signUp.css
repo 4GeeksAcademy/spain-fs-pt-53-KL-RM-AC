@@ -1,0 +1,24 @@
+body{
+    background-color: #55CCC9 ;
+}
+
+
+.btn{
+    background-color:#dd0025 ;
+    border: #dd0025;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #ffbfab; 
+}
+
+.btn:active {
+    background-color: #dd0025;
+
+}
+
+
+.container{
+width: 50%;
+}
