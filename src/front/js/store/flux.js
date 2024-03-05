@@ -71,9 +71,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 				  throw error;
 				}
-			  }
-		}
-	};
+			  },
+
+			getProfile: async () => {}
+	}
 };
 
 export default getState;

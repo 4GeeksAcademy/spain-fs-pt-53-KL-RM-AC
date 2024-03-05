@@ -36,12 +36,7 @@ def get_engine_url():
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-<<<<<<< HEAD
-config.set_main_option(
-    'sqlalchemy.url', str(get_engine().url).replace('%', '%%'))
-=======
 config.set_main_option('sqlalchemy.url', get_engine_url())
->>>>>>> develop
 target_db = current_app.extensions['migrate'].db
 
 # other values from the config, defined by the needs of env.py,
@@ -105,12 +100,7 @@ def run_migrations_online():
         context.configure(
             connection=connection,
             target_metadata=get_metadata(),
-<<<<<<< HEAD
-            process_revision_directives=process_revision_directives,
-            **current_app.extensions['migrate'].configure_args
-=======
             **conf_args
->>>>>>> develop
         )
 
         with context.begin_transaction():
