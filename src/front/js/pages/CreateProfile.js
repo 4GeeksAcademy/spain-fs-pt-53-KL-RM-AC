@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/FormsImgs.css";
 import ProfileImageUploader from "./ProfileImg";
+import { Link } from "react-router-dom";
 
 
 export const CreateProfile = () => {
@@ -89,7 +90,9 @@ export const CreateProfile = () => {
 
 				<div className="d-flex justify-content-center">
 					<button type="button" className="btn btn-dark me-2" >Crear Perfil</button>
+					<Link to={"/password"}>
 					<button type="button" className="btn btn-dark">Cambiar Contrasena</button>
+					</Link>
 				</div>
 
 
