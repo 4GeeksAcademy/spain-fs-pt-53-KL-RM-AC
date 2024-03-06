@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import HangOut from "../../img/Hang out-cuate.png"
 import "../../styles/home.css";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
@@ -22,7 +23,10 @@ export const Home = () => {
 				<p className="question">
 					¿Quieres unirte a la comunidad?
 				</p>
+				<Link to={"/user-signup"}>
 				<button type="button" className="btn btn-dark me-2">Buscar Roomie</button>
+				</Link>
+				
 			</div>
 			<div className="possition-relative">
 				<img src={HangOut} className="hangoutImg position-absolute bottom-0 end-0"></img>
