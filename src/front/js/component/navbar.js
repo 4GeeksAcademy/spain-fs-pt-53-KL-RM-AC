@@ -1,35 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import compislogo from "../../img/compis.png";
 import "../../styles/navbar.css";
+import { Context } from "../store/appContext";
 
 
 export const Navbar = () => {
+	const {store, actions}= useContext(Context)
+
 	return (
-		<nav className="navbar custom-navbar">
-			<div className="container d-flex">
+		<div className="d-flex  custom-navbar">
+			<div >
 				<Link to="/">
 					<a className="navbar-brand " href="#">
-						<img src={compislogo} alt="logo star wars" width="100" height="90" />
+						<img className="imageLogo" src={compislogo} alt="logo star wars"/>
 					</a>
 				</Link>
-
-				<div className="ml-auto d-flex align-self-center justify-content-end">
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Mi perfil</span>
-					</Link>
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Mis favoritos</span>
-					</Link>
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Buscar</span>
-					</Link>
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Cerrar sesión</span>
-					</Link>
-
-				</div>
 			</div>
-		</nav>
+			<div className="textNavbar">
+				<Link to="/profile">
+					<span> Mi perfil</span>
+				</Link>
+				<Link to="/demo">
+					<span>Mis favoritos</span>
+				</Link>
+				<Link to="/demo">
+					<span >Buscar</span>
+				</Link>
+				<Link to="/user-login">
+					<span onClick={()=> actions.logout()}>Cerrar sesión</span>
+				</Link>
+			</div>
+		</div>
 	);
 };

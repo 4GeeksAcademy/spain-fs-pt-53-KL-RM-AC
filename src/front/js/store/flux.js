@@ -1,5 +1,3 @@
-
-
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -19,6 +17,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const token = localStorage.getItem("token");
 				console.log("application just loaded")
 				if (token && token != "" && token != undefined) setStore({ token: token });
+			},
+			getProfile: async () => {
+				try {
+					const token = store.token
+					const response = await fetch("https://glowing-cod-x5vgjg7x9gqhp79g-3001.app.github.dev/api/users/profile", {
+						method: "GET",
+						headers: {
+							"Authoritation": "Bearer " + token ,
+							"Content-Type": "application/json"
+						}
+					});
+					if (!response.ok) {
+						throw new Error(data.message || "Usuario no encontrado")
+					}
+					const userProperties = await response.json();
+					setStore({ userProperties: userProperties })
+
+				} catch (error) {
+					throw error;
+				}
 			},
 
 			signUp : async (formData) => {
@@ -98,7 +116,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-		
+			
         }
 
 	};
