@@ -7,10 +7,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user_name: null,
 			last_name: null,
 			pet: null,
-			gender: null,
-			budget: null,
-			find_roomie: null,
-			text_box: null,
+            gender: null,
+            budget: null,
+            find_roomie: null,
+            text_box: null,
+            profile_img: null,
 		},
 		actions: {
 			syncTokenFromLocalStorage: () => {
@@ -20,19 +21,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getProfile: async () => {
 				try {
-					const token = store.token
-					const response = await fetch("https://glowing-cod-x5vgjg7x9gqhp79g-3001.app.github.dev/api/users/profile", {
+					console.log("hola")
+					const {token}= await getStore()
+					console.log(token)
+					const response = await fetch(process.env.BACKEND_URL + "/user/profile", {
 						method: "GET",
 						headers: {
-							"Authoritation": "Bearer " + token ,
+							"Authorization": "Bearer " + token ,
 							"Content-Type": "application/json"
 						}
 					});
+					console.log(response)
 					if (!response.ok) {
 						throw new Error(data.message || "Usuario no encontrado")
 					}
-					const userProperties = await response.json();
-					setStore({ userProperties: userProperties })
+
+					const userData = await response.json();
+					console.log(userData);
+                    setStore({
+                        id: userData.id,
+                        email: userData.email,
+                        user_name: userData.user_name,
+                        last_name: userData.last_name,
+                        pet: userData.properties.pet,
+                        gender: userData.properties.gender,
+                        budget: userData.properties.amount,
+                        find_roomie: userData.properties.find_roomie,
+                        text_box: userData.properties.text_box,
+                        profile_img: userData.properties.profile_img
+                    });
 
 				} catch (error) {
 					throw error;
@@ -41,11 +58,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			signUp : async (formData) => {
 				try {
-					const store = getStore()
+					
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
 						headers: {
-							"Authorization": "Bearer " + store.token,
 							"Content-Type": "application/json"
 						},
 						body: JSON.stringify(formData)
