@@ -9,7 +9,6 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     user_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
-    profile_img = db.Column(db.String(100))
     user_properties = db.relationship('UserProperties', back_populates='user', uselist=False)
 
     def __repr__(self):
