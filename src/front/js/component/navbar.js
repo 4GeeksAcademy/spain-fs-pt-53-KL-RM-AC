@@ -6,30 +6,28 @@ import "../../styles/navbar.css";
 
 export const Navbar = () => {
 	return (
-		<nav className="navbar custom-navbar">
-			<div className="container d-flex">
+		<div className="d-flex  custom-navbar">
+			<div >
 				<Link to="/">
 					<a className="navbar-brand " href="#">
-						<img src={compislogo} alt="logo star wars" width="100" height="90" />
+						<img className="imageLogo" src={compislogo} alt="logo star wars"/>
 					</a>
 				</Link>
-
-				<div className="ml-auto d-flex align-self-center justify-content-end">
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Mi perfil</span>
-					</Link>
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Mis favoritos</span>
-					</Link>
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Buscar</span>
-					</Link>
-					<Link to="/demo">
-						<span className="custom-span d-flex justify-content-end p-2">Cerrar sesión</span>
-					</Link>
-
-				</div>
 			</div>
-		</nav>
+			<div className="textNavbar">
+				<Link to="/demo">
+					<span> Mi perfil</span>
+				</Link>
+				<Link to="/demo">
+					<span>Mis favoritos</span>
+				</Link>
+				<Link to="/demo">
+					<span >Buscar</span>
+				</Link>
+				<Link to="/demo">
+					<span>Cerrar sesión</span>
+				</Link>
+			</div>
+		</div>
 	);
 };
