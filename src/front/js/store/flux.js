@@ -34,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const data = await response.json();
 						throw new Error(data.message || "Error al registrar usuario");
 					}
+					localStorage.setItem('formData', JSON.stringify(formData));
 				} catch (error) {
 					throw error;
 				}

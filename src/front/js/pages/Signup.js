@@ -46,16 +46,17 @@ export const SignUp = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="container justify-content-center">
+        <div className="container signUp">
+        <form onSubmit={handleSubmit} >
             <div className="mb-3">
                 <label  className="form-label">Nombre</label>
                 <input type="text" className="form-control" id="user_name" name="user_name" value={formData.user_name} onChange={handleChange} />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="form-label">Apellido</label>
                 <input type="text" className="form-control" id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} />
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label className="form-label">Correo electrónico</label>
                 <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} autoComplete="current-user_name"/>
             </div>
@@ -73,5 +74,6 @@ export const SignUp = () => {
                 )
             )}
         </form>
+        </div>
     );
 };
