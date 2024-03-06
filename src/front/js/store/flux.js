@@ -40,48 +40,64 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			login : async(formData) =>{
+
+			getAllUsers: async () => {
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
 					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+			
+					
+					if (!response.ok) {
+						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
+					}
+			
 					const data = await response.json();
-					setStore({allUsers: data})
-					console.log(data)
+					setStore({ allUsers: data });
+					console.log(data);
 					return data;
-
+			
 				} catch (error) {
 					console.error('Error al obtener usuarios:', error);
+		
+					return { error: 'Error al obtener usuarios' };
 				}
 			},
 
 
 			getUserById: async (id) => {
-				//const token = token
+
+				//const token = token,
 				// tengo que almacenar los datos del usuario en el store userData:? const [userData, setUserData] = useState(null);
 				//  setUserData(userData);
 
 				try {
-					const response = await fetch(process.env.BACKEND_URL + `/user/{id}`, {
+					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
 						method: 'GET',
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
+							//habria que añadir aqui el token?
+							// "Authorization": `Bearer ${token}`
 						},
-						body: JSON.stringify(formData)
+						
 					});
-					if (!response.ok){
-						const data= await response.json();
-						throw new Error(data.message || "Error log in");
-					}
-					else if (response.ok){
+			
+					if (!response.ok) {
 						const data = await response.json();
-						localStorage.setItem('token', data.access_token);
-						console.log('Token:', data.access_token);
-					
+						throw new Error(data.message || "Error al obtener el perfil del usuario");
 					}
-				}catch (error) {
+			
+					const userData = await response.json();
+					
+					// Almacena los datos del usuario en el store (usando setUserData)
+					setUserData(userData);
+			
+					return userData;
+			
+				} catch (error) {
+					console.error('Error al obtener el perfil del usuario:', error);
 					throw error;
 				}
-			}
+			},
 		
         }
 
