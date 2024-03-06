@@ -6,8 +6,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			email: null,
 			password: null,
 			token: null,
-			user_name:null,
-			last_name:null,
+			user_name: null,
+			last_name: null,
 			userProperties: null
 			// pet:null,
 			// gender:null,
@@ -25,34 +25,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json"
 						}
 					});
-					if (!response.ok){
-						throw new Error(data.message||"Usuario no encontrado")
+					if (!response.ok) {
+						throw new Error(data.message || "Usuario no encontrado")
 					}
 					const userProperties = await response.json();
-					setStore({userProperties: userProperties})
-					
-			} catch (error)	{
-				throw error;
-			}
-		},
-	}
-};
-			user_name: null,
-			last_name: null,
-			pet: null,
-			gender: null,
-			budget: null,
-			find_roomie: null,
-			text_box: null,
-		},
-		actions: {
+					setStore({ userProperties: userProperties })
+
+				} catch (error) {
+					throw error;
+				}
+			},
 			syncTokenFromLocalStorage: () => {
 				const token = localStorage.getItem("token");
 				console.log("application just loaded")
 				if (token && token != "" && token != undefined) setStore({ token: token });
 			},
 
-			signUp : async (formData) => {
+			signUp: async (formData) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -71,54 +60,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			login : async(formData) =>{
+			login: async (formData) => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/token',{
+					const response = await fetch(process.env.BACKEND_URL + '/token', {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
 						},
 						body: JSON.stringify(formData)
 					});
-					if (!response.ok){
-						const data= await response.json();
+					if (!response.ok) {
+						const data = await response.json();
 						throw new Error(data.message || "Error log in");
 					}
-					else if (response.ok){
+					else if (response.ok) {
 						const data = await response.json();
 						localStorage.setItem('token', data.access_token);
 						console.log('Token:', data.access_token);
-					
+
 					}
-				}catch (error) {
+				} catch (error) {
 					throw error;
 				}
-			}
-		
-        }
-
-	};
-			getProfile: async () => {
-				try {
-					const response = await fetch("https://glowing-cod-x5vgjg7x9gqhp79g-3001.app.github.dev/api/users/profile", {
-						method: "GET",
-						headers: {
-							"Authoritation": "Bearer " + token,
-							"Content-Type": "application/json"
-						}
-					});
-					if (!response.ok){
-						throw new Error(data.message||"Usuario no encontrado")
-					}
-					const userProperties = await response.json();
-					setStore({userProperties: userProperties})
-					
-			} catch (error)	{
-				throw error;
-			}
+			},
 		},
 	}
-};
+
 };
 
 export default getState;

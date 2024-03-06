@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../../styles/index.css";
 import "../../styles/navbar.css";
 
 export const Footer = () => (

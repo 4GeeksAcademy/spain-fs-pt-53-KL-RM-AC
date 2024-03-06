@@ -7,7 +7,7 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div  >
+		<div>
 			<div className="d-flex m-0">
 				<p className="title">COMPIS</p>
 				<p className="subtitle">APP</p>
