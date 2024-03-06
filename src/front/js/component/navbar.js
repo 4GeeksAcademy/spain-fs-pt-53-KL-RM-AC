@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import compislogo from "../../img/compis.png";
 import "../../styles/navbar.css";
+import { Context } from "../store/appContext";
 
 
 export const Navbar = () => {
+	const {store, actions}= useContext(Context)
+
 	return (
 		<div className="d-flex  custom-navbar">
 			<div >
@@ -15,7 +18,7 @@ export const Navbar = () => {
 				</Link>
 			</div>
 			<div className="textNavbar">
-				<Link to="/demo">
+				<Link to="/profile">
 					<span> Mi perfil</span>
 				</Link>
 				<Link to="/demo">
@@ -24,8 +27,8 @@ export const Navbar = () => {
 				<Link to="/demo">
 					<span >Buscar</span>
 				</Link>
-				<Link to="/demo">
-					<span>Cerrar sesión</span>
+				<Link to="/user-login">
+					<span onClick={()=> actions.logout()}>Cerrar sesión</span>
 				</Link>
 			</div>
 		</div>

@@ -18,7 +18,7 @@ export const HomeLogged = () => {
                     <button type="button" className="btn btn-success mx-2">Buscar</button>
                 </Link>
 
-                <Link to="/learnmore">
+                <Link to="/profile">
                     <button type="button" className="btn btn-success mx-2">Mi perfil</button>
                 </Link>
             </div>
