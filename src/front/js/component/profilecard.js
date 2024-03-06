@@ -1,13 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
 
 export const ProfileCard = () => {
-
     const {store, actions} = useContext(Context);
+    const [userData, setUserData] = useState({properties:{}});
+
+    useEffect(() => {
+        // Llamar a la acción para obtener todos los usuarios cuando el componente se monta
+        actions.getAllUsers();
+    }, []);
+
+    useEffect(() => {
+        // Actualizar userData cuando cambian los datos de los usuarios
+        setUserData({ properties: store.allUsers });
+    }, [store.allUsers]);
 
     return (
+        {userData.properties.map(user => (
         <div className="card" style={{ width: "20rem" }}>
             <div className="card-body">
                 <div className="card-upper">
@@ -15,7 +26,7 @@ export const ProfileCard = () => {
                 </div>
                 <hr></hr>
                 <div className="card-center d-flex justify-content-around">
-                    <h5 className="card-title-name">NOMBRE </h5>
+                    <h5 className="card-title-name">{userData.properties.pet}</h5>
                     <h5 className="card-title-name">APELLIDO</h5>
                 </div>
                 <div className="more-data d-flex justify-content-around">
@@ -43,5 +54,6 @@ export const ProfileCard = () => {
                 </div>
             </div>
         </div>
+        ))}
     )
 };
