@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/signUp.css";
-
+import { Link } from "react-router-dom";
 
 export const SignUp = () => {
     const { actions, store } = useContext(Context);
@@ -48,23 +48,27 @@ export const SignUp = () => {
     return (
         <div className="container signUp">
         <form onSubmit={handleSubmit} >
-            <div className="mb-1">
+            <h1 className="title mb-3">Registrate</h1>
+            <div>
                 <label  className="form-label">Nombre</label>
                 <input type="text" className="form-control inputSignUp" id="user_name" name="user_name" value={formData.user_name} onChange={handleChange} />
             </div>
-            <div className="mb-1">
+            <div >
                 <label className="form-label">Apellido</label>
                 <input type="text" className="form-control inputSignUp" id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} />
             </div>
-            <div className="mb-1">
+            <div>
                 <label className="form-label">Correo electrónico</label>
                 <input type="email" className="form-control inputSignUp" id="email" name="email" value={formData.email} onChange={handleChange} autoComplete="current-user_name"/>
             </div>
-            <div className="mb-3">
+            <div className="mb-2">
                 <label  className="form-label">Contraseña</label>
                 <input type="password" className="form-control inputSignUp" id="password" name="password" value={formData.password} onChange={handleChange}  autoComplete="current-password"/>
             </div>
-            <button  type="submit" className="btn btn-primary">Registrarse</button>
+            <div>
+                <span>Ya estas registrado ? <Link to="/user-login" className="link"> Iniciar Sesion</Link></span>
+            </div>
+            <button  type="submit" className="btn button">Registrarse</button>
             {alertMessage && (
                 alertMessage === "Usuario creado correctamente" ? (
                     <div className="alert alert-success mt-3">{alertMessage}</div>
