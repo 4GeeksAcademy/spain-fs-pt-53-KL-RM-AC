@@ -21,7 +21,7 @@ class User(db.Model):
             "email": self.email,
             "user_name": self.user_name,
             "last_name": self.last_name,
-            "profile_img": self.profile_img
+           
         }
 
 class GenderChoices(enum.Enum):
@@ -44,7 +44,9 @@ class UserProperties(db.Model):
     budget = db.Column(db.Integer(), nullable=False)
     find_roomie = db.Column(db.Enum(FindRoomieChoice), nullable=False)
     text_box = db.Column (db.Text(), nullable=False)
+    profile_img = db.Column(db.String(100))
     user = db.relationship('User', back_populates='user_properties')
+
     
 
     def __repr__(self):
@@ -57,7 +59,9 @@ class UserProperties(db.Model):
             "gender": self.gender.name,
             "amount": self.budget,
             "find_roomie": self.find_roomie.name,
-            "text_box": self.text_box
+            "text_box": self.text_box,
+            "profile_img": self.profile_img
+
         }
 
 class FavoriteProfile(db.Model):

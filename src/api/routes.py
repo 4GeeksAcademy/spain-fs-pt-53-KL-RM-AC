@@ -4,12 +4,12 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, UserProperties, FavoriteProfile
 from api.utils import generate_sitemap, APIException
-from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from sqlalchemy import and_
 from sqlalchemy.exc import IntegrityError
+from flask_cors import CORS
 import re
 
 
@@ -27,11 +27,11 @@ def create_token():
     password = request.json.get("password", None)
     
     if not email or not password: 
-       return jsonify({"msg": "El correo electrónico y la contraseña son obligatorios"}), 400
+       return jsonify({"message": "Email and password are required"}), 400
     
     user = User.query.filter_by(email=email, password=password).first()
     if not user:
-        return jsonify({"msg": "El correo electrónico y la contraseña son incorrectos"}), 401
+        return jsonify({"message": "Email or password are incorrect"}), 401
     
     access_token = create_access_token(identity=user.id)  # Aquí se utiliza el ID del usuario como identidad
     return jsonify({"access_token": access_token, "user_id": user.id})
@@ -44,16 +44,10 @@ def create_token():
 def create_user():
     # Obtener los datos del cuerpo de la solicitud
     body = request.json
-    email = body.get('email', '').strip()
-    password = body.get('password', '').strip()
     
     # Verificar si se proporcionaron los datos necesarios
     if not all(key in body for key in ['email', 'password', 'user_name', 'last_name']):
         return jsonify({'message': 'Required data is missing'}), 400
-    
-    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    if not re.match(email_pattern, email):
-        return jsonify({'message': 'Please enter a valid email address'}), 400
 
     # Verificar si el correo electrónico ya está en uso
     existing_user = User.query.filter_by(email=body['email']).first()
@@ -66,7 +60,6 @@ def create_user():
         password=body['password'],
         user_name=body['user_name'],
         last_name=body['last_name']
-        # Puedes agregar 'profile_img' si también se proporciona en los datos
     )
     
     # Guardar el nuevo usuario en la base de datos
@@ -120,9 +113,10 @@ def create_user_properties():
     budget = body.get('budget')
     find_roomie = body.get('find_roomie')
     text_box = body.get('text_box')
+    profile_img = body.get('profile_img')
 
     # Verificar si falta algún dato necesario
-    if not all([pet, gender, budget, find_roomie, text_box]):
+    if not all([pet, gender, budget, find_roomie, text_box, profile_img]):
         return jsonify({'error': 'Missing data'}), 400
 
     # Crear una nueva instancia de UserProperties con el ID del usuario autenticado
@@ -132,7 +126,8 @@ def create_user_properties():
         gender=gender,
         budget=budget,
         find_roomie=find_roomie,
-        text_box=text_box
+        text_box=text_box,
+        profile_img= profile_img
     )
 
     # Agregar la nueva instancia a la base de datos
@@ -199,6 +194,7 @@ def update_user_properties():
     user_properties.budget = body.get('budget', user_properties.budget)
     user_properties.find_roomie = body.get('find_roomie', user_properties.find_roomie)
     user_properties.text_box = body.get('text_box', user_properties.text_box)
+    user_properties.profile_img = body.get('profile_img',user_properties.profile_img)
 
     # Guardar los cambios en la base de datos
     db.session.add(user_properties)
@@ -337,16 +333,7 @@ def get_users_with_properties():
 
 # trae usuarios (sin propiedades) no creo que se use
 # FUNCIONA
-@api.route('/users', methods=['GET'])
-def get_users():
-    # Obtener todos los usuarios de la base de datos
-    users = User.query.all()
-    
-    # Serializar los usuarios en un formato JSON
-    serialized_users = [user.serialize() for user in users]
-    
-    # Retornar la lista de usuarios en formato JSON
-    return jsonify(serialized_users), 200
+ 
 
 ##########################
 #Favoritos
