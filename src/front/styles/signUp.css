@@ -1,0 +1,38 @@
+body {
+    background-color: #43a19e;
+    height: 100vh; 
+}
+
+.btn {
+    background-color: #dd0025;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #ffbfab;
+}
+
+.btn:active {
+    background-color: #dd0025;
+}
+
+.signUp {
+    width: 50%;
+    max-width: 400px; 
+    text-align: center;
+    padding: 20px;
+}
+
+.inputSignUp {
+    width: 100%;
+    margin-bottom: 10px; /* Agrega un pequeño espacio entre los campos de entrada */
+}
+
+.alert {
+    margin-top: 10px; /* Agrega un espacio entre el botón y el mensaje de alerta */
+}
