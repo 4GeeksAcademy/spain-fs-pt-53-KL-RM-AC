@@ -35,7 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					};
 
-					const response = await fetch("https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/signup", options);
+					const response = await fetch(process.env.BACKEND_URL + '/signup', options);
 					const data = await response.json();
 
 					if (data.message === 'Please enter a valid email address') {
@@ -76,8 +76,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getAllUsers: async () => {
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch('https://psychic-couscous-x5wqvjrrrx44h69v5-3001.app.github.dev/api/users/properties');
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
 					const data = await response.json();
+					setStore({allUsers: data})
+					console.log(data)
 					return data;
 
 				} catch (error) {
@@ -92,7 +94,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//  setUserData(userData);
 
 				try {
-					const response = await fetch(`https://psychic-couscous-x5wqvjrrrx44h69v5-3001.app.github.dev/user/{id}`, {
+					const response = await fetch(process.env.BACKEND_URL + `/user/{id}`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
