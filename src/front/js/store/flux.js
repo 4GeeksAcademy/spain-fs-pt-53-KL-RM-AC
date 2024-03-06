@@ -42,11 +42,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			signUp : async (formData) => {
 				try {
-					const store = getStore()
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
 						headers: {
-							"Authorization": "Bearer " + store.token,
 							"Content-Type": "application/json"
 						},
 						body: JSON.stringify(formData)
@@ -61,26 +59,61 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			login : async(formData) =>{
+//cambio
+			getAllUsers: async () => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/token',{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify(formData)
-					});
-					if (!response.ok){
-						const data= await response.json();
-						throw new Error(data.message || "Error log in");
-					}
-					else if (response.ok){
-						const data = await response.json();
-						localStorage.setItem('token', data.access_token);
-						console.log('Token:', data.access_token);   
+					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+			
 					
+					if (!response.ok) {
+						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-				}catch (error) {
+			
+					const data = await response.json();
+					setStore({ allUsers: data });
+					console.log(data);
+					return data;
+			
+				} catch (error) {
+					console.error('Error al obtener usuarios:', error);
+		
+					return { error: 'Error al obtener usuarios' };
+				}
+			},
+
+
+			getUserById: async (id) => {
+
+				//const token = token,
+				// tengo que almacenar los datos del usuario en el store userData:? const [userData, setUserData] = useState(null);
+				//  setUserData(userData);
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
+						method: 'GET',
+						headers: {
+							"Content-Type": "application/json",
+							//habria que añadir aqui el token?
+							// "Authorization": `Bearer ${token}`
+						},
+						
+					});
+			
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al obtener el perfil del usuario");
+					}
+			
+					const userData = await response.json();
+					
+					// Almacena los datos del usuario en el store (usando setUserData)
+					setUserData(userData);
+			
+					return userData;
+			
+				} catch (error) {
+					console.error('Error al obtener el perfil del usuario:', error);
 					throw error;
 				}
 			},

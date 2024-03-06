@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 export const LearnMore = () => {
+    const {store, actions} = useContext(Context);
+
     const profileInfo = {
         name: "John",
         surname: "Doe Smith",
