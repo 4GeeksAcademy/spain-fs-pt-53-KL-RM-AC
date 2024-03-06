@@ -1,3 +1,4 @@
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -19,6 +20,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("application just loaded")
 				if (token && token != "" && token != undefined) setStore({ token: token });
 			},
+
+			logout: () => {
+				localStorage.removeItem("token");
+				console.log("login out");
+				setStore({ token: null });
+			},
+
+			login : async(formData) =>{
+                try {
+                    const response = await fetch("https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/token",{
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (!response.ok){
+                        const data= await response.json();
+                        throw new Error(data.message || "Error log in");
+                    }
+                    else if (response.ok){
+                        const data = await response.json();
+                        localStorage.setItem('token', data.access_token);
+                        console.log('Token:', data.access_token);
+                    }
+                }catch (error) {
+                    throw error;
+                }
+            },
+		
+			signUp : async (formData) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/signup', {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al registrar usuario");
+					}
+					localStorage.setItem('formData', JSON.stringify(formData));
+				} catch (error) {
+					throw error;
+				}
+			},
+
 			getProfile: async () => {
 				try {
 					console.log("hola")
@@ -56,8 +106,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			signUp : async (formData) => {
+//cambio
+			getAllUsers: async () => {
 				try {
+
 					
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -66,36 +118,59 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify(formData)
 					});
+					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+			
+					
+
 					if (!response.ok) {
-						const data = await response.json();
-						throw new Error(data.message || "Error al registrar usuario");
+						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-					localStorage.setItem('formData', JSON.stringify(formData));
+			
+					const data = await response.json();
+					setStore({ allUsers: data });
+					console.log(data);
+					return data;
+			
 				} catch (error) {
-					throw error;
+					console.error('Error al obtener usuarios:', error);
+		
+					return { error: 'Error al obtener usuarios' };
 				}
 			},
 
-			login : async(formData) =>{
+
+			getUserById: async (id) => {
+
+				//const token = token,
+				// tengo que almacenar los datos del usuario en el store userData:? const [userData, setUserData] = useState(null);
+				//  setUserData(userData);
+
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/token',{
-						method: "POST",
+					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
+						method: 'GET',
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
+							//habria que añadir aqui el token?
+							// "Authorization": `Bearer ${token}`
 						},
-						body: JSON.stringify(formData)
+						
 					});
-					if (!response.ok){
-						const data= await response.json();
-						throw new Error(data.message || "Error log in");
-					}
-					else if (response.ok){
+			
+					if (!response.ok) {
 						const data = await response.json();
-						localStorage.setItem('token', data.access_token);
-						console.log('Token:', data.access_token);   
-					
+						throw new Error(data.message || "Error al obtener el perfil del usuario");
 					}
-				}catch (error) {
+			
+					const userData = await response.json();
+					
+					// Almacena los datos del usuario en el store (usando setUserData)
+					setUserData(userData);
+			
+					return userData;
+			
+				} catch (error) {
+					console.error('Error al obtener el perfil del usuario:', error);
 					throw error;
 				}
 			},

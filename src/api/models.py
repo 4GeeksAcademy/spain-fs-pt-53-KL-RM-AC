@@ -47,7 +47,7 @@ class UserProperties(db.Model):
     user = db.relationship('User', back_populates='user_properties')
 
     
-
+  
     def __repr__(self):
         return f'<UserProperties {self.id}>'
 

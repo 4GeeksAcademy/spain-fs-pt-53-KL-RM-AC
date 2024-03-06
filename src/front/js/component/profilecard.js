@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 export const ProfileCard = () => {
 
+    const {store, actions} = useContext(Context);
+
     return (
         <div className="card" style={{ width: "20rem" }}>
             <div className="card-body">
