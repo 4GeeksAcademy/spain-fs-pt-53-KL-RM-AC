@@ -1,0 +1,32 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #43a19e;
+}
+
+.btn{
+    background-color:#dd0025 ;
+    border: #dd0025;
+    color: white;
+
+}
+
+.login{
+    width: 50%;
+    max-width: 400px; 
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-content: end;
+    border-radius: 5px;
+    background-color: #d1ecebb9;
+}
+
+.imageLogIn{
+    width: 500px;
+    height:450px;
+    margin-right: 10px;
+}

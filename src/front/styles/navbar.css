@@ -1,0 +1,43 @@
+.custom-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #02323D; 
+  font-family: Verdana;
+  padding: 0px;
+  height: 50px; 
+}
+
+.textNavbar {
+  display: flex;
+  margin-right: 10px; /* Ajusta el espacio entre los íconos y el borde derecho */
+}
+
+.textNavbar a {
+  color: white; /* Establece el color del texto del enlace */
+  text-decoration: none; /* Quita la decoración subrayada del enlace */
+  margin-left: 15px; /* Espacio entre los íconos */
+}
+
+.textNavbar a:hover{
+  color: #55ccc9;
+}
+
+
+  .custom-footer {
+    background-color: #02323D; 
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    flex-shrink: 0;
+
+  }
+
+  .imageLogo{
+    height: 50px;
+    width: 60px;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+
+ 

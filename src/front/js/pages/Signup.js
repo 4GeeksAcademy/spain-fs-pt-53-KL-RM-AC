@@ -1,48 +1,82 @@
-import React, { useContext, useState, useEffect} from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import "../../styles/signUp.css";
+import { Link } from "react-router-dom";
 
 export const SignUp = () => {
-  const { store, actions } = useContext(Context);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [alertMessage, setAlertMessage] = useState();
+    const { actions, store } = useContext(Context);
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+        user_name: "",
+        last_name: ""
+    });
+    const [alertMessage, setAlertMessage] = useState("");
 
-  
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
 
-  const handleSignUp = async () => {
-    actions.SignUp(email, password, userName, lastName, setAlertMessage, setEmail, setPassword, setUserName, setLastName);
-  }
-  
- 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!formData.email || !formData.password || !formData.user_name || !formData.last_name) {
+            setAlertMessage("Todos los campos son obligatorios");
+            return;
+        }
+        try {
+            await actions.signUp(formData);
+            setAlertMessage("Usuario creado correctamente");
+            setFormData({
+                email: "",
+                password: "",
+                user_name: "",
+                last_name: ""
+            });
+        } catch (error) {
+            if (error.message === "The email is already in use") {
+                setAlertMessage("El correo electrónico ya está en uso");
+            } else {
+                setAlertMessage("Error al crear el usuario");
+                console.error("Error al crear el usuario:", error);
+            }
+        }
+    };
+
     return (
-    <form className="p-5 m-3">
-   {!store.token && (
-    <div>
-  <div className="mb-3">
-    <label className="form-label">Nombre</label>
-    <input type="name" className="form-control" id="name" value={userName} onChange={(e) => setUserName(e.target.value)}/>
-  </div>
-  <div className="mb-3">
-    <label className="form-label">Apellido</label>
-    <input type="lastName" className="form-control" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
-  </div>
-  <div className="mb-3">
-    <label  className="form-label">Correo</label>
-    <input type="email" className="form-control" id="Email" aria-describedby="emailHelp" value={email} onChange={(e) => setEmail(e.target.value)}/>
-    <div id="emailHelp" className="form-text">Solo compartiremos tu correo si algun usuario quiere contactarte</div>
-  </div>
-  <div className="mb-3">
-    <label className="form-label">Contraseña</label>
-    <input type="password" className="form-control" id="exampleInputPassword1" value={password} onChange={(e) => setPassword(e.target.value)}/>
-  </div>
-  <button type="submit" className="btn btn-primary" onClick={handleSignUp}>Submit</button>
-  {alertMessage}
-  </div>
-  )}
-</form>
-);
-}
-
+        <div className="container signUp">
+        <form onSubmit={handleSubmit} >
+            <h1 className="title mb-3">Registrate</h1>
+            <div>
+                <label  className="form-label">Nombre</label>
+                <input type="text" className="form-control inputSignUp" id="user_name" name="user_name" value={formData.user_name} onChange={handleChange} />
+            </div>
+            <div >
+                <label className="form-label">Apellido</label>
+                <input type="text" className="form-control inputSignUp" id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} />
+            </div>
+            <div>
+                <label className="form-label">Correo electrónico</label>
+                <input type="email" className="form-control inputSignUp" id="email" name="email" value={formData.email} onChange={handleChange} autoComplete="current-user_name"/>
+            </div>
+            <div className="mb-2">
+                <label  className="form-label">Contraseña</label>
+                <input type="password" className="form-control inputSignUp" id="password" name="password" value={formData.password} onChange={handleChange}  autoComplete="current-password"/>
+            </div>
+            <div>
+                <span>Ya estas registrado ? <Link to="/user-login" className="link"> Iniciar Sesion</Link></span>
+            </div>
+            <button  type="submit" className="btn button">Registrarse</button>
+            {alertMessage && (
+                alertMessage === "Usuario creado correctamente" ? (
+                    <div className="alert alert-success mt-3">{alertMessage}</div>
+                ) : (
+                    <div className="alert alert-danger mt-3">{alertMessage}</div>
+                )
+            )}
+        </form>
+        </div>
+    );
+};
