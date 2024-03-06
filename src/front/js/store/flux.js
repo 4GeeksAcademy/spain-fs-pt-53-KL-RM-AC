@@ -19,6 +19,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("application just loaded")
 				if (token && token != "" && token != undefined) setStore({ token: token });
 			},
+
+			logout: () => {
+				localStorage.removeItem("token");
+				console.log("login out");
+				setStore({ token: null });
+			},
+
+			login : async(formData) =>{
+                try {
+                    const response = await fetch("https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/token",{
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (!response.ok){
+                        const data= await response.json();
+                        throw new Error(data.message || "Error log in");
+                    }
+                    else if (response.ok){
+                        const data = await response.json();
+                        localStorage.setItem('token', data.access_token);
+                        console.log('Token:', data.access_token);
+                    }
+                }catch (error) {
+                    throw error;
+                }
+            },
+		
+			signUp : async (formData) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/signup', {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al registrar usuario");
+					}
+					localStorage.setItem('formData', JSON.stringify(formData));
+				} catch (error) {
+					throw error;
+				}
+			},
+
 			getProfile: async () => {
 				try {
 					const token = store.token
@@ -35,25 +84,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const userProperties = await response.json();
 					setStore({ userProperties: userProperties })
 
-				} catch (error) {
-					throw error;
-				}
-			},
-
-			signUp : async (formData) => {
-				try {
-					const response = await fetch(process.env.BACKEND_URL + '/signup', {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify(formData)
-					});
-					if (!response.ok) {
-						const data = await response.json();
-						throw new Error(data.message || "Error al registrar usuario");
-					}
-					localStorage.setItem('formData', JSON.stringify(formData));
 				} catch (error) {
 					throw error;
 				}
