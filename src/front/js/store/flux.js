@@ -112,8 +112,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			
-
+			//comentario x
 
 
 
