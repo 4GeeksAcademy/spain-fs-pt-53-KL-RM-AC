@@ -59,7 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-
+//cambio
 			getAllUsers: async () => {
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
