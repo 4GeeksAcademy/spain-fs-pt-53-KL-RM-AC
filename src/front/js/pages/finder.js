@@ -6,6 +6,8 @@ import { ProfileCard } from "../component/profilecard";
 
 export const Finder = () => {
     const {store, actions} = useContext(Context);
+    
+
     useEffect (() => {
         actions.getAllUsers()
     }, [])

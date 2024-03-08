@@ -8,11 +8,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user_name: null,
 			last_name: null,
 			pet: null,
-            gender: null,
-            budget: null,
-            find_roomie: null,
-            text_box: null,
-            profile_img: null,
+			gender: null,
+			budget: null,
+			find_roomie: null,
+			text_box: null,
+			profile_img: null,
+			
 		},
 		actions: {
 			syncTokenFromLocalStorage: () => {
@@ -71,13 +72,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getProfile: async () => {
 				try {
-					console.log("hola")
-					const {token}= await getStore()
-					console.log(token)
-					const response = await fetch(process.env.BACKEND_URL + "/user/profile", {
+		
+					const { token } = await getStore()
+				
+					const response = await fetch(process.env.BACKEND_URL + '/user/profile', {
 						method: "GET",
 						headers: {
-							"Authoritation": "Bearer " + token ,
+							"Authorization": "Bearer " + token,
 							"Content-Type": "application/json"
 						}
 					});
@@ -87,19 +88,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const userData = await response.json();
-					console.log(userData);
-                    setStore({
-                        id: userData.id,
-                        email: userData.email,
-                        user_name: userData.user_name,
-                        last_name: userData.last_name,
-                        pet: userData.properties.pet,
-                        gender: userData.properties.gender,
-                        budget: userData.properties.amount,
-                        find_roomie: userData.properties.find_roomie,
-                        text_box: userData.properties.text_box,
-                        profile_img: userData.properties.profile_img
-                    });
+					
+					setStore({
+						id: userData.id,
+						email: userData.email,
+						user_name: userData.user_name,
+						last_name: userData.last_name,
+						pet: userData.properties.pet,
+						gender: userData.properties.gender,
+						budget: userData.properties.amount,
+						find_roomie: userData.properties.find_roomie,
+						text_box: userData.properties.text_box,
+						profile_img: userData.properties.profile_img
+					});
 
 				} catch (error) {
 					throw error;
@@ -108,29 +109,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			///////////////////////////////
 			getAllUsers: async () => {
-				const token = store.token;
+				const { token } = await getStore()
 				try {
-
-					
-					const response = await fetch(process.env.BACKEND_URL + '/signup', {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify(formData)
-					});
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
-			
-					
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
+						method: "GET",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						}
+					});
 
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
 
 					const data = await response.json();
+			
 					setStore({ allUsers: data });
-					console.log(data);
+					console.log(data)
 					return data;
 
 				} catch (error) {
@@ -142,16 +139,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-			getUserById: async (id) => {
+			getUserById: async (id, setUserData) => {
 				// tengo que almacenar los datos del usuario en el store userData:? const [userData, setUserData] = useState(null);
 				//  setUserData(userData);
+				console.log(id)
 				try {
 					const token = store.token
 					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
 						method: 'GET',
 						headers: {
 							"Content-Type": "application/json",
-							"Authoritation": "Bearer " + token,
+							"Authorization": "Bearer " + token,
 						},
 
 					});
@@ -162,11 +160,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const userData = await response.json();
-
-					// Almacena los datos del usuario en el store (usando setUserData)
-					setUserData(userData);
-
-					return userData;
+					
+					setUserData({
+						id: userData.id,
+						email: userData.email,
+						user_name: userData.user_name,
+						last_name: userData.last_name,
+						pet: userData.properties.pet,
+						gender: userData.properties.gender,
+						budget: userData.properties.amount,
+						find_roomie: userData.properties.find_roomie,
+						text_box: userData.properties.text_box,
+						profile_img: userData.properties.profile_img
+					});
 
 				} catch (error) {
 					console.error('Error al obtener el perfil del usuario:', error);
