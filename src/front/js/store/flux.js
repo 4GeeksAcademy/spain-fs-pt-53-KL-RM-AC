@@ -29,30 +29,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ token: null });
 			},
 
-			login: async (formData) => {
-				try {
-					const response = await fetch(process.env.BACKEND_URL + '/token', {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify(formData)
-					});
-					if (!response.ok) {
-						const data = await response.json();
-						throw new Error(data.message || "Error log in");
-					}
-					else if (response.ok) {
-						const data = await response.json();
-						localStorage.setItem('token', data.access_token);
-						console.log('Token:', data.access_token);
-					}
-				} catch (error) {
-					throw error;
-				}
-			},
-
-			signUp: async (formData) => {
+			login : async(formData) =>{
+                try {
+                    const response = await fetch(process.env.BACKEND_URL + '/token',{
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (!response.ok){
+                        const data= await response.json();
+                        throw new Error(data.message || "Error log in");
+                    }
+                    else if (response.ok){
+                        const data = await response.json();
+                        localStorage.setItem('token', data.access_token);
+                        console.log('Token:', data.access_token);
+                    }
+                }catch (error) {
+                    throw error;
+                }
+            },
+		
+			signUp : async (formData) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -71,25 +71,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			
+
 			getProfile: async () => {
 				try {
-		
 					const { token } = await getStore()
-				
-					const response = await fetch(process.env.BACKEND_URL + '/user/profile', {
+					const response = await fetch(process.env.BACKEND_URL + "/user/profile", {
 						method: "GET",
 						headers: {
 							"Authorization": "Bearer " + token,
 							"Content-Type": "application/json"
 						}
 					});
-					console.log(response)
 					if (!response.ok) {
+						const data = await response.json();
 						throw new Error(data.message || "Usuario no encontrado")
 					}
-
 					const userData = await response.json();
-					
 					setStore({
 						id: userData.id,
 						email: userData.email,
@@ -108,36 +106,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getAllUsers: async () => {
-				const { token } = await getStore()
+			changePassword: async ( newPassword) => {
 				try {
-					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
-						method: "GET",
+					const {token} = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
+						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
 							"Content-Type": "application/json"
-						}
+						},
+						body: JSON.stringify({ new_password: newPassword })
 					});
-
-					if (!response.ok) {
-						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
-					}
-
-					const data = await response.json();
 			
-					setStore({ allUsers: data });
-					console.log(data)
-					return data;
-
+					if (!response.ok) {
+						throw new Error("No se pudo cambiar la contraseña");
+					}
+			
+					const data = await response.json();
+					return data.message;
 				} catch (error) {
-					console.error('Error al obtener usuarios:', error);
-
-					return { error: 'Error al obtener usuarios' };
-
+					throw error;
 				}
 			},
+			
 
+		    addProfileInfo : async (formData) => {
+
+				try {
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+						method: "POST",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al crear usuario");
+					}
+					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+				} catch (error) {
+					throw error;
+				}
+			},
+   
 			getUserById: async (id, setUserData) => {
 		
 				try {
@@ -173,6 +187,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				} catch (error) {
 					console.error('Error al obtener el perfil del usuario:', error);
+
 					throw error;
 				}
 			},

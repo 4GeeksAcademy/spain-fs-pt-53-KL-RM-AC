@@ -10,7 +10,11 @@ from flask_jwt_extended import jwt_required
 from sqlalchemy import and_
 from sqlalchemy.exc import IntegrityError
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 import re
+import os
+
+
 
 
 api = Blueprint('api', __name__)
@@ -18,6 +22,7 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+upload_folder = r'C:\rutaatucarpeta\uploads' 
 
 # login
 # FUNCIONA 
@@ -73,6 +78,16 @@ def create_user():
      db.session.rollback()
      return jsonify({'msg': f'Error creating user: {str(e)}'}), 500
 
+
+@api.route('/user', methods=['GET'])
+@jwt_required()
+def get_user_details():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+    return jsonify(user.serialize()), 200
+
 # Cambio contrasena
 #FUNCIONA   
 @api.route('/user/change-password', methods=['PUT'])
@@ -90,6 +105,7 @@ def change_user_password():
     if not new_password:
         return jsonify({'error': 'Se requiere una nueva contraseña'}), 400
 
+    
     # Actualizar la contraseña del usuario
     user.password = new_password
     db.session.commit()
@@ -116,7 +132,7 @@ def create_user_properties():
     profile_img = body.get('profile_img')
 
     # Verificar si falta algún dato necesario
-    if not all([pet, gender, budget, find_roomie, text_box, profile_img]):
+    if not all([pet, gender, budget, find_roomie, text_box,profile_img]):
         return jsonify({'error': 'Missing data'}), 400
 
     # Crear una nueva instancia de UserProperties con el ID del usuario autenticado
@@ -127,7 +143,7 @@ def create_user_properties():
         budget=budget,
         find_roomie=find_roomie,
         text_box=text_box,
-        profile_img= profile_img
+        profile_img =profile_img
     )
 
     # Agregar la nueva instancia a la base de datos
@@ -194,7 +210,7 @@ def update_user_properties():
     user_properties.budget = body.get('budget', user_properties.budget)
     user_properties.find_roomie = body.get('find_roomie', user_properties.find_roomie)
     user_properties.text_box = body.get('text_box', user_properties.text_box)
-    user_properties.profile_img = body.get('profile_img',user_properties.profile_img)
+    user_properties.profile_img= body.get('profile_img', user.properties.profile_img)
 
     # Guardar los cambios en la base de datos
     db.session.add(user_properties)
@@ -204,7 +220,7 @@ def update_user_properties():
 
 # Borra los filtros del user (propiedades)
 # FUNCIONA
-@api.route('/user_properties', methods=['DELETE'])
+@api.route('/user/properties', methods=['DELETE'])
 @jwt_required()  # Asegura que el endpoint esté protegido por autenticación JWT
 def delete_user_properties():
     # Obtener el ID del usuario del token JWT
@@ -398,3 +414,4 @@ def remove_favorite_profile(profile_id):
     db.session.commit()
 
     return jsonify({'message': 'Perfil eliminado de favoritos exitosamente'}), 200
+

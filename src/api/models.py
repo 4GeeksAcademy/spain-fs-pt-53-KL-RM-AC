@@ -43,7 +43,7 @@ class UserProperties(db.Model):
     budget = db.Column(db.Integer(), nullable=False)
     find_roomie = db.Column(db.Enum(FindRoomieChoice), nullable=False)
     text_box = db.Column (db.Text(), nullable=False)
-    profile_img = db.Column(db.String(100))
+    profile_img = db.Column(db.String(1000))
     user = db.relationship('User', back_populates='user_properties')
 
     
@@ -56,10 +56,10 @@ class UserProperties(db.Model):
             "id": self.id,
             "pet": self.pet.name,
             "gender": self.gender.name,
-            "amount": self.budget,
+            "budget": self.budget,
             "find_roomie": self.find_roomie.name,
             "text_box": self.text_box,
-            "profile_img": self.profile_img
+            "profile_img":self.profile_img
 
         }
 
