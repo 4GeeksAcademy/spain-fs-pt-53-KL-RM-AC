@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import ProfileImg from "../../img/Curly hair-pana.png";
 import "../../styles/MyProfile.css";
+import { Link } from "react-router-dom";
 
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
@@ -36,6 +37,9 @@ export const MyProfile = () => {
                         </div>
                         <div className="d-flex justify-content-center">
                             <button type="button" className="btn btn-dark">Editar Perfil</button>
+                            <Link to={"/password"}>
+                            <button type="button" className="btn btn-dark" >Cambiar Contraseña</button>
+                            </Link>
                         </div>
                     </div>
                 </div>
