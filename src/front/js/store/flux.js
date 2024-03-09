@@ -24,7 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				localStorage.removeItem("token");
 				console.log("login out");
-				setStore({ token: null });
+				setStore({ token: null });
 			},
 
 			login : async(formData) =>{
@@ -105,7 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-			changePassword: async ( newPassword) => {
+			changePassword: async (newPassword) => {
 				try {
 					const {token} = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {

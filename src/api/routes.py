@@ -101,6 +101,7 @@ def change_user_password():
 
     data = request.json
     new_password = data.get('new_password')
+    
 
     if not new_password:
         return jsonify({'error': 'Se requiere una nueva contraseña'}), 400
