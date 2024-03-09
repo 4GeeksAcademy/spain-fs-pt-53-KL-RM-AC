@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Context } from "../store/appContext";
+import { useParams, useLocation } from "react-router-dom";
 
 export const LearnMore = () => {
-    const {store, actions} = useContext(Context);
-
-    const profileInfo = {
-        name: "John",
-        surname: "Doe Smith",
-        email: "john@example.com",
-        additionalInfo: "Información adicional sobre el usuario.",
-    };
-
+    const { store, actions } = useContext(Context);
+    const [userData, setUserData] = useState({});
     const [showEmail, setShowEmail] = useState(false);
+    const location = useLocation();
+   
+
+    useEffect(() => {
+        console.log(location.state.user)
+        setUserData(location.state.user)
+        // Llamar a la acción para obtener la información del usuario por ID
+        //actions.getUserById(id, setUserData)
+    }, [])
 
     const handleClickContactar = () => {
         setShowEmail(true);
@@ -20,60 +22,63 @@ export const LearnMore = () => {
 
     return (
         <div className="container p-4">
-            <div className="d-flex justify-content-center">
-                <img
-                    src="https://c0.klipartz.com/pngpicture/527/663/gratis-png-logo-persona-usuario-icono-de-persona-thumbnail.png"
-                    className="img-fluid rounded-circle"
-                    alt=""
-                />
-            </div>
-            <hr />
+            {userData && (
+                <div>
+                    <div className="d-flex justify-content-center">
+                        <img
+                            src="https://c0.klipartz.com/pngpicture/527/663/gratis-png-logo-persona-usuario-icono-de-persona-thumbnail.png"
+                            className="img-fluid rounded-circle"
+                            alt=""
+                        />
+                    </div>
+                    <hr />
+                    <div className="col-md-6 mx-auto text-center">
+                        <h2>Perfil de Usuario</h2>
+                        <p>
+                            <strong>Nombre: </strong> {userData.user_name}
+                        </p>
 
-            <div className="col-md-6 mx-auto text-center">
-                <h2>Perfil de Usuario</h2>
-                <p>
-                    <strong>Nombre: </strong> {profileInfo.name}
-                </p>
+                        <p>
+                            <strong>Apellidos: </strong> {userData.last_name}
+                        </p>
 
-                <p>
-                    <strong>Apellidos: </strong> {profileInfo.surname}
-                </p>
+                        <p>
+                            <strong>Información Adicional:</strong> {userData.additionalInfo}
+                        </p>
 
-                <p>
-                    <strong>Información Adicional:</strong> {profileInfo.additionalInfo}
-                </p>
+                        <p>
+                            <strong>Filtros:</strong> Filtros
+                        </p>
 
-                <p>
-                    <strong>Filtros:</strong> Filtros
-                </p>
+                        {showEmail && (
+                            <p>
+                                <strong>Email:</strong> {userData.email}
+                            </p>
+                        )}
+                    </div>
 
-                {showEmail && (
-                    <p>
-                        <strong>Email:</strong> {profileInfo.email}
-                    </p>
-                )}
-            </div>
-
-            <div className="d-flex p-3 justify-content-center">
-                <div className="d-grid gap-2 d-md-flex">
-                    <button
-                        type="button"
-                        className="btn btn-success"
-                        onClick={handleClickContactar}
-                    >
-                        Contactar
-                    </button>
+                    <div className="d-flex p-3 justify-content-center">
+                        <div className="d-grid gap-2 d-md-flex">
+                            <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={handleClickContactar}
+                            >
+                                Contactar
+                            </button>
+                        </div>
+                        <div className="d-grid gap-1 d-md-flex justify-content-md-end">
+                            <button
+                                //onClick={() => handleLike(props.algo)} con condicional para que el botón sea sólido cuando le des click
+                                className="btn btn-link text-end text-decoration-none"
+                            >
+                                <i className="fas fa-heart"></i>
+                                <i className="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div className="d-grid gap-1 d-md-flex justify-content-md-end">
-                    <button
-                        //onClick={() => handleLike(props.algo)} con condicional para que el boton sea solid cuando le de click
-                        className="btn btn-link text-end text-decoration-none"
-                    >
-                        <i className="fas fa-heart"></i>
-                        <i className="far fa-heart"></i>
-                    </button>
-                </div>
-            </div>
+            )}
         </div>
     );
 };
