@@ -108,6 +108,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+
+			addProfileInfo : async (formData) => {
+				try {
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+						method: "POST",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al crear usuario");
+					}
+					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+				} catch (error) {
+					throw error;
+				}
+			},
+   
+
+
 			changePassword: async ( newPassword) => {
 				try {
 					const {token} = await getStore();
@@ -131,24 +155,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			
-
-//cambio
 			getAllUsers: async () => {
 				try {
 
-					
-					const response = await fetch(process.env.BACKEND_URL + '/signup', {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify(formData)
-					});
-					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
-			
-					
-
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');			
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}

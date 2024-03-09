@@ -23,7 +23,7 @@ export const MyProfile = () => {
                     <div className="card mb-3">
                         <div className="row">
                             <div className="col-md-4">
-                                <img src={ProfileImg} className="img img-fluid rounded-start" alt="Profile" />
+                                <img src={userData.profile_img} className="img img-fluid rounded-start" alt="Profile" />
                             </div>
                             <div className="col-md-8">
                                 <div className="card-body">
