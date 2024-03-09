@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import ProfileImg from "../../img/Curly hair-pana.png";
 import "../../styles/MyProfile.css";
 import { Link } from "react-router-dom";
+
 
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);

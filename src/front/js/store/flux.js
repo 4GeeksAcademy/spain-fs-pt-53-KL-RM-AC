@@ -24,33 +24,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				localStorage.removeItem("token");
 				console.log("login out");
-				setStore({ token: null });
+				setStore({ token: null });
 			},
 
-			login : async(formData) =>{
-                try {
-                    const response = await fetch(process.env.BACKEND_URL + '/token',{
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                    if (!response.ok){
-                        const data= await response.json();
-                        throw new Error(data.message || "Error log in");
-                    }
-                    else if (response.ok){
-                        const data = await response.json();
-                        localStorage.setItem('token', data.access_token);
-                        console.log('Token:', data.access_token);
-                    }
-                }catch (error) {
-                    throw error;
-                }
-            },
-		
-			signUp : async (formData) => {
+			login: async (formData) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/token', {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error log in");
+					}
+					else if (response.ok) {
+						const data = await response.json();
+						localStorage.setItem('token', data.access_token);
+						console.log('Token:', data.access_token);
+					}
+				} catch (error) {
+					throw error;
+				}
+			},
+
+			signUp: async (formData) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -69,7 +69,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			
+
 
 			getProfile: async () => {
 				try {
@@ -103,48 +103,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-
-			changePassword: async ( newPassword) => {
+			addProfileInfo: async (formData) => {
 				try {
-					const {token} = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
-						method: "PUT",
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+						method: "POST",
 						headers: {
 							"Authorization": "Bearer " + token,
 							"Content-Type": "application/json"
 						},
-						body: JSON.stringify({ new_password: newPassword })
-					});
-			
-					if (!response.ok) {
-						throw new Error("No se pudo cambiar la contraseña");
-					}
-			
-					const data = await response.json();
-					return data.message;
-				} catch (error) {
-					throw error;
-				}
-			},
-			
-
-//cambio
-			getAllUsers: async () => {
-				try {
-
-					
-					const response = await fetch(process.env.BACKEND_URL + '/signup', {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json"
-						},
 						body: JSON.stringify(formData)
 					});
-					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
-			
-					
-
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.message || "Error al crear usuario");
@@ -154,7 +123,46 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-   
+
+			changePassword: async (newPassword) => {
+				try {
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
+						method: "PUT",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({ new_password: newPassword })
+					});
+
+					if (!response.ok) {
+						throw new Error("No se pudo cambiar la contraseña");
+					}
+
+					const data = await response.json();
+					return data.message;
+				} catch (error) {
+					throw error;
+				}
+			},
+
+
+			getAllUsers: async () => {
+				try {
+
+					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al crear usuario");
+					}
+					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+				} catch (error) {
+					throw error;
+				}
+			},
+
 
 
 			getUserById: async (id) => {
@@ -171,21 +179,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 							//habria que añadir aqui el token?
 							// "Authorization": `Bearer ${token}`
 						},
-						
+
 					});
-			
+
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.message || "Error al obtener el perfil del usuario");
 					}
-			
+
 					const userData = await response.json();
-					
+
 					// Almacena los datos del usuario en el store (usando setUserData)
 					setUserData(userData);
-			
+
 					return userData;
-			
+
 				} catch (error) {
 					console.error('Error al obtener el perfil del usuario:', error);
 
