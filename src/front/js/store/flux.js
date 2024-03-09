@@ -13,6 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			find_roomie: null,
 			text_box: null,
 			profile_img: null,
+			favoriteProfiles: null,
 			
 		},
 		actions: {
@@ -107,7 +108,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			///////////////////////////////
 			getAllUsers: async () => {
 				const { token } = await getStore()
 				try {
@@ -138,11 +138,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-
 			getUserById: async (id, setUserData) => {
-				// tengo que almacenar los datos del usuario en el store userData:? const [userData, setUserData] = useState(null);
-				//  setUserData(userData);
-				console.log(id)
+		
 				try {
 					const token = store.token
 					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
@@ -176,6 +173,111 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				} catch (error) {
 					console.error('Error al obtener el perfil del usuario:', error);
+					throw error;
+				}
+			},
+
+			//para añadir los favoritos mediante el ID del perfil del usuario
+			addFavoriteProfile: async  (profileId) => {
+				const { token } = await getStore()
+				try {
+					
+					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							"Authorization": "Bearer " + token,
+		
+						},
+						body: JSON.stringify({ profile_id: profileId })
+						
+					});
+					
+			
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.error || 'Error al agregar a favoritos');
+					}
+			
+					return true; // Otra respuesta según lo que necesites
+				} catch (error) {
+					console.error('Error al agregar a favoritos:', error);
+					throw error;
+				}
+			},
+
+			
+			//traer los favoritos al que usuario le ha dado like
+			getFavoriteProfiles: async () => {
+				const { token } = await getStore()
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
+						method: 'GET',
+						headers: {
+							"Authorization": "Bearer " + token,
+						}
+					});
+			
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.error || 'Error al obtener perfiles favoritos');
+					}
+			
+					const favoriteProfiles = await response.json();
+					return favoriteProfiles;
+				} catch (error) {
+					console.error('Error al obtener perfiles favoritos:', error);
+					throw error;
+				}
+			},
+
+			//aquí falta poner la action de borrar los favoritos que lo haré más adelante
+			// removeFavoriteProfile: async (profileId) => {
+			// 	const { token } = await getStore()
+			// 	try {
+			// 		const response = await fetch(process.env.BACKEND_URL + `/user/favorite-profiles/${profileId}`, {
+			// 			method: 'DELETE',
+			// 			headers: {
+			// 				"Authorization": "Bearer " + token,
+			// 			}
+			// 		});
+			
+			// 		if (!response.ok) {
+			// 			const data = await response.json();
+			// 			throw new Error(data.error || 'Error al eliminar el perfil de favoritos');
+			// 		}
+			
+			// 		console.log(true)
+			// 		return true; // Indica que la eliminación fue exitosa
+			// 	} catch (error) {
+			// 		console.error('Error al eliminar el perfil de favoritos:', error);
+			// 		throw error;
+			// 	}
+			// },
+
+			getUsersFilter: async (filters) => {
+				const { token } = await getStore()
+				try {
+					// Convierte los filtros a una cadena de consulta
+					const queryString = new URLSearchParams(filters).toString();
+			
+					// Realiza la solicitud GET a la ruta del servidor con la cadena de consulta
+					const response = await fetch(`${process.env.BACKEND_URL}/users-filter?${queryString}`, {
+						method: 'GET',
+						headers: {
+							"Authorization": "Bearer " + token,
+						}
+					});
+			
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.error || 'Error al obtener usuarios filtrados');
+					}
+			
+					const filteredUsers = await response.json();
+					return filteredUsers;
+				} catch (error) {
+					console.error('Error al obtener usuarios filtrados:', error);
 					throw error;
 				}
 			},
