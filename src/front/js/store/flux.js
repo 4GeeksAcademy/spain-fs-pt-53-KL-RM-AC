@@ -29,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			login : async(formData) =>{
                 try {
-                    const response = await fetch("https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/token",{
+                    const response = await fetch(process.env.BACKEND_URL + '/token',{
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -69,6 +69,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			
+
 			getProfile: async () => {
 				try {
 					const { token } = await getStore()
@@ -102,7 +104,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+
+			changePassword: async ( newPassword) => {
+				try {
+					const {token} = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
+						method: "PUT",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({ new_password: newPassword })
+					});
+			
+					if (!response.ok) {
+						throw new Error("No se pudo cambiar la contraseña");
+					}
+			
+					const data = await response.json();
+					return data.message;
+				} catch (error) {
+					throw error;
+				}
+			},
+			
+
 		    addProfileInfo : async (formData) => {
+
 				try {
 					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {

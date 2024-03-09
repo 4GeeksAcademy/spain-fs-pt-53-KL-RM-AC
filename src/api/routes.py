@@ -15,6 +15,8 @@ import re
 import os
 
 
+
+
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -103,6 +105,7 @@ def change_user_password():
     if not new_password:
         return jsonify({'error': 'Se requiere una nueva contraseña'}), 400
 
+    
     # Actualizar la contraseña del usuario
     user.password = new_password
     db.session.commit()
