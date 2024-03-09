@@ -242,8 +242,7 @@ def delete_user_properties():
         return jsonify({'error': 'IntegrityError occurred'}), 500
 
 
-# filtra a travez de la properties
-# Funciona 
+# filtra a traves de la properties
 @api.route('/users-filter', methods=['GET'])
 @jwt_required()  # Asegura que el endpoint esté protegido por autenticación JWT
 def get_users_filter():
