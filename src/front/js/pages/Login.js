@@ -43,7 +43,7 @@ export const Login = () => {
 
   return (
     <div className="d-flex">
-      
+
       <div className="container login justify-content-center mx-auto">
         <form onSubmit={handleSubmit} className="p-3 m-3">
           <h1 className="title mb-4">Iniciar Sesion</h1>
@@ -60,10 +60,10 @@ export const Login = () => {
           {alertMessage && (<div className="alert alert-danger mt-3">{alertMessage}</div>)}
         </form>
       </div>
-      <img className="imageLogIn" src={mobilelogin}/>
-      </div>
-      
-    
+      <img className="imageLogIn" src={mobilelogin} />
+    </div>
+
+
 
   );
 }

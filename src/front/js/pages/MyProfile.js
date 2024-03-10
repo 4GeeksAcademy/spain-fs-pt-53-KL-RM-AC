@@ -2,22 +2,42 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/MyProfile.css";
 import { Link } from "react-router-dom";
-
+import { CreateProfile } from "./CreateProfile";
 
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
-    console.log(store)
-    const [userData, setUserData] = useState()
+    const [userData, setUserData] = useState("");
 
     useEffect(() => {
-        setUserData(store)
+        actions.getProfile();
+    }, []);
+
+    useEffect(() => {
+        setUserData(store);
     }, [store]);
 
-   
+    const hasRequiredFields = () => {
+        console.log("UserData:", userData);
+        return (
+            userData &&
+            userData.gender &&
+            userData.budget &&
+            userData.find_roomie &&
+            userData.profile_img &&
+            userData.text_box &&
+            userData.pet
+        );
+    };
+    
+
+    // Si los datos del perfil aún no se han cargado, muestra un mensaje de carga o un indicador de carga
+    if (!userData) {
+        return <div>Cargando perfil...</div>;
+    }
 
     return (
         <div className="container mt-2 p-3 justify-content-center">
-            {userData && (
+            {hasRequiredFields() ? (
                 <>
                     <h3 className="text-center">Mi Perfil</h3>
                     <div className="card mb-3">
@@ -42,7 +62,10 @@ export const MyProfile = () => {
                         </div>
                     </div>
                 </>
+            ) : (
+                <CreateProfile />
             )}
         </div>
     );
 };
+
