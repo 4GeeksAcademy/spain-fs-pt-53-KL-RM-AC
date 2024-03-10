@@ -13,7 +13,7 @@ export const MyProfile = () => {
         setUserData(store)
     }, [store]);
 
-   
+
 
     return (
         <div className="container mt-2 p-3 justify-content-center">
@@ -35,8 +35,11 @@ export const MyProfile = () => {
                                     <p className="card-text m-1">Cual es tu presupuesto? {userData.budget}</p>
                                     <p className="card-text m-1">Por que serias el compi ideal? {userData.text_box}</p>
                                 </div>
-                                <div className="d-flex justify-content-center">
-                                    <button type="button" className="btn btn-dark">Editar Perfil</button>
+                                <div className="d-flex  justify-content-center">
+                                    <button type="button" className="btn btn-dark m-1">Editar Perfil</button>
+                                    <Link to={"/password"}>
+                                        <button type="button" className="btn btn-dark m-1">Cambiar Contrasena</button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

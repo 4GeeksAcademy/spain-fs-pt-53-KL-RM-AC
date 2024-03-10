@@ -108,16 +108,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-			changePassword: async (newPassword) => {
+			changePassword: async (oldPassword , newPassword) => {
 				try {
 					const {token} = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
+					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
 						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
 							"Content-Type": "application/json"
 						},
-						body: JSON.stringify({ new_password: newPassword })
+						body: JSON.stringify({ old_password: oldPassword ,new_password: newPassword })
 					});
 			
 					if (!response.ok) {
@@ -272,6 +272,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 	}
 			// },
 
+			getAllUsers: async () => {
+				try {
+
+					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al crear usuario");
+					}
+					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+				} catch (error) {
+					throw error;
+				}
+			},
 			getUsersFilter: async (filters) => {
 				const { token } = await getStore()
 				try {

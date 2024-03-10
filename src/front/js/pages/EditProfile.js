@@ -5,6 +5,7 @@ import "../../styles/FormsImgs.css";
 
 export const EditProfile = () => {
 	const { store, actions } = useContext(Context);
+	
 
 	return (
 		<div className=" container mt-2 p-3 justify-content-center">
