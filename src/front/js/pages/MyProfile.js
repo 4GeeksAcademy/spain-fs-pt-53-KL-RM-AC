@@ -1,29 +1,57 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import ProfileImg from "../../img/Curly hair-pana.png";
 import "../../styles/MyProfile.css";
 import { Link } from "react-router-dom";
+import { CreateProfile } from "./CreateProfile";
 
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
-    console.log(store)
-    const [userData, setUserData] = useState()
+    const [userData, setUserData] = useState("");
+   
+    useEffect(() => {
+        // Verificar si el token está presente antes de llamar a getProfile()
+        if (store.token) {
+            actions.getProfile();
+        }
+    }, [store.token]);
 
     useEffect(() => {
-        setUserData(store)
+        setUserData(store);
     }, [store]);
+  
+    const handleDelete = () => {
+      actions.deleteUserProperties();
+    };
+  
 
+    const hasRequiredFields = () => {
+        console.log("UserData:", userData);
+        return (
+            userData &&
+            userData.gender &&
+            userData.budget &&
+            userData.find_roomie &&
+            userData.profile_img &&
+            userData.text_box &&
+            userData.pet
+        );
+    };
+    
 
+    // Si los datos del perfil aún no se han cargado, muestra un mensaje de carga o un indicador de carga
+    if (!userData) {
+        return <div>Cargando perfil...</div>;
+    }
 
     return (
         <div className="container mt-2 p-3 justify-content-center">
-            {userData && (
+            {hasRequiredFields() ? (
                 <>
                     <h3 className="text-center">Mi Perfil</h3>
                     <div className="card mb-3">
                         <div className="row">
                             <div className="col-md-4">
-                                <img src={ProfileImg} className="img img-fluid rounded-start" alt="Profile" />
+                                <img src={userData.profile_img} className="img img-fluid rounded-start" alt="Profile" />
                             </div>
                             <div className="col-md-8">
                                 <div className="card-body">
@@ -35,17 +63,21 @@ export const MyProfile = () => {
                                     <p className="card-text m-1">Cual es tu presupuesto? {userData.budget}</p>
                                     <p className="card-text m-1">Por que serias el compi ideal? {userData.text_box}</p>
                                 </div>
-                                <div className="d-flex  justify-content-center">
-                                    <button type="button" className="btn btn-dark m-1">Editar Perfil</button>
-                                    <Link to={"/password"}>
-                                        <button type="button" className="btn btn-dark m-1">Cambiar Contrasena</button>
+                                <div className="d-flex justify-content-center">
+                                    <Link to={"/edit"}>
+                                    <button type="button" className="btn btn-dark">Editar Perfil</button>
                                     </Link>
+                                    <button type="button" className="btn btn-dark" onClick={handleDelete()}>Eliminar Perfil</button>
+                        
                                 </div>
                             </div>
                         </div>
                     </div>
                 </>
+            ) : (
+                <CreateProfile />
             )}
         </div>
     );
 };
+

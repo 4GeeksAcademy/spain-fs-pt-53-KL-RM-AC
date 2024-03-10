@@ -30,30 +30,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ token: null });
 			},
 
-			login : async(formData) =>{
-                try {
-                    const response = await fetch(process.env.BACKEND_URL + '/token',{
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                    if (!response.ok){
-                        const data= await response.json();
-                        throw new Error(data.message || "Error log in");
-                    }
-                    else if (response.ok){
-                        const data = await response.json();
-                        localStorage.setItem('token', data.access_token);
-                        console.log('Token:', data.access_token);
-                    }
-                }catch (error) {
-                    throw error;
-                }
-            },
-		
-			signUp : async (formData) => {
+			login: async (formData) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/token', {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error log in");
+					}
+					else if (response.ok) {
+						const data = await response.json();
+						localStorage.setItem('token', data.access_token);
+						console.log('Token:', data.access_token);
+					}
+				} catch (error) {
+					throw error;
+				}
+			},
+
+			signUp: async (formData) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -72,7 +72,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			
+
 
 			getProfile: async () => {
 				try {
@@ -96,7 +96,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						last_name: userData.last_name,
 						pet: userData.properties.pet,
 						gender: userData.properties.gender,
-						budget: userData.properties.amount,
+						budget: userData.properties.budget,
 						find_roomie: userData.properties.find_roomie,
 						text_box: userData.properties.text_box,
 						profile_img: userData.properties.profile_img
@@ -106,34 +106,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-
-
-			changePassword: async (oldPassword , newPassword) => {
-				try {
-					const {token} = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
-						method: "PUT",
-						headers: {
-							"Authorization": "Bearer " + token,
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify({ old_password: oldPassword ,new_password: newPassword })
-					});
-			
-					if (!response.ok) {
-						throw new Error("No se pudo cambiar la contraseña");
-					}
-			
-					const data = await response.json();
-					return data.message;
-				} catch (error) {
-					throw error;
-				}
-			},
-			
-
-		    addProfileInfo : async (formData) => {
-
+			addProfileInfo: async (formData) => {
 				try {
 					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
@@ -153,6 +126,101 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+
+			updateProfileInfo: async (formData) => {
+                try {
+                    const { token } = await getStore();
+                    const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (!response.ok) {
+                        const data = await response.json();
+                        throw new Error(data.message || "Error al actualizar las propiedades del usuario");
+                    }
+                    // Si la solicitud fue exitosa, actualiza el store con los nuevos datos del usuario
+                    const userData = await response.json();
+                    setStore({
+                        pet: userData.pet,
+                        gender: userData.gender,
+                        budget: userData.budget,
+                        find_roomie: userData.find_roomie,
+                        text_box: userData.text_box,
+                        profile_img: userData.profile_img
+                    });
+                    return userData; // Devuelve los datos actualizados del usuario
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+			deleteUserProperties: async ()=> {
+				try {
+					const response = await fetch(process.env.BACKEND_URL  + '/user/properties', {
+						method: 'DELETE',
+						headers: {
+							'Authorization': 'Bearer ' + yourJWTToken, // Reemplaza yourJWTToken con el token JWT válido
+							'Content-Type': 'application/json'
+						}
+					});
+			
+					const responseData = await response.json();
+			
+					if (!response.ok) {
+						throw new Error(responseData.error || 'Failed to delete user properties');
+					}
+			
+					console.log(responseData.message); // Mensaje de éxito en caso de eliminación exitosa
+				} catch (error) {
+					console.error('Error deleting user properties:', error.message);
+			    }
+			},
+
+
+
+			changePassword: async (oldPassword , newPassword) => {
+				try {
+					const {token} = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
+						method: "PUT",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({ old_password: oldPassword ,new_password: newPassword })
+					});
+
+					if (!response.ok) {
+						throw new Error("No se pudo cambiar la contraseña");
+					}
+
+					const data = await response.json();
+					return data.message;
+				} catch (error) {
+					throw error;
+				}
+			},
+
+
+			getAllUsers: async () => {
+				try {
+
+					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al crear usuario");
+					}
+					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+				} catch (error) {
+					throw error;
+				}
+			},
+
    
 			getUserById: async (id, setUserData) => {
 		
@@ -206,15 +274,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Authorization": "Bearer " + token,
 		
 						},
+
+
+					});
 						body: JSON.stringify({ profile_id: profileId })
 						
 					});
 					
-			
+
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.error || 'Error al agregar a favoritos');
 					}
+
+
+					const userData = await response.json();
+
+					// Almacena los datos del usuario en el store (usando setUserData)
+					setUserData(userData);
+
+					return userData;
 			
 					return true; // Otra respuesta según lo que necesites
 				} catch (error) {

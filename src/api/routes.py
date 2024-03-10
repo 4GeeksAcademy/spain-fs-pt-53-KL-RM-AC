@@ -215,7 +215,7 @@ def update_user_properties():
     user_properties.budget = body.get('budget', user_properties.budget)
     user_properties.find_roomie = body.get('find_roomie', user_properties.find_roomie)
     user_properties.text_box = body.get('text_box', user_properties.text_box)
-    user_properties.profile_img= body.get('profile_img', user.properties.profile_img)
+    user_properties.profile_img= body.get('profile_img', user_properties.profile_img)
 
     # Guardar los cambios en la base de datos
     db.session.add(user_properties)
