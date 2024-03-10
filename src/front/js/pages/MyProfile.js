@@ -7,14 +7,22 @@ import { CreateProfile } from "./CreateProfile";
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
     const [userData, setUserData] = useState("");
-
+   
     useEffect(() => {
-        actions.getProfile();
-    }, []);
+        // Verificar si el token está presente antes de llamar a getProfile()
+        if (store.token) {
+            actions.getProfile();
+        }
+    }, [store.token]);
 
     useEffect(() => {
         setUserData(store);
     }, [store]);
+  
+    const handleDelete = () => {
+      actions.deleteUserProperties();
+    };
+  
 
     const hasRequiredFields = () => {
         console.log("UserData:", userData);
@@ -56,7 +64,11 @@ export const MyProfile = () => {
                                     <p className="card-text m-1">Por que serias el compi ideal? {userData.text_box}</p>
                                 </div>
                                 <div className="d-flex justify-content-center">
+                                    <Link to={"/edit"}>
                                     <button type="button" className="btn btn-dark">Editar Perfil</button>
+                                    </Link>
+                                    <button type="button" className="btn btn-dark" onClick={handleDelete()}>Eliminar Perfil</button>
+                        
                                 </div>
                             </div>
                         </div>

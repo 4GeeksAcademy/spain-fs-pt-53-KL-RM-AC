@@ -93,7 +93,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						last_name: userData.last_name,
 						pet: userData.properties.pet,
 						gender: userData.properties.gender,
-						budget: userData.properties.amount,
+						budget: userData.properties.budget,
 						find_roomie: userData.properties.find_roomie,
 						text_box: userData.properties.text_box,
 						profile_img: userData.properties.profile_img
@@ -123,6 +123,60 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+
+			updateProfileInfo: async (formData) => {
+                try {
+                    const { token } = await getStore();
+                    const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (!response.ok) {
+                        const data = await response.json();
+                        throw new Error(data.message || "Error al actualizar las propiedades del usuario");
+                    }
+                    // Si la solicitud fue exitosa, actualiza el store con los nuevos datos del usuario
+                    const userData = await response.json();
+                    setStore({
+                        pet: userData.pet,
+                        gender: userData.gender,
+                        budget: userData.budget,
+                        find_roomie: userData.find_roomie,
+                        text_box: userData.text_box,
+                        profile_img: userData.profile_img
+                    });
+                    return userData; // Devuelve los datos actualizados del usuario
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+			deleteUserProperties: async ()=> {
+				try {
+					const response = await fetch('/user/properties', {
+						method: 'DELETE',
+						headers: {
+							'Authorization': 'Bearer ' + yourJWTToken, // Reemplaza yourJWTToken con el token JWT válido
+							'Content-Type': 'application/json'
+						}
+					});
+			
+					const responseData = await response.json();
+			
+					if (!response.ok) {
+						throw new Error(responseData.error || 'Failed to delete user properties');
+					}
+			
+					console.log(responseData.message); // Mensaje de éxito en caso de eliminación exitosa
+				} catch (error) {
+					console.error('Error deleting user properties:', error.message);
+			    }
+			},
+
 
 			changePassword: async (newPassword) => {
 				try {
