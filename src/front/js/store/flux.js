@@ -157,7 +157,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteUserProperties: async ()=> {
 				try {
-					const response = await fetch('/user/properties', {
+					const response = await fetch(process.env.BACKEND_URL  + '/user/properties', {
 						method: 'DELETE',
 						headers: {
 							'Authorization': 'Bearer ' + yourJWTToken, // Reemplaza yourJWTToken con el token JWT válido
