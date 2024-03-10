@@ -160,10 +160,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteUserProperties: async ()=> {
 				try {
+					const {token} = getStore()
 					const response = await fetch(process.env.BACKEND_URL  + '/user/properties', {
 						method: 'DELETE',
 						headers: {
-							'Authorization': 'Bearer ' + yourJWTToken, // Reemplaza yourJWTToken con el token JWT válido
+							'Authorization': 'Bearer ' + token, //t Reemplaza yourJWTToken con el token JWT válido
 							'Content-Type': 'application/json'
 						}
 					});
@@ -278,9 +279,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					});
 						body: JSON.stringify({ profile_id: profileId })
-						
-					});
-					
+
 
 					if (!response.ok) {
 						const data = await response.json();
