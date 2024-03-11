@@ -155,6 +155,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getAllUsers: async () => {
 				const { token } = await getStore()
+				
+				if (!token) {
+					console.error('Token no disponible. Inicia sesión nuevamente.');
+					return [];
+				}
+
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
 					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
@@ -226,6 +232,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//traer los favoritos al que usuario le ha dado like
 			getFavoriteProfiles: async () => {
 				const { token } = await getStore();
+
+				if (!token) {
+					console.error('Token no disponible. Inicia sesión nuevamente.');
+					return [];
+				}
 				
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
@@ -306,32 +317,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			// getUsersFilter: async (filters) => {
-			// 	const { token } = await getStore()
-			// 	try {
-			// 		// Convierte los filtros a una cadena de consulta
-			// 		const queryString = new URLSearchParams(filters).toString();
+			getUsersFilter: async (filters) => {
+				const { token } = await getStore()
+				try {
+					// Convierte los filtros a una cadena de consulta
+					const queryString = new URLSearchParams(filters).toString();
+					console.log(filters)
+					console.log(queryString)
+					// Realiza la solicitud GET a la ruta del servidor con la cadena de consulta
+					const response = await fetch(`${process.env.BACKEND_URL}/users-filter?${queryString}`, {
+						method: 'GET',
+						headers: {
+							"Authorization": "Bearer " + token,
+						}
+					});
 			
-			// 		// Realiza la solicitud GET a la ruta del servidor con la cadena de consulta
-			// 		const response = await fetch(`${process.env.BACKEND_URL}/users-filter?${queryString}`, {
-			// 			method: 'GET',
-			// 			headers: {
-			// 				"Authorization": "Bearer " + token,
-			// 			}
-			// 		});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.error || 'Error al obtener usuarios filtrados');
+					}
 			
-			// 		if (!response.ok) {
-			// 			const data = await response.json();
-			// 			throw new Error(data.error || 'Error al obtener usuarios filtrados');
-			// 		}
-			
-			// 		const filteredUsers = await response.json();
-			// 		return filteredUsers;
-			// 	} catch (error) {
-			// 		console.error('Error al obtener usuarios filtrados:', error);
-			// 		throw error;
-			// 	}
-			// },
+					const filteredUsers = await response.json();
+					return filteredUsers;
+				} catch (error) {
+					console.error('Error al obtener usuarios filtrados:', error);
+					throw error;
+				}
+			},
 
 		}
 

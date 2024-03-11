@@ -4,14 +4,11 @@ import compislogo from "../../img/compis.png";
 import "../../styles/navbar.css";
 import { Context } from "../store/appContext";
 
-
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	const [favoriteProfiles, setFavoriteProfiles] = useState([]);
 
-
-
-    useEffect(() => {
+	useEffect(() => {
         const fetchFavoriteProfiles = async () => {
             try {
                 const data = await actions.getFavoriteProfiles();
@@ -22,15 +19,13 @@ export const Navbar = () => {
         };
 
         fetchFavoriteProfiles();
-    }, [actions.getFavoriteProfiles, favoriteProfiles]);
+    }, [actions]);
 
 	return (
         <div className="d-flex custom-navbar">
             <div>
                 <Link to="/">
-                    <a className="navbar-brand " href="#">
-                        <img className="imageLogo" src={compislogo} alt="logo star wars" />
-                    </a>
+                    <img className="navbar-brand imageLogo" src={compislogo} alt="logo star wars" />
                 </Link>
             </div>
 
@@ -63,5 +58,3 @@ export const Navbar = () => {
         </div>
     );
 };
-
-//<i className="fa-solid fa-trash"></i>

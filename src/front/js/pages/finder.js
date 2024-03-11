@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Finder = () => {
     const { store, actions } = useContext(Context);
     const [usersData, setUsersData] = useState([]);
     const [favoriteProfiles, setFavoriteProfiles] = useState([]);
-    //const [searchParams, setSearchParams] = useSearchParams();
+    const [filters, setFilters] = useState({})
     const navigate = useNavigate();
 
 
@@ -23,31 +23,26 @@ export const Finder = () => {
         }
     }, []);
 
+
     const handleClick = userData => {
         navigate("/learnmore", { state: { user: userData } });
     };
 
 
+    const handleSetFilter = (filter) => {
 
-    // const updateSearchParams = (filter, value) => {
-    //     setSearchParams(params => {
-    //         params.set(filter, value);
-    //         return params;
-    //     });
-    // };
+        setFilters({...filters, ...filter});
+        
+        };
 
-   // useEffect(() => {
-    //     const filters = {
-    //         pet: searchParams.get("pet"),
-    //         gender: searchParams.get("gender"),
-    //         // ... (otros filtros)
-    //     };
-
-    //     actions.getUsersFilter(filters).then(data => {
-    //         setUsersData(data);
-    //     });
-    // }, [searchParams, actions]);
-
+    const handleFilteredUsers = () => {
+        console.log("filtrando")
+        actions.getUsersFilter(filters).then(data => {
+            if (data && data.length) {
+                setUsersData(data);
+            }
+        })
+    }
 
     const handleAddToFavorites = async (profileId) => {
         try {
@@ -81,7 +76,6 @@ export const Finder = () => {
         }
     };
 
-
     // useEffect(() => {
     //     // Actualizar userData cuando cambian los datos de los usuarios
     //     setUsersData(store);
@@ -96,10 +90,10 @@ export const Finder = () => {
                     <form>
                         <div className="situation">
                             <h5>¿Qué buscas?</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>¿Cual es tu situacion?</option>
-                                <option value="">Tengo piso, busco roomie</option>
-                                <option value="2">Busco roomie que tenga piso</option>
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'find_roomie': e.target.value})}>
+                                <option defaultValue>¿Cual es tu situacion?</option>
+                                <option value="Apartment">Tengo piso, busco roomie</option>
+                                <option value="NoApartment">Busco roomie que tenga piso</option>
 
                             </select>
                         </div>
@@ -108,8 +102,8 @@ export const Finder = () => {
 
                         <div className="gender">
                             <h5>Género</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Género</option>
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'gender': e.target.value})}>
+                                <option defaultValue>Género</option>
                                 <option value="Female">Femenino</option>
                                 <option value="Male">Masculino</option>
                             </select>
@@ -119,14 +113,10 @@ export const Finder = () => {
 
                         <div className="pet">
                             <h5>Mascota</h5>
-                            <select className="form-select" aria-label="Default select example "
-                            // onChange={(e) => {
-                            //     updateSearchParams("pet", e.target.value);
-                            // }}
-                            >
-                                <option selected>Mascota</option>
-                                <option value="1">Tengo mascota</option>
-                                <option value="2">No tengo mascota</option>
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'pet': e.target.value})} >
+                                <option defaultValue>Mascota</option>
+                                <option value="Yes">Tengo mascota</option>
+                                <option value="No">No tengo mascota</option>
                             </select>
                         </div>
 
@@ -134,28 +124,18 @@ export const Finder = () => {
 
                         <div className="budget">
                             <h5>Presupuesto</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Ajusta tu presupuesto</option>
-                                <option value="1">Hasta 300</option>
-                                <option value="2">Hasta 400</option>
-                                <option value="2">Hasta 500</option>
-                            </select>
-                        </div>
-
-                        <hr></hr>
-
-                        <div className="location">
-                            <h5>Ubicacion</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Elige tu zona ideal</option>
-                                <option value="1">Madrid</option>
-                                <option value="2">Barcelona</option>
-                                <option value="2">Ibiza</option>
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'budget': e.target.value})}>
+                                <option defaultValue>Ajusta tu presupuesto</option>
+                                <option value="300">Hasta 300</option>
+                                <option value="400">Hasta 400</option>
+                                <option value="500">Hasta 500</option>
                             </select>
                         </div>
 
                         <hr></hr>
                     </form>
+
+                    <button onClick={handleFilteredUsers}>aplicar filtros</button>
                 </div>
 
 
