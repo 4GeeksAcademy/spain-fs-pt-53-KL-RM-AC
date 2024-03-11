@@ -13,7 +13,7 @@ export const MyProfile = () => {
         setUserData(store)
     }, [store]);
 
-   
+
 
     return (
         <div className="container mt-2 p-3 justify-content-center">
