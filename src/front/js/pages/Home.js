@@ -31,6 +31,7 @@ export const Home = () => {
 			<div className="possition-relative">
 				<img src={HangOut} className="hangoutImg position-absolute bottom-0 end-0"></img>
 			</div>
+			
 		</div>
 	);
 };

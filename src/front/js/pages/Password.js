@@ -53,6 +53,7 @@ export const Password = () => {
                     <div className="d-flex justify-content-center mt-5 mb-5">
                         <button type="button" className="btn btn-dark" onClick={handleChangePassword}>Cambiar Contraseña</button>
                     </div>
+
                 </form>
             </div>
             <div className="possition-relative">

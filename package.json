@@ -74,6 +74,7 @@
 	},
 	"dependencies": {
 		"@bytescale/sdk": "^3.32.0",
+		"bcrypt": "^5.1.1",
 		"cloudinary": "^2.0.3",
 		"cloudinary-react": "^1.8.1",
 		"prop-types": "^15.6.1",

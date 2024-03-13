@@ -8,7 +8,7 @@ body {
     
 }
 
-
+.loginPage{
 .btn{
     background-color:#dd0025 ;
     border: #dd0025;
@@ -31,4 +31,4 @@ body {
     width: 500px;
     height:450px;
     margin-right: 10px;
-}
+}}

@@ -6,8 +6,8 @@ import { CreateProfile } from "./CreateProfile";
 
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
-    const [userData, setUserData] = useState("");
-   
+    const [userData, setUserData] = useState({});
+
     useEffect(() => {
         // Verificar si el token está presente antes de llamar a getProfile()
         if (store.token) {
@@ -18,11 +18,11 @@ export const MyProfile = () => {
     useEffect(() => {
         setUserData(store);
     }, [store]);
-  
+
     const handleDelete = () => {
-      actions.deleteUserProperties();
+        actions.deleteUserProperties();
     };
-  
+
 
     const hasRequiredFields = () => {
         console.log("UserData:", userData);
@@ -36,12 +36,11 @@ export const MyProfile = () => {
             userData.pet
         );
     };
-    
+
+
 
     // Si los datos del perfil aún no se han cargado, muestra un mensaje de carga o un indicador de carga
-    if (!userData) {
-        return <div>Cargando perfil...</div>;
-    }
+
 
     return (
         <div className="container mt-2 p-3 justify-content-center">
@@ -65,10 +64,15 @@ export const MyProfile = () => {
                                 </div>
                                 <div className="d-flex justify-content-center">
                                     <Link to={"/edit"}>
-                                    <button type="button" className="btn btn-dark">Editar Perfil</button>
+                                        <button type="button" className="btn btn-dark m-3">Editar Perfil</button>
                                     </Link>
-                                    <button type="button" className="btn btn-dark" onClick={handleDelete()}>Eliminar Perfil</button>
-                        
+                                    <Link to={"/homelogged "}>
+                                    <button type="button" className="btn btn-dark m-3" onClick={handleDelete}>Eliminar Perfil</button>
+                                    </Link>
+                                    <Link to={"/password"}>
+                                        <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
+                                    </Link>
+
                                 </div>
                             </div>
                         </div>
@@ -78,6 +82,7 @@ export const MyProfile = () => {
                 <CreateProfile />
             )}
         </div>
-    );
+    )
 };
+
 
