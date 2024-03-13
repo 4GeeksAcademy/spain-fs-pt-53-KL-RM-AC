@@ -5,10 +5,9 @@ import "../../styles/navbar.css";
 import { Context } from "../store/appContext";
 
 export const Navbar = () => {
-	const { store, actions } = useContext(Context);
-	const [favoriteProfiles, setFavoriteProfiles] = useState([]);
-
-	useEffect(() => {
+    const { store, actions } = useContext(Context);
+    const [favoriteProfiles, setFavoriteProfiles] = useState([]);
+    useEffect(() => {
         const fetchFavoriteProfiles = async () => {
             try {
                 const data = await actions.getFavoriteProfiles();
@@ -17,18 +16,15 @@ export const Navbar = () => {
                 console.error('Error al obtener perfiles favoritos:', error);
             }
         };
-
         fetchFavoriteProfiles();
     }, [actions]);
-
-	return (
+    return (
         <div className="d-flex custom-navbar">
             <div>
                 <Link to="/">
                     <img className="navbar-brand imageLogo" src={compislogo} alt="logo star wars" />
                 </Link>
             </div>
-
             <div className="dropdown">
                 <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
                     Mis favoritos ({favoriteProfiles.length})
@@ -43,7 +39,6 @@ export const Navbar = () => {
                     ))}
                 </ul>
             </div>
-
             <div className="textNavbar">
                 <Link to="/profile">
                     <span> Mi perfil</span>
@@ -57,4 +52,4 @@ export const Navbar = () => {
             </div>
         </div>
     );
-};
+}

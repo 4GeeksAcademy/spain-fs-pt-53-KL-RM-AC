@@ -94,7 +94,7 @@ export const EditProfile = () => {
 
     return (
         <div className="container mt-2 p-3 justify-content-center">
-            <h3 className="text-center">Crear Perfil</h3>
+            <h3 className="text-center">Editar Perfil</h3>
             <form className="d-flex">
                 <div className="form-group col-4">
                     <label htmlFor="profileImg" className="form-label fw-bold">Selecciona una imagen</label>

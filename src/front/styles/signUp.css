@@ -33,7 +33,7 @@ box-shadow: 0 0 0 0.25rem #ffbfab;
     justify-content: center;
     padding: 20px;
     border-radius: 5px;
-    background-color: #d1ecebb9;
+    background-color: #43a19e; opacity: 40%
 }
 
 .inputSignUp {

@@ -165,6 +165,7 @@ export const CreateProfile = () => {
                 {alertMessage && (<div className="alert alert-danger mt-3">{alertMessage}</div>)}
             </form>
             <div className="justify-content-center">
+                
                 <button type="button" className="btn btn-dark me-2" onClick={handleSubmit} disabled={!image}>Crear Perfil</button>
                 <Link to={"/password"}>
                     <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
