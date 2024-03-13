@@ -26,6 +26,7 @@ upload_folder = r'C:\rutaatucarpeta\uploads'
 
 # login
 # FUNCIONA 
+# UTILIZADO
 @api.route("/token", methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
@@ -44,7 +45,7 @@ def create_token():
 
 # create user (registro)
 # FUNCIONA 
-
+# UTILIZADO
 @api.route('/signup', methods=['POST'])
 def create_user():
     # Obtener los datos del cuerpo de la solicitud
@@ -90,21 +91,24 @@ def get_user_details():
 
 # Cambio contrasena
 #FUNCIONA   
-@api.route('/user/change-password', methods=['PUT'])
-@jwt_required()
-def change_user_password():
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
+# UTILIZADO
+@api.route('/change/password', methods=['PUT'])
+@jwt_required()  
+def change_password():
+    current_user_id = get_jwt_identity()  
+    
+    body = request.json
+    old_password = body.get("old_password")
+    new_password = body.get('new_password')
 
+    # Verificar que el usuario exista en la base de datos
+    user = User.query.get(current_user_id)
     if not user:
         return jsonify({'error': 'Usuario no encontrado'}), 404
-
-    data = request.json
-    new_password = data.get('new_password')
-
-    if not new_password:
-        return jsonify({'error': 'Se requiere una nueva contraseña'}), 400
-
+    
+    # Verificar que la contraseña antigua sea correcta
+    if user.password != old_password:
+        return jsonify({'error': 'La contraseña antigua no es correcta'}), 400
     
     # Actualizar la contraseña del usuario
     user.password = new_password
@@ -153,6 +157,7 @@ def create_user_properties():
     return jsonify({'message': 'User properties created successfully'}), 201
 
 # obtiene el user (mi perfil) 
+# UTILIZADO
 @api.route('/user/profile', methods=['GET'])
 @jwt_required()  # Asegura que el endpoint esté protegido por autenticación JWT
 def get_user_profile():
@@ -242,6 +247,7 @@ def delete_user_properties():
 
 
 # filtra a traves de la properties
+# UTILIZADO
 @api.route('/users-filter', methods=['GET'])
 @jwt_required()  # Asegura que el endpoint esté protegido por autenticación JWT
 def get_users_filter():
@@ -282,6 +288,7 @@ def get_users_filter():
 #####################################################
 # OBTIENE EL USUARIO CON SUS PROPIEDADES A TRAVEZ DE SU ID. LEARN MORE  
 # FUNCIONA
+# UTILIZADO
 @api.route('/user/<int:user_id>', methods=['GET'])
 @jwt_required() 
 def get_user(user_id):
@@ -315,6 +322,7 @@ def get_user(user_id):
 ##########################################
 # obtiene todos los user con sus propiedades LO USO EN EL FLUX, ACTIONS, GETALLUSERS 
 # FUNCIONA
+# UTILIZADO
 @api.route('/users/properties', methods=['GET'])
 @jwt_required()
 def get_users_with_properties():
@@ -352,6 +360,7 @@ def get_users_with_properties():
 
 ##########################
 #Favoritos
+# UTILIZADO
 @api.route('/user/favorite-profiles', methods=['POST'])
 @jwt_required()
 def add_favorite_profile():
@@ -377,6 +386,7 @@ def add_favorite_profile():
     return jsonify({'message': 'Perfil agregado a favoritos exitosamente'}), 201
 
 # Obtener todos los favoritos
+# UTILIZADO
 @api.route('/user/favorite-profiles', methods=['GET'])
 @jwt_required()
 def get_favorite_profiles():
