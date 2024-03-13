@@ -7,7 +7,10 @@ export const Finder = () => {
     const [usersData, setUsersData] = useState([]);
     const [favoriteProfiles, setFavoriteProfiles] = useState([]);
     const [filters, setFilters] = useState({})
+    const [noProfilesFound, setNoProfilesFound] = useState(false);
+    //const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
+
 
 
     useEffect(() => {
@@ -30,19 +33,32 @@ export const Finder = () => {
 
 
     const handleSetFilter = (filter) => {
-
-        setFilters({...filters, ...filter});
-        
+        setFilters({...filters, ...filter}); 
         };
 
-    const handleFilteredUsers = () => {
-        console.log("filtrando")
-        actions.getUsersFilter(filters).then(data => {
-            if (data && data.length) {
-                setUsersData(data);
-            }
-        })
-    }
+
+        const handleFilteredUsers = () => {
+            actions.getUsersFilter(filters).then(data => {
+                if (data && data.length) {
+                    setUsersData(data);
+                    setNoProfilesFound(false);
+                } else {
+                    setUsersData([]);
+                    setNoProfilesFound(true);
+                    console.log("no se encontraron perfiles que cumplan estas condiciones")
+                }
+            });
+        };
+
+
+    // const handleFilteredUsers = () => {
+    //     console.log("filtrando")
+    //     actions.getUsersFilter(filters).then(data => {
+    //         if (data && data.length) {
+    //             setUsersData(data);
+    //         }
+    //     })
+    // }
 
     const handleAddToFavorites = async (profileId) => {
         try {

@@ -13,8 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			find_roomie: null,
 			text_box: null,
 			profile_img: null,
+			allUsers: [],
 			favoriteProfiles: [],
-			
+
 		},
 		actions: {
 
@@ -30,30 +31,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ token: null });
 			},
 
-			login : async(formData) =>{
-                try {
-                    const response = await fetch(process.env.BACKEND_URL + '/token',{
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                    if (!response.ok){
-                        const data= await response.json();
-                        throw new Error(data.message || "Error log in");
-                    }
-                    else if (response.ok){
-                        const data = await response.json();
-                        localStorage.setItem('token', data.access_token);
-                        console.log('Token:', data.access_token);
-                    }
-                }catch (error) {
-                    throw error;
-                }
-            },
-		
-			signUp : async (formData) => {
+			login: async (formData) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/token', {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+						
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error log in");
+					}
+					else if (response.ok) {
+						const data = await response.json();
+						localStorage.setItem('token', data.access_token);
+						console.log('Token:', data.access_token);
+					}
+				} catch (error) {
+					throw error;
+				}
+			},
+
+			signUp: async (formData) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -72,7 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			
+
 
 			getProfile: async () => {
 				try {
@@ -107,9 +109,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			changePassword: async ( newPassword) => {
+			changePassword: async (newPassword) => {
 				try {
-					const {token} = await getStore();
+					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
 						method: "PUT",
 						headers: {
@@ -118,11 +120,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify({ new_password: newPassword })
 					});
-			
+
 					if (!response.ok) {
 						throw new Error("No se pudo cambiar la contraseña");
 					}
-			
+
 					const data = await response.json();
 					return data.message;
 				} catch (error) {
@@ -130,8 +132,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-	
-		    addProfileInfo : async (formData) => {
+
+			addProfileInfo: async (formData) => {
 
 				try {
 					const { token } = await getStore();
@@ -155,7 +157,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getAllUsers: async () => {
 				const { token } = await getStore()
-				
+
 				if (!token) {
 					console.error('Token no disponible. Inicia sesión nuevamente.');
 					return [];
@@ -176,7 +178,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
-			
+
 					setStore({ allUsers: data });
 					console.log(data)
 					return data;
@@ -188,9 +190,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}
 			},
-   
+
 			getUserById: async (id, setUserData) => {
-		
+
 				try {
 					const token = store.token
 					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
@@ -208,7 +210,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const userData = await response.json();
-					
+
 					setUserData({
 						id: userData.id,
 						email: userData.email,
@@ -237,7 +239,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Token no disponible. Inicia sesión nuevamente.');
 					return [];
 				}
-				
+
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
 						method: 'GET',
@@ -246,11 +248,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json',
 						},
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-			
+
 					const data = await response.json();
 					return data;
 				} catch (error) {
@@ -272,14 +274,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify({ profile_id: profileId }),
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-					
+
 					// Obtener la lista actualizada de perfiles favoritos después de agregar uno nuevo
 					const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
-			
+
 					setStore({ favoriteProfiles: updatedFavoriteProfiles });
 					return true;
 				} catch (error) {
@@ -287,8 +289,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			
-	
+
+
 			//borrar perfiles a los que ha dado like
 			removeFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
@@ -301,14 +303,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json',
 						},
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-					
+
 					// Obtener la lista actualizada de perfiles favoritos después de eliminar uno
 					const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
-			
+
 					setStore({ favoriteProfiles: updatedFavoriteProfiles });
 					return true;
 				} catch (error) {
@@ -319,8 +321,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getUsersFilter: async (filters) => {
 				const { token } = await getStore()
+
 				try {
-					// Convierte los filtros a una cadena de consulta
 					const queryString = new URLSearchParams(filters).toString();
 					console.log(filters)
 					console.log(queryString)
@@ -331,14 +333,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Authorization": "Bearer " + token,
 						}
 					});
-			
+
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.error || 'Error al obtener usuarios filtrados');
 					}
-			
+
 					const filteredUsers = await response.json();
 					return filteredUsers;
+
+					// Convierte los filtros a una cadena de consulta
+
 				} catch (error) {
 					console.error('Error al obtener usuarios filtrados:', error);
 					throw error;
