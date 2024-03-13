@@ -180,7 +180,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(responseData.message); // Mensaje de éxito en caso de eliminación exitosa
 				} catch (error) {
 					console.error('Error deleting user properties:', error.message);
-			    }
+				}
 			},
 
 
@@ -208,25 +208,44 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-
 			getAllUsers: async () => {
+				const { token } = await getStore()
+			
+				if (!token) {
+					console.error('Token no disponible. Inicia sesión nuevamente.');
+					return [];
+				}
+			
 				try {
-
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
+						method: "GET",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						}
+					});
+			
 					if (!response.ok) {
-						const data = await response.json();
-						throw new Error(data.message || "Error al crear usuario");
+						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+			
+					const data = await response.json();
+			
+					setStore({ allUsers: data });
+					console.log(data)
+					return data;
+			
 				} catch (error) {
-					throw error;
+					console.error('Error al obtener usuarios:', error);
+			
+					return { error: 'Error al obtener usuarios' };
+			
 				}
 			},
-
-   
+			
 			getUserById: async (id, setUserData) => {
-
+			
 				try {
 					const token = store.token
 					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
@@ -235,16 +254,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json",
 							"Authorization": "Bearer " + token,
 						},
-
+			
 					});
-
+			
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.message || "Error al obtener el perfil del usuario");
 					}
-
+			
 					const userData = await response.json();
-
+			
 					setUserData({
 						id: userData.id,
 						email: userData.email,
@@ -257,62 +276,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 						text_box: userData.properties.text_box,
 						profile_img: userData.properties.profile_img
 					});
-
+			
 				} catch (error) {
 					console.error('Error al obtener el perfil del usuario:', error);
-
-					throw error;
-				}
-			},
-
-			//para añadir los favoritos mediante el ID del perfil del usuario
-			addFavoriteProfile: async  (profileId) => {
-				const { token } = await getStore()
-				try {
-					
-					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							"Authorization": "Bearer " + token,
-		
-						},
-
-
-					});
-						body: JSON.stringify({ profile_id: profileId })
-
-
-					if (!response.ok) {
-						const data = await response.json();
-						throw new Error(data.error || 'Error al agregar a favoritos');
-					}
-
-
-					const userData = await response.json();
-
-					// Almacena los datos del usuario en el store (usando setUserData)
-					setUserData(userData);
-
-					return userData;
 			
-					return true; // Otra respuesta según lo que necesites
-				} catch (error) {
-					console.error('Error al agregar a favoritos:', error);
 					throw error;
 				}
 			},
-
 			
 			//traer los favoritos al que usuario le ha dado like
 			getFavoriteProfiles: async () => {
 				const { token } = await getStore();
-
+			
 				if (!token) {
 					console.error('Token no disponible. Inicia sesión nuevamente.');
 					return [];
 				}
-
+			
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
 						method: 'GET',
@@ -321,11 +301,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json',
 						},
 					});
-
+			
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-
+			
 					const data = await response.json();
 					return data;
 				} catch (error) {
@@ -333,7 +313,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return [];
 				}
 			},
-
+			
 			//para añadir los favoritos mediante el ID del perfil del usuario
 			addFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
@@ -347,14 +327,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify({ profile_id: profileId }),
 					});
-
+			
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-
+			
 					// Obtener la lista actualizada de perfiles favoritos después de agregar uno nuevo
 					const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
-
+			
 					setStore({ favoriteProfiles: updatedFavoriteProfiles });
 					return true;
 				} catch (error) {
@@ -362,8 +342,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-
-
+			
+			
 			//borrar perfiles a los que ha dado like
 			removeFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
@@ -376,14 +356,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json',
 						},
 					});
-
+			
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-
+			
 					// Obtener la lista actualizada de perfiles favoritos después de eliminar uno
 					const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
-
+			
 					setStore({ favoriteProfiles: updatedFavoriteProfiles });
 					return true;
 				} catch (error) {
@@ -391,24 +371,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-
-			getAllUsers: async () => {
-				try {
-
-					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
-					if (!response.ok) {
-						const data = await response.json();
-						throw new Error(data.message || "Error al crear usuario");
-					}
-					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
-				} catch (error) {
-					throw error;
-				}
-			},
+			
 			getUsersFilter: async (filters) => {
 				const { token } = await getStore()
-
+			
 				try {
 					const queryString = new URLSearchParams(filters).toString();
 					console.log(filters)
@@ -420,22 +386,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Authorization": "Bearer " + token,
 						}
 					});
-
+			
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.error || 'Error al obtener usuarios filtrados');
 					}
-
+			
 					const filteredUsers = await response.json();
 					return filteredUsers;
-
-					// Convierte los filtros a una cadena de consulta
-
+			
+					
+			
 				} catch (error) {
 					console.error('Error al obtener usuarios filtrados:', error);
 					throw error;
 				}
 			},
+
 
 		}
 
