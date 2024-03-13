@@ -29,6 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("token");
 				console.log("login out");
 				setStore({ token: null });
+				setStore({ token: null });
 			},
 
 			login: async (formData) => {
@@ -39,7 +40,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json"
 						},
 						body: JSON.stringify(formData)
-						
 					});
 					if (!response.ok) {
 						const data = await response.json();
@@ -98,7 +98,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						last_name: userData.last_name,
 						pet: userData.properties.pet,
 						gender: userData.properties.gender,
-						budget: userData.properties.amount,
+						budget: userData.properties.budget,
 						find_roomie: userData.properties.find_roomie,
 						text_box: userData.properties.text_box,
 						profile_img: userData.properties.profile_img
@@ -108,33 +108,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-
-			changePassword: async (newPassword) => {
-				try {
-					const { token } = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
-						method: "PUT",
-						headers: {
-							"Authorization": "Bearer " + token,
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify({ new_password: newPassword })
-					});
-
-					if (!response.ok) {
-						throw new Error("No se pudo cambiar la contraseña");
-					}
-
-					const data = await response.json();
-					return data.message;
-				} catch (error) {
-					throw error;
-				}
-			},
-
-
 			addProfileInfo: async (formData) => {
-
 				try {
 					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
@@ -155,42 +129,102 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getAllUsers: async () => {
-				const { token } = await getStore()
+			updateProfileInfo: async (formData) => {
+                try {
+                    const { token } = await getStore();
+                    const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (!response.ok) {
+                        const data = await response.json();
+                        throw new Error(data.message || "Error al actualizar las propiedades del usuario");
+                    }
+                    // Si la solicitud fue exitosa, actualiza el store con los nuevos datos del usuario
+                    const userData = await response.json();
+                    setStore({
+                        pet: userData.pet,
+                        gender: userData.gender,
+                        budget: userData.budget,
+                        find_roomie: userData.find_roomie,
+                        text_box: userData.text_box,
+                        profile_img: userData.profile_img
+                    });
+                    return userData; // Devuelve los datos actualizados del usuario
+                } catch (error) {
+                    throw error;
+                }
+            },
 
-				if (!token) {
-					console.error('Token no disponible. Inicia sesión nuevamente.');
-					return [];
-				}
-
+			deleteUserProperties: async ()=> {
 				try {
-					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
-						method: "GET",
+					const {token} = getStore()
+					const response = await fetch(process.env.BACKEND_URL  + '/user/properties', {
+						method: 'DELETE',
+						headers: {
+							'Authorization': 'Bearer ' + token, //t Reemplaza yourJWTToken con el token JWT válido
+							'Content-Type': 'application/json'
+						}
+					});
+			
+					const responseData = await response.json();
+			
+					if (!response.ok) {
+						throw new Error(responseData.error || 'Failed to delete user properties');
+					}
+			
+					console.log(responseData.message); // Mensaje de éxito en caso de eliminación exitosa
+				} catch (error) {
+					console.error('Error deleting user properties:', error.message);
+			    }
+			},
+
+
+
+			changePassword: async (oldPassword , newPassword) => {
+				try {
+					const {token} = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
+						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
 							"Content-Type": "application/json"
-						}
+						},
+						body: JSON.stringify({ old_password: oldPassword ,new_password: newPassword })
 					});
 
 					if (!response.ok) {
-						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
+						throw new Error("No se pudo cambiar la contraseña");
 					}
 
 					const data = await response.json();
-
-					setStore({ allUsers: data });
-					console.log(data)
-					return data;
-
+					return data.message;
 				} catch (error) {
-					console.error('Error al obtener usuarios:', error);
-
-					return { error: 'Error al obtener usuarios' };
-
+					throw error;
 				}
 			},
 
+
+			getAllUsers: async () => {
+				try {
+
+					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al crear usuario");
+					}
+					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+				} catch (error) {
+					throw error;
+				}
+			},
+
+   
 			getUserById: async (id, setUserData) => {
 
 				try {
@@ -231,6 +265,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			//para añadir los favoritos mediante el ID del perfil del usuario
+			addFavoriteProfile: async  (profileId) => {
+				const { token } = await getStore()
+				try {
+					
+					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							"Authorization": "Bearer " + token,
+		
+						},
+
+
+					});
+						body: JSON.stringify({ profile_id: profileId })
+
+
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.error || 'Error al agregar a favoritos');
+					}
+
+
+					const userData = await response.json();
+
+					// Almacena los datos del usuario en el store (usando setUserData)
+					setUserData(userData);
+
+					return userData;
+			
+					return true; // Otra respuesta según lo que necesites
+				} catch (error) {
+					console.error('Error al agregar a favoritos:', error);
+					throw error;
+				}
+			},
+
+			
 			//traer los favoritos al que usuario le ha dado like
 			getFavoriteProfiles: async () => {
 				const { token } = await getStore();
@@ -319,6 +392,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			getAllUsers: async () => {
+				try {
+
+					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al crear usuario");
+					}
+					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
+				} catch (error) {
+					throw error;
+				}
+			},
 			getUsersFilter: async (filters) => {
 				const { token } = await getStore()
 
