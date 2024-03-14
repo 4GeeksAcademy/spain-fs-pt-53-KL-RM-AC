@@ -363,7 +363,7 @@ def get_users_with_properties():
 ##########################
 #Favoritos
 # UTILIZADO
-@api.route('/user/favorite-profiles', methods=['POST'])
+@api.route('/user/favorite/profiles', methods=['POST'])
 @jwt_required()
 def add_favorite_profile():
     # Obtener el ID del usuario actual del token JWT
@@ -389,7 +389,7 @@ def add_favorite_profile():
 
 # Obtener todos los favoritos
 # UTILIZADO
-@api.route('/user/favorite-profiles', methods=['GET'])
+@api.route('/user/favorite/profiles', methods=['GET'])
 @jwt_required()
 def get_favorite_profiles():
     # Obtener el ID del usuario actual del token JWT
@@ -408,7 +408,7 @@ def get_favorite_profiles():
     return jsonify(serialized_profiles), 200
 
 # borrar fav
-@api.route('/user/favorite-profiles/<int:profile_id>', methods=['DELETE'])
+@api.route('/user/favorite/profiles/<int:profile_id>', methods=['DELETE'])
 @jwt_required()
 def remove_favorite_profile(profile_id):
     # Obtener el ID del usuario actual del token JWT

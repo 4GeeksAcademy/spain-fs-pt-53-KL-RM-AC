@@ -294,7 +294,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
+					const response = await fetch(process.env.BACKEND_URL + '/user/favorite/profiles', {
 						method: 'GET',
 						headers: {
 							'Authorization': 'Bearer ' + token,
@@ -319,7 +319,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const { token } = await getStore();
 				const actions = getActions();
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
+					const response = await fetch(process.env.BACKEND_URL + '/user/favorite/profiles', {
 						method: 'POST',
 						headers: {
 							'Authorization': 'Bearer ' + token,
@@ -349,7 +349,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const { token } = await getStore();
 				const actions = getActions();
 				try {
-					const response = await fetch(process.env.BACKEND_URL + `/user/favorite-profiles/${profileId}`, {
+					const response = await fetch(process.env.BACKEND_URL + `/user/favorite/profiles/${profileId}`, {
 						method: 'DELETE',
 						headers: {
 							'Authorization': 'Bearer ' + token,

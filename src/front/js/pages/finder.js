@@ -113,7 +113,7 @@ export const Finder = () => {
 
 
     return (
-        <div className="container p-5">
+        <div className="container p-5 finder">
         
             <div className="row">
                 <div className=" filter col-3 sticky-top">
@@ -174,7 +174,7 @@ export const Finder = () => {
                     <div>
                         {Array.isArray(usersData) &&
                             usersData.map((userData, index) => (
-                                <div className="card" style={{ width: "20rem" }} key={index}>
+                                <div className="card" style={{ width: "17rem" }} key={index}>
                                     <div className="card-body">
                                         <div className="card-upper">
                                             <img
