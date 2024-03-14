@@ -394,6 +394,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+			getUserDetails: async () => {
+
+				const { token } = await getStore();
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL  + 'api/user', {
+						method: 'GET',
+						headers: {
+							"Authorization": "Bearer " + token,
+						}
+					});
+			
+					if (response.ok) {
+						const userData = await response.json();
+						setStore({
+							user_name: userData.user_name,
+							last_name: userData.last_name,
+						});
+						console.log(userData);
+					} else {
+						console.error('Error en la respuesta del servidor:', response.status);
+					}
+				} catch (error) {
+					console.error('Error al realizar la solicitud:', error);
+					throw error;
+				}
+			},
+			
+		
 
 
 		}

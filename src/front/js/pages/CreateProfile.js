@@ -1,6 +1,6 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/FormsImgs.css";
+import "../../styles/createProfile.css";
 import { Link } from "react-router-dom";
 import ReactAvatarEditor from "react-avatar-editor";
 
@@ -13,9 +13,18 @@ export const CreateProfile = () => {
         gender: "",
         budget: "",
         find_roomie: "",
-        text_box: "",
+        text_box: "",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
         profile_img: null // Inicialmente, establece la imagen como nula
     });
+    const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        setUserData(store);
+    }, [store]);
+
+    useEffect(() => {
+        actions.getUserDetails(store);
+    }, [store]);
 
     const [image, setImage] = useState(null);
 
@@ -74,7 +83,7 @@ export const CreateProfile = () => {
             <form className="d-flex">
                 <div className="form-group col-4">
                     <label htmlFor="profileImg" className="form-label fw-bold">Selecciona una imagen</label>
-                    <div className="profile-img">
+                    <div className="profileImg">
                         {image ? (
                             <img src={URL.createObjectURL(image)} alt="Uploaded" className="uploaded-img " />
                         ) : (
@@ -85,12 +94,17 @@ export const CreateProfile = () => {
                         name="profile_img"
                         type="file"
                         onChange={handleNewImage}
+
                     />
 
                 </div>
+               
 
                 <div className="col-4">
                     <div className="m-1  col-4">
+                    <div>
+                    <h3>{userData.user_name} {userData.last_name}</h3>
+                </div>
                         <label className="form-label mt-2 fw-bold">Que buscas?</label>
                         <select className="form-select " name="find_roomie" value={formData.find_roomie} onChange={handleInputChange}>
                             <option value="">Que buscas?</option>
