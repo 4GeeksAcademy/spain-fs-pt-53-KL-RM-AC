@@ -29,7 +29,7 @@ const Layout = () => {
     if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
 
     return (
-        <div>
+        
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
@@ -41,7 +41,7 @@ const Layout = () => {
                         <Route element={<Password />} path="/password" />
                         <Route element={<Finder />} path="/finder" />
                         <Route element={<HomeLogged />} path="/homelogged" />
-                        <Route element={<LearnMore />} path="/learnmore" />
+                        <Route element={<LearnMore />} path='/learnmore' />
                         <Route element={<SignUp/>} path="/user-signup" />
                         <Route element={<Login/>} path="/user-login" />
                         <Route element={<h1>Not found!</h1>} />
@@ -49,7 +49,6 @@ const Layout = () => {
                     <Footer />
                 </ScrollToTop>
             </BrowserRouter>
-        </div>
     );
 };
 

@@ -1,14 +1,14 @@
-.home{
-    .title{
+.home {
+    .title {
         font-size: 150px;
         color: #014E60;
     }
-    .subtitle{
+    .subtitle {
         font-size: 50px;
         margin-top: 100px;
         color:#ffccc4;
     }
-    .texto{
+    .texto {
         color: #BFE4E3;
     }
     .container {
@@ -22,13 +22,13 @@
         height: 100%; /* Altura de la línea */
         background-color: #BFE4E3; /* Color de la línea */
     }
-    .question{
+    .question {
         font-size: 30px;
         color: #014E60;
     }
-    .hangoutImg{
+    .hangoutImg {
         margin-top: 10px;
         width: 50%;
     }
-    
+   
 }

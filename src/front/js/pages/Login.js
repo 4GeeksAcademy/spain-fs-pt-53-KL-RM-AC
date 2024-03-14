@@ -42,26 +42,26 @@ export const Login = () => {
   };
 
   return (
-    <div className="d-flex loginStyles">
-
-      <div className="container login justify-content-center mx-auto">
-        <form onSubmit={handleSubmit} className="p-3 m-3">
-          <h1 className="title mb-4">Iniciar Sesion</h1>
-          <div className="textLogin">
+    <div className="loginPage">
+      <div className="d-flex">
+        <div className="container login justify-content-center mx-auto">
+          <form onSubmit={handleSubmit} className="p-3 m-3">
+            <h1 className="title mb-4">Iniciar Sesion</h1>
             <div className="mb-3">
               <label className="form-label">Correo</label>
               <input type="email" className="input form-control" id="email" name="email" value={formData.email} onChange={handleChange} autoComplete="current-user_name" />
+              <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div className="mb-3">
               <label className="form-label">Contraseña</label>
               <input type="password" className="input form-control" id="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" />
             </div>
-          </div>
-          <button type="submit" className="btn loginBtn mt-5">Iniciar Sesión</button>
-          {alertMessage && (<div className="alert alert-danger mt-3">{alertMessage}</div>)}
-        </form>
+            <button type="submit" className="btn">Iniciar Sesión</button>
+            {alertMessage && (<div className="alert alert-danger mt-3">{alertMessage}</div>)}
+          </form>
+        </div>
+        <img className="imageLogIn" src={mobilelogin} />
       </div>
-      <img className="imageLogIn" src={mobilelogin} />
     </div>
 
 

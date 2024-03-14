@@ -1,28 +1,132 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-import { ProfileCard } from "../component/profilecard";
-
+import { Link, useNavigate } from "react-router-dom";
+import "../../styles/MyProfile.css";
+import { ModalFilteredUsers } from "../component/modalFilteredUsers";
 
 export const Finder = () => {
-    const {store, actions} = useContext(Context);
-    useEffect (() => {
-        actions.getAllUsers()
-    }, [])
+    const { store, actions } = useContext(Context);
+    const [usersData, setUsersData] = useState([]);
+    const [favoriteProfiles, setFavoriteProfiles] = useState([]);
+    const [filters, setFilters] = useState({})
+    const [noProfilesFound, setNoProfilesFound] = useState(false);
+    //const [filtersActive, setFiltersActive] = useState(false);
+    const navigate = useNavigate();
+
+
+
+    useEffect(() => {
+        actions.syncTokenFromLocalStorage();
+        if (store.token === "" || store.token === null) {
+            navigate("/");
+        } else {
+            actions.getAllUsers().then(data => {
+                if (data && data.length) {
+                    setUsersData(data);
+                }
+            });
+        }
+    }, []);
+
+
+    const handleClick = userData => {
+        navigate("/learnmore", { state: { user: userData } });
+    };
+
+
+    const handleSetFilter = (filter) => {
+        setFilters({...filters, ...filter}); 
+        };
+
+
+    const handleFilteredUsers = () => {
+        actions.getUsersFilter(filters).then(data => {
+            if (data && data.length) {
+                setUsersData(data);
+                setNoProfilesFound(false);
+            } else {
+                setUsersData([]);
+                setNoProfilesFound(true);
+                console.log("no se encontraron perfiles que cumplan estas condiciones")
+            }
+        });
+    };
+
+    // const handleFilteredUsers = () => {
+    //     actions.getUsersFilter(filters).then(data => {
+    //         if (data && data.length) {
+    //             setUsersData(data);
+    //             setNoProfilesFound(false);
+    //         } else {
+    //             setUsersData([]);
+    //             setShowModal(true);
+    //             setNoProfilesFound(true);
+    //             console.log("no se encontraron perfiles que cumplan estas condiciones")
+    //         }
+    //     });
+    // };
+
+    // const handleFilteredUsers = () => {
+    //     console.log("filtrando")
+    //     actions.getUsersFilter(filters).then(data => {
+    //         if (data && data.length) {
+    //             setUsersData(data);
+    //         }
+    //     })
+    // }
+
+    const handleAddToFavorites = async (profileId) => {
+        try {
+            if (store.token) {
+                await actions.addFavoriteProfile(profileId);
+                console.log("Perfil agregado a favoritos exitosamente");
+                // Actualiza la lista de favoritos después de agregar uno nuevo
+                const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
+                setFavoriteProfiles(updatedFavoriteProfiles);
+            } else {
+                console.error("Token no disponible. Inicia sesión nuevamente.");
+            }
+        } catch (error) {
+            console.error("Error al agregar a favoritos:", error);
+        }
+    };
+    
+    const handleRemoveFromFavorites = async (profileId) => {
+        try {
+            if (store.token) {
+                await actions.removeFavoriteProfile(profileId);
+                console.log("Perfil eliminado de favoritos exitosamente");
+                // Actualiza la lista de favoritos después de eliminar uno
+                const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
+                setFavoriteProfiles(updatedFavoriteProfiles);
+            } else {
+                console.error("Token no disponible. Inicia sesión nuevamente.");
+            }
+        } catch (error) {
+            console.error("Error al eliminar de favoritos:", error);
+        }
+    };
+
+    // useEffect(() => {
+    //     // Actualizar userData cuando cambian los datos de los usuarios
+    //     setUsersData(store);
+    // }, [store]);
+
 
     return (
-        <div className="container p-5">
+        <div className="container p-5 finder">
+        
             <div className="row">
                 <div className=" filter col-3 sticky-top">
                     <h4>Filtros</h4>
                     <form>
-                    <div className="situation">
+                        <div className="situation">
                             <h5>¿Qué buscas?</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>¿Cual es tu situacion?</option>
-                                <option value="1">Tengo piso, busco roomie</option>
-                                <option value="2">Busco roomie que tenga piso</option>
-                            
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'find_roomie': e.target.value})}>
+                                <option defaultValue>¿Cual es tu situacion?</option>
+                                <option value="Apartment">Tengo piso, busco roomie</option>
+                                <option value="NoApartment">Busco roomie que tenga piso</option>
+
                             </select>
                         </div>
 
@@ -30,10 +134,10 @@ export const Finder = () => {
 
                         <div className="gender">
                             <h5>Género</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Género</option>
-                                <option value="1">Femenino</option>
-                                <option value="2">Masculino</option>
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'gender': e.target.value})}>
+                                <option defaultValue>Género</option>
+                                <option value="Female">Femenino</option>
+                                <option value="Male">Masculino</option>
                             </select>
                         </div>
 
@@ -41,10 +145,10 @@ export const Finder = () => {
 
                         <div className="pet">
                             <h5>Mascota</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Mascota</option>
-                                <option value="1">Tengo mascota</option>
-                                <option value="2">No tengo mascota</option>
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'pet': e.target.value})} >
+                                <option defaultValue>Mascota</option>
+                                <option value="Yes">Tengo mascota</option>
+                                <option value="No">No tengo mascota</option>
                             </select>
                         </div>
 
@@ -52,35 +156,76 @@ export const Finder = () => {
 
                         <div className="budget">
                             <h5>Presupuesto</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Ajusta tu presupuesto</option>
-                                <option value="1">Hasta 300</option>
-                                <option value="2">Hasta 400</option>
-                                <option value="2">Hasta 500</option>
-                            </select>
-                        </div>
-
-                        <hr></hr>
-
-                        <div className="location">
-                            <h5>Ubicacion</h5>
-                            <select className="form-select" aria-label="Default select example">
-                                <option selected>Elige tu zona ideal</option>
-                                <option value="1">Madrid</option>
-                                <option value="2">Barcelona</option>
-                                <option value="2">Ibiza</option>
+                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'budget': e.target.value})}>
+                                <option defaultValue>Ajusta tu presupuesto</option>
+                                <option value="300">Hasta 300</option>
+                                <option value="400">Hasta 400</option>
+                                <option value="500">Hasta 500</option>
                             </select>
                         </div>
 
                         <hr></hr>
                     </form>
+
+                    <button onClick={handleFilteredUsers}>aplicar filtros</button>
                 </div>
 
 
                 <div className="col-9">
-                    <ProfileCard/>
+                    <div className="row row-cols-1 row-cols-md-3 g-4"> 
+                        {Array.isArray(usersData) &&
+                            usersData.map((userData, index) => (
+                                <div className="card mb-3 shadow-sm" style={{ width: "17rem" }} key={index}>
+                                    <div className="card-body">
+                                        <div className="card-upper">
+                                            <img
+                                                src={userData.profile_img}
+                                                className="img-fluid rounded-circle"
+                                                alt=""
+                                            />
+                                        </div>
+                                        <hr></hr>
+                                        <div className="card-center d-flex justify-content-around">
+                                            <h5 className="card-title-name">{userData.user_name}</h5>
+                                            <h5 className="card-title-name">{userData.last_name}</h5>
+                                        </div>
+                                        <div className="more-data d-flex justify-content-around">
+                                            <p>{userData.properties?.find_roomie}</p>
+                                            <p>{userData.properties?.pet}</p>
+                                            <p>{userData.properties?.budget}</p>
+                                        </div>
+                                        <div className="d-flex p-3 justify-content-between">
+                                            <div className="d-grid gap-2 d-md-flex">
+                                                <button
+                                                    onClick={() => {
+                                                        handleClick(userData);
+                                                    }}
+                                                    type="button"
+                                                    className="btn btn-success"
+                                                >
+                                                    Saber más
+                                                </button>
+                                            </div>
+                                            <div className="d-grid gap-1 d-md-flex justify-content-md-end">
+                                                <button
+                                                    onClick={() => handleAddToFavorites(userData.id)}
+                                                    className="btn btn-link text-end text-decoration-none"
+                                                >
+                                                    <i className="fas fa-heart"></i>
+                                                </button>
+                                                <button
+                                                    onClick={() => handleRemoveFromFavorites(userData.id)}
+                                                    className="btn btn-link text-end text-decoration-none"
+                                                >
+                                                    <i className="far fa-heart"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
                 </div>
-                
             </div>
         </div>
     );
