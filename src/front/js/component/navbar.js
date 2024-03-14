@@ -25,7 +25,7 @@ export const Navbar = () => {
         fetchFavoriteProfiles();
     }, [actions]);
     return (
- develop
+
         <div className="d-flex custom-navbar">
             <div>
                 <Link to="/">
@@ -47,8 +47,8 @@ export const Navbar = () => {
                     ))}
                 </ul>
             </div>
-            )}
- develop
+            
+ 
             <div className="textNavbar">
                 <Link to="/profile">
                     <span> Mi perfil</span>
