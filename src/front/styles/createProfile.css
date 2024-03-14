@@ -12,4 +12,34 @@
         height: 300px;
         border-radius: 50%;
     }
+
+    .titleCreateProfile{
+        text-align: center;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 1000;
+        font-size: 50px;
+        color: #ffffff;
+        text-shadow:2px 2px 2px #3f7a8d ;
+        margin-bottom: 30px;
+    }
+    .txtImageCP{
+        text-align: center;
+    }
+
+    .inputsCreateProfile{
+        background-color: #3f7a8d44;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .inputOption{
+        width: 50%;
+    }
+
+    .labelImg{
+        margin: 10px;
+        justify-content: center;
+
+
+    }
 }
