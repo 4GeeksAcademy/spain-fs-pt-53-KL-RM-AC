@@ -7,6 +7,7 @@ import ReactAvatarEditor from "react-avatar-editor";
 export const EditProfile = () => {
     const { store, actions } = useContext(Context);
     const [alertMessage, setAlertMessage] = useState("");
+    
     const [formData, setFormData] = useState({
         pet: store.pet || "", // Cargar las opciones existentes del store
         gender: store.gender || "",
@@ -84,6 +85,7 @@ export const EditProfile = () => {
         try {
             await actions.updateProfileInfo(formData); // Enviar directamente el estado formData
             setAlertMessage(""); // Borra cualquier mensaje de alerta previo
+            
         } catch (error) {
             console.error("Error al enviar datos:", error);
             setAlertMessage("Error al crear el perfil"); // Establece el mensaje de error
@@ -92,7 +94,7 @@ export const EditProfile = () => {
 
     return (
         <div className="container mt-2 p-3 justify-content-center">
-            <h3 className="text-center">Crear Perfil</h3>
+            <h3 className="text-center">Editar Perfil</h3>
             <form className="d-flex">
                 <div className="form-group col-4">
                     <label htmlFor="profileImg" className="form-label fw-bold">Selecciona una imagen</label>
@@ -176,7 +178,9 @@ export const EditProfile = () => {
                 {alertMessage && (<div className="alert alert-danger mt-3">{alertMessage}</div>)}
             </form>
             <div className="justify-content-center">
-                <button type="button" className="btn btn-dark me-2" onClick={handleSubmit}>Guardar</button>
+                
+                    <button type="button" className="btn btn-dark me-2" onClick={handleSubmit}>Guardar</button>
+                
                 <Link to={"/password"}>
                     <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                 </Link>

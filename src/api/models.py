@@ -24,16 +24,16 @@ class User(db.Model):
         }
 
 class GenderChoices(enum.Enum):
-    Male = 'Male'
-    Female = 'Female'
+    Male = 'Hombre'
+    Female = 'Mujer'
 
 class PetChoice(enum.Enum):
-    Yes = 'Yes'
-    No = 'No'
+    Yes = 'Tengo mascota'
+    No = 'No tengo mascota'
 
 class FindRoomieChoice(enum.Enum):
-    Apartment = 'Apartment'
-    NoApartment = 'NoApartment'
+    Apartment = 'Tengo piso y busco roomie'
+    NoApartment = 'Busco roomie con piso'
 
 class UserProperties(db.Model):
     id = db.Column(db.Integer, primary_key=True)
