@@ -86,7 +86,7 @@ export const SignUp = () => {
             </div>
             <img className="signUpImg col-6" src={signUpImage} />
 
-        </div>
-        </div>
+
+        </div >
     );
 };
