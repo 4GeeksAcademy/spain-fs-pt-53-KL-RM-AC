@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
+import { ModalFilteredUsers } from "../component/modalFilteredUsers";
 
 export const Finder = () => {
     const { store, actions } = useContext(Context);
@@ -37,19 +38,32 @@ export const Finder = () => {
         };
 
 
-        const handleFilteredUsers = () => {
-            actions.getUsersFilter(filters).then(data => {
-                if (data && data.length) {
-                    setUsersData(data);
-                    setNoProfilesFound(false);
-                } else {
-                    setUsersData([]);
-                    setNoProfilesFound(true);
-                    console.log("no se encontraron perfiles que cumplan estas condiciones")
-                }
-            });
-        };
+    const handleFilteredUsers = () => {
+        actions.getUsersFilter(filters).then(data => {
+            if (data && data.length) {
+                setUsersData(data);
+                setNoProfilesFound(false);
+            } else {
+                setUsersData([]);
+                setNoProfilesFound(true);
+                console.log("no se encontraron perfiles que cumplan estas condiciones")
+            }
+        });
+    };
 
+    // const handleFilteredUsers = () => {
+    //     actions.getUsersFilter(filters).then(data => {
+    //         if (data && data.length) {
+    //             setUsersData(data);
+    //             setNoProfilesFound(false);
+    //         } else {
+    //             setUsersData([]);
+    //             setShowModal(true);
+    //             setNoProfilesFound(true);
+    //             console.log("no se encontraron perfiles que cumplan estas condiciones")
+    //         }
+    //     });
+    // };
 
     // const handleFilteredUsers = () => {
     //     console.log("filtrando")
@@ -100,6 +114,7 @@ export const Finder = () => {
 
     return (
         <div className="container p-5">
+        
             <div className="row">
                 <div className=" filter col-3 sticky-top">
                     <h4>Filtros</h4>
