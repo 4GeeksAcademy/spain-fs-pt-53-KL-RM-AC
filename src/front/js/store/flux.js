@@ -29,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("token");
 				console.log("login out");
 				setStore({ token: null });
-				setStore({ token: null });
+		
 			},
 
 			login: async (formData) => {
@@ -294,7 +294,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
+					const response = await fetch(process.env.BACKEND_URL + '/user/favorite/profiles', {
 						method: 'GET',
 						headers: {
 							'Authorization': 'Bearer ' + token,
@@ -319,7 +319,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const { token } = await getStore();
 				const actions = getActions();
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/user/favorite-profiles', {
+					const response = await fetch(process.env.BACKEND_URL + '/user/favorite/profiles', {
 						method: 'POST',
 						headers: {
 							'Authorization': 'Bearer ' + token,
@@ -349,7 +349,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const { token } = await getStore();
 				const actions = getActions();
 				try {
-					const response = await fetch(process.env.BACKEND_URL + `/user/favorite-profiles/${profileId}`, {
+					const response = await fetch(process.env.BACKEND_URL + `/user/favorite/profiles/${profileId}`, {
 						method: 'DELETE',
 						headers: {
 							'Authorization': 'Bearer ' + token,
@@ -380,7 +380,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(filters)
 					console.log(queryString)
 					// Realiza la solicitud GET a la ruta del servidor con la cadena de consulta
-					const response = await fetch(`${process.env.BACKEND_URL}/users-filter?${queryString}`, {
+					const response = await fetch(`${process.env.BACKEND_URL}/users/filter?${queryString}`, {
 						method: 'GET',
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -394,8 +394,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 					const filteredUsers = await response.json();
 					return filteredUsers;
-			
-					
 			
 				} catch (error) {
 					console.error('Error al obtener usuarios filtrados:', error);
