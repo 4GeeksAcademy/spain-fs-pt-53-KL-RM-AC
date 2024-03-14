@@ -16,8 +16,6 @@ import os
 import bcrypt
 
 
-
-
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -250,7 +248,7 @@ def delete_user_properties():
 
 # filtra a traves de la properties
 # UTILIZADO
-@api.route('/users-filter', methods=['GET'])
+@api.route('/users/filter', methods=['GET'])
 @jwt_required()  # Asegura que el endpoint esté protegido por autenticación JWT
 def get_users_filter():
     # Obtener el ID del usuario del token JWT
@@ -268,9 +266,13 @@ def get_users_filter():
     if gender is not None:
         filters.append(UserProperties.gender == gender)
     if budget is not None:
-        filters.append(UserProperties.budget == budget)
+        if findroomie == 'Apartment':
+            filters.append(UserProperties.budget <= budget)
+        elif findroomie == 'NoApartment':
+            filters.append(UserProperties.budget <= budget)
     if findroomie is not None:
         filters.append(UserProperties.find_roomie == findroomie)
+        
 
     # Realizar una operación de unión (join) para obtener los nombres y apellidos de los usuarios
     users_properties = db.session.query(UserProperties, User.user_name, User.last_name).\
@@ -363,7 +365,7 @@ def get_users_with_properties():
 ##########################
 #Favoritos
 # UTILIZADO
-@api.route('/user/favorite-profiles', methods=['POST'])
+@api.route('/user/favorite/profiles', methods=['POST'])
 @jwt_required()
 def add_favorite_profile():
     # Obtener el ID del usuario actual del token JWT
@@ -389,7 +391,7 @@ def add_favorite_profile():
 
 # Obtener todos los favoritos
 # UTILIZADO
-@api.route('/user/favorite-profiles', methods=['GET'])
+@api.route('/user/favorite/profiles', methods=['GET'])
 @jwt_required()
 def get_favorite_profiles():
     # Obtener el ID del usuario actual del token JWT
@@ -408,7 +410,7 @@ def get_favorite_profiles():
     return jsonify(serialized_profiles), 200
 
 # borrar fav
-@api.route('/user/favorite-profiles/<int:profile_id>', methods=['DELETE'])
+@api.route('/user/favorite/profiles/<int:profile_id>', methods=['DELETE'])
 @jwt_required()
 def remove_favorite_profile(profile_id):
     # Obtener el ID del usuario actual del token JWT
