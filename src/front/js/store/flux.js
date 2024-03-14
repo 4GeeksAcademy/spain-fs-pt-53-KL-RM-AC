@@ -29,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			login: async (formData) => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/token', {
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/token', {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
@@ -52,7 +52,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			signUp: async (formData) => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/signup', {
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/signup', {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
@@ -74,7 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getProfile: async () => {
 				try {
 					const { token } = await getStore()
-					const response = await fetch(process.env.BACKEND_URL + "/user/profile", {
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/user/profile', {
 						method: "GET",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -106,7 +106,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addProfileInfo: async (formData) => {
 				try {
 					const { token } = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/user/properties', {
 						method: "POST",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -127,7 +127,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			updateProfileInfo: async (formData) => {
                 try {
                     const { token } = await getStore();
-                    const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+                    const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/user/properties', {
                         method: "PUT",
                         headers: {
                             "Authorization": "Bearer " + token,
@@ -157,7 +157,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteUserProperties: async ()=> {
 				try {
-					const response = await fetch(process.env.BACKEND_URL  + '/user/properties', {
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/user/properties', {
 						method: 'DELETE',
 						headers: {
 							'Authorization': 'Bearer ' + yourJWTToken, // Reemplaza yourJWTToken con el token JWT válido
@@ -181,7 +181,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			changePassword: async (newPassword) => {
 				try {
 					const { token } = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/user/change-password', {
 						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -206,7 +206,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/users/properties');
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.message || "Error al crear usuario");
@@ -226,7 +226,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//  setUserData(userData);
 
 				try {
-					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
+					const response = await fetch('https://fluffy-space-bassoon-5gqp59qpxg9wf7gjp-3001.app.github.dev/api/user/${id}', {
 						method: 'GET',
 						headers: {
 							"Content-Type": "application/json",

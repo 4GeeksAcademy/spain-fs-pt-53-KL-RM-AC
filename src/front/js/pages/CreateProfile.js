@@ -18,13 +18,7 @@ export const CreateProfile = () => {
     });
 
     const [image, setImage] = useState(null);
-    const [scale, setScale] = useState(1);
-    const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
-    const [rotate, setRotate] = useState(0);
-    const [borderRadius, setBorderRadius] = useState(50);
-    const [editorWidth, setEditorWidth] = useState(330);
-    const [editorHeight, setEditorHeight] = useState(330);
-    const editorRef = useRef();
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -34,13 +28,6 @@ export const CreateProfile = () => {
         });
     };
 
-    const handleScaleChange = (e) => {
-        setScale(parseFloat(e.target.value));
-    };
-
-    const handlePositionChange = (position) => {
-        setPosition(position);
-    };
 
     const handleNewImage = async (e) => {
         const image = e.target.files[0];
@@ -80,27 +67,18 @@ export const CreateProfile = () => {
     };
 
     return (
-        <div className="container mt-2 p-3 justify-content-center">
+        
+        <div className="createProfile">
+            <div className="container mt-2 p-3 justify-content-center">
             <h3 className="text-center">Crear Perfil</h3>
             <form className="d-flex">
                 <div className="form-group col-4">
                     <label htmlFor="profileImg" className="form-label fw-bold">Selecciona una imagen</label>
-                    <div className="profile-img-container">
+                    <div className="profile-img">
                         {image ? (
-                            <ReactAvatarEditor
-                                ref={editorRef}
-                                scale={scale}
-                                width={editorWidth}
-                                height={editorHeight}
-                                position={position}
-                                onPositionChange={handlePositionChange}
-                                rotate={rotate}
-                                borderRadius={borderRadius}
-                                image={image}
-                                className="img-thumbnail"
-                            />
+                            <img src={URL.createObjectURL(image)} alt="Uploaded" className="uploaded-img " />
                         ) : (
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsg0F0hqjo2pVSEgusU_JvJ4WOxd-U1QWMnw&usqp=CAU" alt="Placeholder" className="placeholder-img" />
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsg0F0hqjo2pVSEgusU_JvJ4WOxd-U1QWMnw&usqp=CAU" alt="Placeholder" className="placeholder-img " />
                         )}
                     </div>
                     <input
@@ -108,14 +86,7 @@ export const CreateProfile = () => {
                         type="file"
                         onChange={handleNewImage}
                     />
-                    <input
-                        type="range"
-                        min="0.1"
-                        max="2"
-                        step="0.01"
-                        value={scale}
-                        onChange={handleScaleChange}
-                    />
+
                 </div>
 
                 <div className="col-4">
@@ -169,6 +140,7 @@ export const CreateProfile = () => {
                 <Link to={"/password"}>
                     <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                 </Link>
+            </div>
             </div>
         </div>
     );
