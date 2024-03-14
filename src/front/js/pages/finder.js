@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
+import "../../styles/MyProfile.css";
 import { ModalFilteredUsers } from "../component/modalFilteredUsers";
 
 export const Finder = () => {
@@ -171,14 +172,14 @@ export const Finder = () => {
 
 
                 <div className="col-9">
-                    <div>
+                    <div className="row row-cols-1 row-cols-md-3 g-4"> 
                         {Array.isArray(usersData) &&
                             usersData.map((userData, index) => (
-                                <div className="card" style={{ width: "17rem" }} key={index}>
+                                <div className="card mb-3 shadow-sm" style={{ width: "17rem" }} key={index}>
                                     <div className="card-body">
                                         <div className="card-upper">
                                             <img
-                                                src="https://c0.klipartz.com/pngpicture/527/663/gratis-png-logo-persona-usuario-icono-de-persona-thumbnail.png"
+                                                src={userData.profile_img}
                                                 className="img-fluid rounded-circle"
                                                 alt=""
                                             />
