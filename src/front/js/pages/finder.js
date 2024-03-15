@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/MyProfile.css";
 import { ModalFilteredUsers } from "../component/modalFilteredUsers";
+import { PageNotAllowed } from "./PageNotAllowed";
 
 export const Finder = () => {
     const { store, actions } = useContext(Context);
@@ -126,7 +127,8 @@ export const Finder = () => {
     // }, [store]);
 
 
-    return (
+    if (store.token && store.token !== "" && store.token !== undefined) {
+        return (
         <div className="container p-5 finder">
             <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
             <div className="row">
@@ -249,7 +251,12 @@ export const Finder = () => {
             <ModalFilteredUsers show={noProfilesFound} handleClose={handleModalClose} />
 
         </div>
-    );
+    );}  else {
+        return (
+            <PageNotAllowed />
+        );
+    }
+    
 };
 
 

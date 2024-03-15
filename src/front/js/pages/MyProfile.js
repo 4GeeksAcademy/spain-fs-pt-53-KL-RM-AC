@@ -3,10 +3,20 @@ import { Context } from "../store/appContext";
 import "../../styles/MyProfile.css";
 import { Link } from "react-router-dom";
 import { CreateProfile } from "./CreateProfile";
+import { PageNotAllowed } from "./PageNotAllowed";
 
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
-    const [userData, setUserData] = useState({});
+    const userData = {
+			user_name: store.user_name,
+			last_name: store.last_name,
+			pet: store.pet,
+			gender: store.gender,
+			budget: store.budget,
+			find_roomie: store.find_roomie,
+			text_box: store.text_box,
+			profile_img: store.profile_img,
+    }
     const [loading, setLoading] = useState(true); // Inicialmente, establece loading como true
 
     useEffect(() => {
@@ -24,9 +34,6 @@ export const MyProfile = () => {
         fetchProfile();
     }, []); 
 
-    useEffect(() => {
-        setUserData(store);
-    }, [store]);
 
     const handleDelete = () => {
         actions.deleteUserProperties();
@@ -45,15 +52,15 @@ export const MyProfile = () => {
         );
     };
 
+    if (store.token && store.token !== "" && store.token !== undefined) {
     // Si los datos del perfil aún no se han cargado, muestra un mensaje de carga o un indicador de carga
     if (loading) {
         return (
             <div className="spinner-border text-success" role="status">
                 <span className="sr-only">Cargando...</span>
             </div>
-        );
-    }
-
+        );}
+    
     return (
         <div className="container mt-2 p-3 justify-content-center">
             {hasRequiredFields() ? (
@@ -93,5 +100,12 @@ export const MyProfile = () => {
                 <CreateProfile />
             )}
         </div>
+      
     );
+} else {
+    // Si el usuario no ha iniciado sesión, puedes redirigirlo a la página de inicio de sesión o mostrar un mensaje de error.
+    return (
+        <PageNotAllowed />
+    );
+}
 };
