@@ -48,7 +48,6 @@ export const Navbar = () => {
                     </ul>
                 </div>
             }
-
             <div className="textNavbar">
                 <Link to="/profile">
                     <span> Mi perfil</span>

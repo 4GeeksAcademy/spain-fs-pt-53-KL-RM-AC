@@ -79,7 +79,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getProfile: async () => {
 				try {
 					const { token } = await getStore()
-					const response = await fetch(process.env.BACKEND_URL + "/user/profile", {
+					const response = await fetch(process.env.BACKEND_URL + '/user/profile', {
 						method: "GET",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -111,7 +111,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addProfileInfo: async (formData) => {
 				try {
 					const { token } = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+					const response = await fetch(procces.env.BACKEND_URL + 'user/properties', {
 						method: "POST",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -132,7 +132,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			updateProfileInfo: async (formData) => {
                 try {
                     const { token } = await getStore();
-                    const response = await fetch(process.env.BACKEND_URL + "/user/properties", {
+                    const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
                         method: "PUT",
                         headers: {
                             "Authorization": "Bearer " + token,
@@ -162,8 +162,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteUserProperties: async ()=> {
 				try {
-					const {token} = getStore()
-					const response = await fetch(process.env.BACKEND_URL  + '/user/properties', {
+					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
 						method: 'DELETE',
 						headers: {
 							'Authorization': 'Bearer ' + token, //t Reemplaza yourJWTToken con el token JWT válido
@@ -187,8 +186,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			changePassword: async (oldPassword , newPassword) => {
 				try {
-					const {token} = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
 						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -218,14 +217,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
-						method: "GET",
-						headers: {
-							"Authorization": "Bearer " + token,
-							"Content-Type": "application/json"
-						}
-					});
-			
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
@@ -237,18 +229,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 			
 				} catch (error) {
-					console.error('Error al obtener usuarios:', error);
-			
-					return { error: 'Error al obtener usuarios' };
-			
+					throw error;
 				}
 			},
-			
-			getUserById: async (id, setUserData) => {
-			
+
+
+
+			getUserById: async (id) => {
+
+				//const token = token,
+				// tengo que almacenar los datos del usuario en el store userData:? const [userData, setUserData] = useState(null);
+				//  setUserData(userData);
+
 				try {
-					const token = store.token
-					const response = await fetch(process.env.BACKEND_URL + `/user/${id}`, {
+					const response = await fetch(process.env.BACKEND_URL + ' /user/${id}', {
 						method: 'GET',
 						headers: {
 							"Content-Type": "application/json",
@@ -302,7 +296,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 					});
 			
-					if (!response.ok) {
+					if (!response.ok) { 
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
 			
@@ -400,6 +394,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+			getUserDetails: async () => {
+
+				const { token } = await getStore();
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL  + '/user', {
+						method: 'GET',
+						headers: {
+							"Authorization": "Bearer " + token,
+						}
+					});
+			
+					if (response.ok) {
+						const userData = await response.json();
+						setStore({
+							user_name: userData.user_name,
+							last_name: userData.last_name,
+						});
+						console.log(userData);
+					} else {
+						console.error('Error en la respuesta del servidor:', response.status);
+					}
+				} catch (error) {
+					console.error('Error al realizar la solicitud:', error);
+					throw error;
+				}
+			},
+			
+		
 
 
 		}
