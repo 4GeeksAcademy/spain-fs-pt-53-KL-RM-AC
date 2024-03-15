@@ -46,8 +46,11 @@ body {
         margin-top: 20px;
         margin-bottom: 10px;
         justify-content: end;
-        border-radius: 5px;
-        background-color: #3f7a8d44;
+        background-color: #ffffff;
+        border-radius: 10px;
+        border-color: grey;
+        box-shadow: 2px 2px darkgray;
+        padding: 10px;
     }
 
     .textLogin {

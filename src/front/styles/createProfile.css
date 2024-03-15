@@ -1,7 +1,22 @@
 
 
 .createProfile{
-   
+    background-color: #ffffff;
+    border-radius: 10px;
+    border-color: grey;
+    box-shadow: 2px 2px darkgray;
+    padding: 10px;
+    
+    .spinner-border {
+        text-align: center;
+        justify-content: center;
+    }
+    .createProfilePage{
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-size: small;
+    }
+
     .uploaded-img {
         width: 300px;
         height: 300px;
@@ -13,33 +28,31 @@
         border-radius: 50%;
     }
 
-    .titleCreateProfile{
-        text-align: center;
-        font-family: "Be Vietnam Pro", sans-serif;
-        font-style: normal;
-        font-weight: 1000;
-        font-size: 50px;
-        color: #ffffff;
-        text-shadow:2px 2px 2px #3f7a8d ;
-        margin-bottom: 30px;
-    }
-    .txtImageCP{
-        text-align: center;
-    }
+   
 
-    .inputsCreateProfile{
+    /* .inputsCreateProfile{
         background-color: #3f7a8d44;
         border-radius: 5px;
         padding: 10px;
-    }
+    } */
     .inputOption{
         width: 50%;
     }
 
-    .labelImg{
-        margin: 10px;
+    .nameCreateProfile{
+        margin-bottom: 20px;
+    }
+
+    .buttonsCP{
+        text-align: center;
         justify-content: center;
+    }
 
-
+    .imageGroup{
+        text-align: center;
+        justify-content: center;
+    }
+    .labelImg{
+        margin-top: 10px;
     }
 }

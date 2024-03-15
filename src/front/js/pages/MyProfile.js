@@ -49,7 +49,7 @@ export const MyProfile = () => {
     if (loading) {
         return (
             <div className="spinner-border text-success" role="status">
-                <span className="sr-only">Loading...</span>
+                <span className="sr-only">Cargando...</span>
             </div>
         );
     }
