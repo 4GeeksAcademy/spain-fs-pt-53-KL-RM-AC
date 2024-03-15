@@ -24,19 +24,7 @@ export const Navbar = () => {
         fetchFavoriteProfiles();
     }, [store, actions]);
     
-	// useEffect(() => {
-    //     const fetchFavoriteProfiles = async () => {
-    //         try {
-    //             const data = await actions.getFavoriteProfiles();
-    //             setFavoriteProfiles(data);
-    //         } catch (error) {
-    //             console.error('Error al obtener perfiles favoritos:', error);
-    //         }
-    //     };
-
-    //     fetchFavoriteProfiles();
-    // }, [actions]);
-
+    
 	return (
         <div className="d-flex custom-navbar">
             <div>
