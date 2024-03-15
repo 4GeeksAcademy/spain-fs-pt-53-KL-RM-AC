@@ -1,34 +1,78 @@
-
-/* body {
+body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    background-color: #43a19e;
-    
-} */
-
-.loginPage{
-.btn{
-    background-color:#dd0025 ;
-    border: #dd0025;
+    background-image: url("https://img.freepik.com/foto-gratis/imagen-papel-tapiz-gris-claro-fondo-trazo-pincel-acrilico_53876-104726.jpg?t=st=1710428797~exp=1710432397~hmac=8e26a03128ecfbb6b55d86fbf24dbb71dabeed3ad1f1a2e0c17987026409bacc&w=826");
+    background-size: cover
+}
+.btn {
+    background-color: #dd0025;
+    border: none;
     color: white;
-
+    text-align: center;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
-.login{
-    width: 50%;
-    max-width: 400px; 
-    text-align: left;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    justify-content: end;
-    border-radius: 5px;
-    background-color: #d1ecebb9;
+.btn:hover {
+    background-color: #ffbfab;
 }
 
-.imageLogIn{
-    width: 500px;
-    height:450px;
-    margin-right: 10px;
-}}
+.btn:active {
+    background-color: #dd0025;
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 0.25rem #ffbfab;
+}
+
+
+.loginStyles {
+
+    .btn {
+        background-color: #dd0025;
+        border: #dd0025;
+        color: white;
+    }
+
+    .loginBtn {
+        width: 410px;   
+     }
+
+    .login {
+        max-width: 500px;
+        text-align: left;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        justify-content: end;
+        background-color: #ffffff;
+        border-radius: 10px;
+        border-color: grey;
+        box-shadow: 2px 2px darkgray;
+        padding: 10px;
+    }
+
+    .textLogin {
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 200;
+        font-size: small;
+    }
+
+    .title {
+        text-align: center;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 1000;
+        color: #3f7a8d;
+        text-shadow: 0.5px 0.5px #ffffff;
+
+    }
+
+    .imageLogIn {
+        width: 500px;
+        height: 450px;
+        margin-right: 10px;
+    }
+}

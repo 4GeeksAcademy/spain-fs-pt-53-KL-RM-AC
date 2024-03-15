@@ -1,58 +1,64 @@
-.register {
-.button {
-    width: 100%;
-    border-radius: 25px;
-    margin-top: 20px;
-}
-.btn {
-    background-color: #dd0025;
-    border: none;
-    color: white;
-    text-align: center;
-    padding: 10px 20px; 
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #ffbfab;
-}
-
-.btn:active {
-    background-color: #dd0025;
-}
-
-.btn:focus {
-box-shadow: 0 0 0 0.25rem #ffbfab;
-}
-.signUp {
+.signUpStyles {
     height: 100vh;
-    max-width: 400px; 
-    text-align: left;
-    margin-top: 20px;
-    margin-bottom: 70px;
-    justify-content: center;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #43a19e; opacity: 40%
+
+    .button {
+        width: 100%;
+        border-radius: 25px;
+        margin-top: 20px;
+    }
+
+
+    .signUp {
+        max-width: 500px;
+        text-align: left;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 2px 2px darkgray;
+        border-color: grey;
+
+    }
+
+    .textSignUp{
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 200;
+        font-size: small;
+
+    } 
+    .inputSignUp {
+        width: 100%;
+        height: 40px;
+    }
+
+    .alert {
+        margin-top: 10px;
+        lighting-color: #ff0000;
+
+
+    }
+
+    .title {
+        text-align: center;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 1000;
+        color: #3f7a8d;
+        text-shadow:1px 1px white ;
+    }
+
+    .link {
+        color: #ff0000;
+        text-decoration: solid;
+        font-weight: bold;
+    }
+
+    .signUpImg{
+        width: 500px;
+        height: 500px;
+        margin-top: 15px;
+    }
 }
-
-.inputSignUp {
-    width: 100%;
-    height: 40px;
-}
-
-.alert {
-    margin-top: 10px; 
-    lighting-color: #ff0000;
-
-}
-
-.title {
-    text-align: center;
-}
-
-.link {
-    color: #ff0000;
-    text-decoration: solid;
-    font-weight: bold;
-}}

@@ -42,7 +42,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="loginPage">
+    <div className="loginStyles">
       <div className="d-flex">
         <div className="container login justify-content-center mx-auto">
           <form onSubmit={handleSubmit} className="p-3 m-3">
