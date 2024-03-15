@@ -49,7 +49,7 @@ export const MyProfile = () => {
     if (loading) {
         return (
             <div className="spinner-border text-success" role="status">
-                <span className="sr-only">Loading...</span>
+                <span className="sr-only">Cargando...</span>
             </div>
         );
     }
@@ -69,7 +69,7 @@ export const MyProfile = () => {
                                     <h5 className="card-title">{userData.user_name} {userData.last_name}</h5>
                                     <p className="card-text m-1">Email: {userData.email}</p>
                                     <p className="card-text m-1">Genero: {userData.gender}</p>
-                                    <p className="card-text m-1">Que es lo que buscas? {userData.find_roomie}</p>
+                                    <p className="card-text m-1">Que buscas? {userData.find_roomie}</p>
                                     <p className="card-text m-1">Tienes mascota? {userData.pet}</p>
                                     <p className="card-text m-1">Cual es tu presupuesto? {userData.budget}</p>
                                     <p className="card-text m-1">Por que serias el compi ideal? {userData.text_box}</p>
