@@ -1,0 +1,62 @@
+.form-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #02323D;
+}
+
+.filter button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.8;
+}
+
+.btn {
+    background-color: #dd0025;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px 20px; 
+    cursor: pointer;
+}
+
+.btn-reset {
+    background-color: #c8c8c8; 
+}
+
+
+
+.card {
+    background-color: rgba(1, 155, 152, 0.433); 
+    border: none;
+    transition: transform 0.3s ease;
+
+    border-radius: 10px; /* Bordes redondeados */
+    margin: 10px; /* Margen exterior entre las cartas */
+    padding: 20px; /* Espacio interno dentro de cada carta */
+    width: 250px; /* Ancho fijo para todas las cartas */
+    height: auto; /* Altura automática basada en el contenido */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card button {
+    font-size: 14px;
+}

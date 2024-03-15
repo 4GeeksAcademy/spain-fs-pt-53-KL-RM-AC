@@ -1,8 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
-import "../../styles/MyProfile.css";
+import "../../styles/finder.css";
 import { ModalFilteredUsers } from "../component/modalFilteredUsers";
+const LITERALS = {
+    "Male": "Hombre",
+    "Female": "Mujer",
+    "Yes": "Tengo mascota",
+    "No": "No tengo mascota",
+    "Apartment": "Busco rommie",
+    "NoApartment": "Busco habitación",
+}
 
 export const Finder = () => {
     const { store, actions } = useContext(Context);
@@ -127,7 +135,7 @@ export const Finder = () => {
 
 
     return (
-        <div className="container p-5 finder">
+        <div className="container finder filter p-4">
             <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
             <div className="row">
                 <div className=" filter col-3 sticky-top">
@@ -182,7 +190,7 @@ export const Finder = () => {
 
                     <button
                         onClick={filtersActive ? handleResetFilters : handleFilteredUsers}
-                        className={`btn ${filtersActive ? "btn-secondary" : "btn-primary"}`}
+                        className={`btn ${filtersActive ? "btn-reset" : "btn-primary"}`}
                     >
                         {filtersActive ? "Restablecer filtros" : "Aplicar filtros"}
                     </button>
@@ -195,7 +203,7 @@ export const Finder = () => {
                             usersData.map((userData, index) => (
                                 <div className="card mb-3 shadow-sm" style={{ width: "17rem" }} key={index}>
                                     <div className="card-body">
-                                        <div className="card-upper">
+                                        <div className="card">
                                             <img
                                                 src={userData.profile_img}
                                                 className="img-fluid rounded-circle"
@@ -208,9 +216,11 @@ export const Finder = () => {
                                             <h5 className="card-title-name">{userData.last_name}</h5>
                                         </div>
                                         <div className="more-data d-flex justify-content-around">
-                                            <p>{userData.properties?.find_roomie}</p>
-                                            <p>{userData.properties?.pet}</p>
+                                        <p>{LITERALS[userData.properties?.find_roomie]}</p>
+                                            <p>{LITERALS[userData.properties?.pet]}</p>
                                             <p>{userData.properties?.budget}</p>
+                                            <p>{LITERALS[userData.properties?.gender]}</p>
+                                            
                                         </div>
                                         <div className="d-flex p-3 justify-content-between">
                                             <div className="d-grid gap-2 d-md-flex">
@@ -235,7 +245,7 @@ export const Finder = () => {
                                                     onClick={() => handleRemoveFromFavorites(userData.id)}
                                                     className="btn btn-link text-end text-decoration-none"
                                                 >
-                                                    <i className="far fa-heart"></i>
+                                                    <i className="fa-solid fa-heart-crack"></i>
                                                 </button>
                                             </div>
                                         </div>
