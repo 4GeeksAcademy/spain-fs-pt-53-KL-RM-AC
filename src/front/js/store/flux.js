@@ -111,7 +111,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addProfileInfo: async (formData) => {
 				try {
 					const { token } = await getStore();
-					const response = await fetch(procces.env.BACKEND_URL + 'user/properties', {
+					console.log(formData)
+					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
 						method: "POST",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -119,13 +120,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify(formData)
 					});
+					console.log(response)
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.message || "Error al crear usuario");
 					}
 					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
-				} catch (error) {
-					throw error;
+				} catch (error) 
+				{console.log("error")
 				}
 			},
 

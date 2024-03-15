@@ -17,14 +17,14 @@ export const CreateProfile = () => {
     });
     const [image, setImage] = useState(null);
     const [userData, setUserData] = useState({});
-    // const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [imageUploaded, setImageUploaded] = useState(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 await actions.getUserDetails(store);
-                // setLoading(false);
+                setLoading(false);
                 setUserData(store)
             } catch (error) {
                 console.error('Error al obtener los detalles del usuario:', error);
@@ -33,7 +33,7 @@ export const CreateProfile = () => {
 
         fetchUserData();
 
-    }, [store, actions]);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -47,16 +47,17 @@ export const CreateProfile = () => {
     const handleNewImage = async (e) => {
         const image = e.target.files[0];
         setImage(image);
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("upload_preset", "injqzpue");
+        console.log("soy imagen")
+        const formDataImage = new FormData();
+        formDataImage.append("file", image);
+        formDataImage.append("upload_preset", "injqzpue");
 
         try {
             const response = await fetch(
                 'https://api.cloudinary.com/v1_1/dru67quag/image/upload',
                 {
                     method: "POST",
-                    body: formData,
+                    body: formDataImage,
                 }
             );
             const data = await response.json();
@@ -74,23 +75,30 @@ export const CreateProfile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        // Validar el formulario
+        if (!formData.pet || !formData.gender || !formData.budget || !formData.find_roomie || !formData.text_box || !imageUploaded) {
+            setAlertMessage("Por favor, completa todos los campos antes de enviar el formulario.");
+            return; // Salir de la función si el formulario no está completo
+        }
+    
+        // Si el formulario está completo, intenta enviar los datos
         try {
             await actions.addProfileInfo(formData);
-
             setAlertMessage("");
         } catch (error) {
             console.error("Error al enviar datos:", error);
             setAlertMessage("Error al crear el perfil");
-        };
+        }
     }
 
-    // if (loading) {
-    //     return (
-    //         <div className="spinner-border text-primary" role="status">
-    //             <span className="visually-hidden">Cargando...</span>
-    //         </div>
-    //     )
-    // }
+    if (loading) {
+        return (
+            <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Cargando...</span>
+            </div>
+        )
+    }
 
     return (
 
@@ -173,7 +181,7 @@ export const CreateProfile = () => {
                 </form>
                 <div className="buttonsCP mt-5">
 
-                    <button type="button" className="btn btn-dark me-2" onClick={handleSubmit} disabled={!imageUploaded}>Crear Perfil</button>
+                    <button type="button" className="btn btn-dark me-2" onClick={(e)=>handleSubmit(e)} disabled={!imageUploaded }>Crear Perfil</button>
                     <Link to={"/password"}>
                         <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                     </Link>
