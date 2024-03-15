@@ -25,6 +25,10 @@ export const Navbar = () => {
     }, [token, actions]);
 
     return (
+<<<<<<< HEAD
+=======
+
+>>>>>>> 25edb8b (merge)
         <div className="d-flex custom-navbar">
             <div>
                 <Link to="/">
@@ -32,6 +36,7 @@ export const Navbar = () => {
                 </Link>
             </div>
 
+<<<<<<< HEAD
             {token &&
                 <div className="dropdown">
                     <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,6 +53,23 @@ export const Navbar = () => {
                     </ul>
                 </div>
             }
+=======
+            <div className="dropdown">
+                <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
+                    Mis favoritos ({favoriteProfiles.length})
+                </button>
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                    {favoriteProfiles.map(profile => (
+                        <li key={profile.id}>
+                            <p>
+                                {profile.user_name} {profile.last_name}
+                            </p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+>>>>>>> 25edb8b (merge)
             <div className="textNavbar">
                 <Link to="/profile">
                     <span> Mi perfil</span>
