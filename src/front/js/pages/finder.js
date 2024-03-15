@@ -10,9 +10,8 @@ export const Finder = () => {
     const [favoriteProfiles, setFavoriteProfiles] = useState([]);
     const [filters, setFilters] = useState({})
     const [noProfilesFound, setNoProfilesFound] = useState(false);
-    //const [filtersActive, setFiltersActive] = useState(false);
+    const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
-
 
 
     useEffect(() => {
@@ -35,45 +34,58 @@ export const Finder = () => {
 
 
     const handleSetFilter = (filter) => {
-        setFilters({...filters, ...filter}); 
-        };
+        setFilters({ ...filters, ...filter });
+    };
 
 
     const handleFilteredUsers = () => {
         actions.getUsersFilter(filters).then(data => {
             if (data && data.length) {
                 setUsersData(data);
+                setFiltersActive(true);
                 setNoProfilesFound(false);
             } else {
                 setUsersData([]);
                 setNoProfilesFound(true);
                 console.log("no se encontraron perfiles que cumplan estas condiciones")
+                setFiltersActive(false);
             }
         });
     };
 
-    // const handleFilteredUsers = () => {
-    //     actions.getUsersFilter(filters).then(data => {
-    //         if (data && data.length) {
-    //             setUsersData(data);
-    //             setNoProfilesFound(false);
-    //         } else {
-    //             setUsersData([]);
-    //             setShowModal(true);
-    //             setNoProfilesFound(true);
-    //             console.log("no se encontraron perfiles que cumplan estas condiciones")
-    //         }
-    //     });
-    // };
+    const handleResetFilters = () => {
+        setFilters({});
+        setFiltersActive(false);
+        actions.getAllUsers().then(data => {
+            if (data && data.length) {
+                setUsersData(data);  // Actualiza los perfiles con los datos obtenidos 
+                setNoProfilesFound(false); // Aquí establecemos noProfilesFound en false para mostrar todos los perfiles
+            }
+        });
+        // Restablecer los valores predeterminados de los selects
+        document.getElementById('find_roomie').selectedIndex = 0;
+        document.getElementById('gender').selectedIndex = 0;
+        document.getElementById('pet').selectedIndex = 0;
+        document.getElementById('budget').selectedIndex = 0;
+    };
 
-    // const handleFilteredUsers = () => {
-    //     console.log("filtrando")
-    //     actions.getUsersFilter(filters).then(data => {
-    //         if (data && data.length) {
-    //             setUsersData(data);
-    //         }
-    //     })
-    // }
+
+    const handleModalClose = () => {
+        // Restablecer los valores predeterminados de los selects
+        document.getElementById('find_roomie').selectedIndex = 0;
+        document.getElementById('gender').selectedIndex = 0;
+        document.getElementById('pet').selectedIndex = 0;
+        document.getElementById('budget').selectedIndex = 0;
+
+        // Actualizar los perfiles llamando a getAllUsers
+        actions.getAllUsers().then(data => {
+            if (data && data.length) {
+                setUsersData(data);
+                setNoProfilesFound(false);
+            }
+        });
+    };
+
 
     const handleAddToFavorites = async (profileId) => {
         try {
@@ -90,7 +102,7 @@ export const Finder = () => {
             console.error("Error al agregar a favoritos:", error);
         }
     };
-    
+
     const handleRemoveFromFavorites = async (profileId) => {
         try {
             if (store.token) {
@@ -107,6 +119,7 @@ export const Finder = () => {
         }
     };
 
+
     // useEffect(() => {
     //     // Actualizar userData cuando cambian los datos de los usuarios
     //     setUsersData(store);
@@ -115,14 +128,14 @@ export const Finder = () => {
 
     return (
         <div className="container p-5 finder">
-        
+            <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
             <div className="row">
                 <div className=" filter col-3 sticky-top">
                     <h4>Filtros</h4>
                     <form>
                         <div className="situation">
                             <h5>¿Qué buscas?</h5>
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'find_roomie': e.target.value})}>
+                            <select id="find_roomie" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'find_roomie': e.target.value })}>
                                 <option defaultValue>¿Cual es tu situacion?</option>
                                 <option value="Apartment">Tengo piso, busco roomie</option>
                                 <option value="NoApartment">Busco roomie que tenga piso</option>
@@ -134,7 +147,7 @@ export const Finder = () => {
 
                         <div className="gender">
                             <h5>Género</h5>
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'gender': e.target.value})}>
+                            <select id="gender" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'gender': e.target.value })}>
                                 <option defaultValue>Género</option>
                                 <option value="Female">Femenino</option>
                                 <option value="Male">Masculino</option>
@@ -145,7 +158,7 @@ export const Finder = () => {
 
                         <div className="pet">
                             <h5>Mascota</h5>
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'pet': e.target.value})} >
+                            <select id="pet" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'pet': e.target.value })} >
                                 <option defaultValue>Mascota</option>
                                 <option value="Yes">Tengo mascota</option>
                                 <option value="No">No tengo mascota</option>
@@ -156,7 +169,7 @@ export const Finder = () => {
 
                         <div className="budget">
                             <h5>Presupuesto</h5>
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({'budget': e.target.value})}>
+                            <select id="budget" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'budget': e.target.value })}>
                                 <option defaultValue>Ajusta tu presupuesto</option>
                                 <option value="300">Hasta 300</option>
                                 <option value="400">Hasta 400</option>
@@ -167,12 +180,17 @@ export const Finder = () => {
                         <hr></hr>
                     </form>
 
-                    <button onClick={handleFilteredUsers}>aplicar filtros</button>
+                    <button
+                        onClick={filtersActive ? handleResetFilters : handleFilteredUsers}
+                        className={`btn ${filtersActive ? "btn-secondary" : "btn-primary"}`}
+                    >
+                        {filtersActive ? "Restablecer filtros" : "Aplicar filtros"}
+                    </button>
                 </div>
 
 
                 <div className="col-9">
-                    <div className="row row-cols-1 row-cols-md-3 g-4"> 
+                    <div className="row row-cols-1 row-cols-md-3 g-4">
                         {Array.isArray(usersData) &&
                             usersData.map((userData, index) => (
                                 <div className="card mb-3 shadow-sm" style={{ width: "17rem" }} key={index}>
@@ -227,6 +245,9 @@ export const Finder = () => {
                     </div>
                 </div>
             </div>
+
+            <ModalFilteredUsers show={noProfilesFound} handleClose={handleModalClose} />
+
         </div>
     );
 };
