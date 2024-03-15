@@ -1,4 +1,4 @@
-
+.register {
 .button {
     width: 100%;
     border-radius: 25px;
@@ -29,11 +29,11 @@ box-shadow: 0 0 0 0.25rem #ffbfab;
     max-width: 400px; 
     text-align: left;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 70px;
     justify-content: center;
     padding: 20px;
     border-radius: 5px;
-    background-color: #d1ecebb9;
+    background-color: #43a19e; opacity: 40%
 }
 
 .inputSignUp {
@@ -55,4 +55,4 @@ box-shadow: 0 0 0 0.25rem #ffbfab;
     color: #ff0000;
     text-decoration: solid;
     font-weight: bold;
-}
+}}

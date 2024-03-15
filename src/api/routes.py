@@ -13,6 +13,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import re
 import os
+import bcrypt
 
 
 api = Blueprint('api', __name__)
@@ -109,7 +110,8 @@ def change_password():
         return jsonify({'error': 'La contraseña antigua no es correcta'}), 400
     
     # Actualizar la contraseña del usuario
-    user.password = new_password
+    hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    user.password = hashed_password
     db.session.commit()
 
     return jsonify({'message': 'Contraseña cambiada exitosamente'}), 200

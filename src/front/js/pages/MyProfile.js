@@ -6,23 +6,31 @@ import { CreateProfile } from "./CreateProfile";
 
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
-    const [userData, setUserData] = useState("");
-   
+    const [userData, setUserData] = useState({});
+    const [loading, setLoading] = useState(true); // Inicialmente, establece loading como true
+
     useEffect(() => {
-        // Verificar si el token está presente antes de llamar a getProfile()
-        if (store.token) {
-            actions.getProfile();
-        }
-    }, [store.token]);
+        const fetchProfile = async () => {
+            try {
+                setLoading(true); // Establece loading como true al comenzar la carga
+                await actions.getProfile();
+                setLoading(false); // Cuando getProfile() ha terminado, establece loading como false
+            } catch (error) {
+                console.error("Error al obtener perfil:", error);
+                setLoading(false); // También establece loading como false en caso de error
+            }
+        };
+    
+        fetchProfile();
+    }, []); 
 
     useEffect(() => {
         setUserData(store);
     }, [store]);
-  
+
     const handleDelete = () => {
-      actions.deleteUserProperties();
+        actions.deleteUserProperties();
     };
-  
 
     const hasRequiredFields = () => {
         console.log("UserData:", userData);
@@ -36,11 +44,14 @@ export const MyProfile = () => {
             userData.pet
         );
     };
-    
 
     // Si los datos del perfil aún no se han cargado, muestra un mensaje de carga o un indicador de carga
-    if (!userData) {
-        return <div>Cargando perfil...</div>;
+    if (loading) {
+        return (
+            <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        );
     }
 
     return (
@@ -65,10 +76,14 @@ export const MyProfile = () => {
                                 </div>
                                 <div className="d-flex justify-content-center">
                                     <Link to={"/edit"}>
-                                    <button type="button" className="btn btn-dark">Editar Perfil</button>
+                                        <button type="button" className="btn btn-dark m-3">Editar Perfil</button>
                                     </Link>
-                                    <button type="button" className="btn btn-dark" onClick={handleDelete()}>Eliminar Perfil</button>
-                        
+                                    <Link to={"/homelogged "}>
+                                        <button type="button" className="btn btn-dark m-3" onClick={handleDelete}>Eliminar Perfil</button>
+                                    </Link>
+                                    <Link to={"/password"}>
+                                        <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -80,4 +95,3 @@ export const MyProfile = () => {
         </div>
     );
 };
-
