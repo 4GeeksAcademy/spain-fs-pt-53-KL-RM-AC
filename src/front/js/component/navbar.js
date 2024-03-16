@@ -7,30 +7,32 @@ import { Context } from "../store/appContext";
 export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
-    const [favoriteProfiles, setFavoriteProfiles] = useState([]);
+    const {favoriteProfiles} = store
     const token = store.token;
 
     useEffect(() => {
         const fetchFavoriteProfiles = async () => {
             try {
                 if (token) {
-                    const data = await actions.getFavoriteProfiles();
-                    setFavoriteProfiles(data);
+                    await actions.getFavoriteProfiles();
+                    
                 }
             } catch (error) {
                 console.error('Error al obtener perfiles favoritos:', error);
             }
         };
         fetchFavoriteProfiles();
-    }, [token, actions]);
+    }, [token, favoriteProfiles]);
 
     return (
         <div className="d-flex custom-navbar">
-            <div>
-                <Link to="/">
-                    <img className="navbar-brand imageLogo" src={compislogo} alt="logo star wars" />
+            {token ? (
+                <Link to="/homelogged">
+                    <img className="navbar-brand imageLogo" src={compislogo} alt="" />
                 </Link>
-            </div>
+            ) : (
+                <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+            )}
 
             {token &&
                 <div className="dropdown">
