@@ -11,6 +11,7 @@ const LITERALS = {
     "Apartment": "Busco rommie",
     "NoApartment": "Busco habitación",
 }
+import { PageNotAllowed } from "./PageNotAllowed";
 
 export const Finder = () => {
     const { store, actions } = useContext(Context);
@@ -134,8 +135,9 @@ export const Finder = () => {
     // }, [store]);
 
 
-    return (
-        <div className="container finder filter p-4">
+    if (store.token && store.token !== "" && store.token !== undefined) {
+        return (
+        <div className="container p-5 finder">
             <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
             <div className="row">
                 <div className=" filter col-3 sticky-top">
@@ -259,7 +261,12 @@ export const Finder = () => {
             <ModalFilteredUsers show={noProfilesFound} handleClose={handleModalClose} />
 
         </div>
-    );
+    );}  else {
+        return (
+            <PageNotAllowed />
+        );
+    }
+    
 };
 
 
