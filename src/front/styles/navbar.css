@@ -1,6 +1,6 @@
+/* navbar.css */
 .custom-navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #3f7a8d; 
   font-family: Verdana;
@@ -10,35 +10,26 @@
 
 .textNavbar {
   display: flex;
-  margin-right: 10px; /* Ajusta el espacio entre los íconos y el borde derecho */
+  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
 }
 
 .textNavbar a {
-  color: white; /* Establece el color del texto del enlace */
-  text-decoration: none; /* Quita la decoración subrayada del enlace */
-  margin-left: 15px; /* Espacio entre los íconos */
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
 }
 
 .textNavbar a:hover{
   color: #55ccc9;
 }
 
+.imageLogo {
+  height: 50px;
+  width: 60px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
 
-  /* .custom-footer {
-    background-color: #02323D; 
-    
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    flex-shrink: 0;
-
-  } */
-
-  .imageLogo{
-    height: 50px;
-    width: 60px;
-    margin-left: 10px;
-    margin-top: 5px;
-  }
-
- 
+.dropdown {
+  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
+}

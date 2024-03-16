@@ -1,0 +1,42 @@
+
+
+.learnmore {
+    font-family: "Be Vietnam Pro", sans-serif;
+    background-color: #f0f0f0; /* Fondo gris claro */
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #888888;
+    padding: 20px;
+    max-width: 950px; /* Ancho máximo de la postal */
+    margin: 0 auto; /* Centrar la postal horizontalmente */
+    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+}
+
+
+
+.postal {
+    margin-top: 20px; /* Margen superior */
+}
+
+.profile-image {
+    max-width: 100%; /* Imagen ajustada al contenedor */
+    height: auto;
+}
+
+.user-info {
+    padding: 20px;
+}
+
+.user-info h2 {
+    margin-top: 0;
+}
+
+.user-info p {
+    margin-bottom: 10px;
+}
+
+.ideal-companion {
+    background-color: #3f7a8d42; /* Fondo claro para el texto de "¿Por qué eres el compi ideal?" */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}

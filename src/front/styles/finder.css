@@ -33,6 +33,16 @@
     background-color: #c8c8c8; 
 }
 
+/* Centra los botones */
+.d-grid .btn {
+    width: auto;
+    margin: 0 auto; /* Centra horizontalmente */
+}
+
+/* Reduce el padding de los botones cuando están centrados */
+.d-grid .btn {
+    padding: 0.5rem 1rem; /* Ajusta el padding horizontal */
+}
 
 
 .card {
@@ -42,8 +52,8 @@
 
     border-radius: 10px; /* Bordes redondeados */
     margin: 10px; /* Margen exterior entre las cartas */
-    padding: 20px; /* Espacio interno dentro de cada carta */
-    width: 250px; /* Ancho fijo para todas las cartas */
+    padding: 15px; /* Espacio interno dentro de cada carta */
+    width: 500px; /* Ancho fijo para todas las cartas */
     height: auto; /* Altura automática basada en el contenido */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
     
