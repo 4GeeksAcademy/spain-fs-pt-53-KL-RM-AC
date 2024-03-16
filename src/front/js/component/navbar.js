@@ -7,40 +7,33 @@ import { Context } from "../store/appContext";
 export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
-    const [favoriteProfiles, setFavoriteProfiles] = useState([]);
+    const {favoriteProfiles} = store
     const token = store.token;
 
     useEffect(() => {
         const fetchFavoriteProfiles = async () => {
             try {
                 if (token) {
-                    const data = await actions.getFavoriteProfiles();
-                    setFavoriteProfiles(data);
+                    await actions.getFavoriteProfiles();
+                    
                 }
             } catch (error) {
                 console.error('Error al obtener perfiles favoritos:', error);
             }
         };
         fetchFavoriteProfiles();
-    }, [token, actions]);
+    }, [token, favoriteProfiles]);
 
     return (
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 25edb8b (merge)
->>>>>>> develop
         <div className="d-flex custom-navbar">
-            <div>
-                <Link to="/">
-                    <img className="navbar-brand imageLogo" src={compislogo} alt="logo star wars" />
+            {token ? (
+                <Link to="/homelogged">
+                    <img className="navbar-brand imageLogo" src={compislogo} alt="" />
                 </Link>
-            </div>
+            ) : (
+                <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+            )}
 
-<<<<<<< HEAD
             {token &&
                 <div className="dropdown">
                     <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
@@ -57,28 +50,6 @@ export const Navbar = () => {
                     </ul>
                 </div>
             }
-=======
-            <div className="dropdown">
-                <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
-                    Mis favoritos ({favoriteProfiles.length})
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
-                    {favoriteProfiles.map(profile => (
-                        <li key={profile.id}>
-                            <p>
-                                {profile.user_name} {profile.last_name}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-<<<<<<< HEAD
-            
- 
-=======
-
->>>>>>> 25edb8b (merge)
->>>>>>> develop
             <div className="textNavbar">
                 <Link to="/profile">
                     <span> Mi perfil</span>
