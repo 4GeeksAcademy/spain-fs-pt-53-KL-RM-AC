@@ -16,7 +16,8 @@
     transition: background-color 0.3s ease;
 }
 
-.btn-primary:hover, .btn-secondary:hover {
+.btn-primary:hover,
+.btn-secondary:hover {
     opacity: 0.8;
 }
 
@@ -25,38 +26,55 @@
     border: none;
     color: white;
     text-align: center;
-    padding: 10px 20px; 
+    padding: 10px 20px;
     cursor: pointer;
 }
 
 .btn-reset {
-    background-color: #c8c8c8; 
+    background-color: #c8c8c8;
 }
 
 /* Centra los botones */
 .d-grid .btn {
     width: auto;
-    margin: 0 auto; /* Centra horizontalmente */
+    margin: 0 auto;
+    /* Centra horizontalmente */
 }
 
 /* Reduce el padding de los botones cuando están centrados */
 .d-grid .btn {
-    padding: 0.5rem 1rem; /* Ajusta el padding horizontal */
+    padding: 0.5rem 1rem;
+    /* Ajusta el padding horizontal */
 }
 
 
 .card {
-    background-color: rgba(1, 155, 152, 0.433); 
+    background-color: #3f7a8d5d;
     border: none;
     transition: transform 0.3s ease;
 
-    border-radius: 10px; /* Bordes redondeados */
-    margin: 10px; /* Margen exterior entre las cartas */
-    padding: 15px; /* Espacio interno dentro de cada carta */
-    width: 500px; /* Ancho fijo para todas las cartas */
-    height: auto; /* Altura automática basada en el contenido */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
-    
+    border-radius: 10px;
+    /* Bordes redondeados */
+    margin: 10px;
+    /* Margen exterior entre las cartas */
+    padding: 15px;
+    /* Espacio interno dentro de cada carta */
+    width: 500px;
+    /* Ancho fijo para todas las cartas */
+    height: auto;
+    /* Altura automática basada en el contenido */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombra */
+
+}
+
+.card .img-fluid {
+    width: 100%;
+    /* La imagen ocupará todo el ancho de la tarjeta */
+    height: auto;
+    /* Altura automática para mantener la proporción */
+    border-radius: 10px 10px 0 0;
+    /* Añade bordes redondeados solo en la parte superior */
 }
 
 .card:hover {
@@ -64,7 +82,7 @@
 }
 
 .card-body {
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .card button {

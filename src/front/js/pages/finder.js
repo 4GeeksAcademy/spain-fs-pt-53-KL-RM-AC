@@ -204,13 +204,14 @@ export const Finder = () => {
                         <div className="row row-cols-1 row-cols-md-3 g-4">
                             {Array.isArray(usersData) &&
                                 usersData.map((userData, index) => (
-                                    <div className="card mb-3 shadow-sm" style={{ width: "16rem" }} key={index}>
+                                    <div className="card shadow-sm" style={{ width: "18rem" }} key={index}>
                                         <div className="card-body">
                                             <div className="text-center">
                                                 <img
                                                     src={userData.properties?.profile_img}
-                                                    className="img-fluid  rounded-3"
+                                                    className="img-fluid rounded-circle"
                                                     alt=""
+                                                    style={{ width: '220px', height: '220px', objectFit: 'cover' }}
                                                 />
                                             </div>
                                             <hr />
@@ -218,13 +219,19 @@ export const Finder = () => {
                                                 <h5 className="card-title-name">{userData.user_name}</h5>
                                                 <h5 className="card-title-name">{userData.last_name}</h5>
                                             </div>
-                                            <div className="more-data d-flex ">
-                                                <p>{LITERALS[userData.properties?.find_roomie]}</p>
-                                                <p>{LITERALS[userData.properties?.pet]}</p>
-                                                <p>{userData.properties?.budget}</p>
-                                                <p>{LITERALS[userData.properties?.gender]}</p>
+
+                                            <div className="d-flex">
+                                                <div className="more-data d-flex justify-content-start">
+                                                    <p><i className="fa-solid fa-paw"></i> {LITERALS[userData.properties?.pet]}</p>
+                                                </div>
+                                                <div className="flex-row">
+                                                    <p><i className="fa-solid fa-euro-sign"></i>{userData.properties?.budget}</p>
+                                                    <p><i className="fa-solid fa-venus-mars"></i>{LITERALS[userData.properties?.gender]}</p>
+                                                </div>
                                             </div>
-                                            <div className="d-flex p-3 justify-content-between">
+
+
+                                            <div className="d-flex  justify-content-between">
                                                 <div className="d-grid gap-2 d-md-flex">
                                                     <button
                                                         onClick={() => {
