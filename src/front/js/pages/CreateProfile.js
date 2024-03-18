@@ -101,9 +101,9 @@ export const CreateProfile = () => {
     }
 
     return (
+        <div className="container mt-2 p-3 justify-content-center">
 
-        <div className="createProfile">
-            <div className="container mt-2 p-3 justify-content-center">
+            <div className="createProfile">
                 <div className="container createProfilePage mt-2 p-3 justify-content-center">
                     <form className="d-flex">
                         <div className="form-group container imageGroup col-4">
@@ -181,8 +181,9 @@ export const CreateProfile = () => {
                         {alertMessage && (<div className="container alert alert-danger mt-3">{alertMessage}</div>)}
                     </form>
                     <div className="buttonsCP mt-5">
-
-                        <button type="button" className="btn btn-dark me-2" onClick={(e) => handleSubmit(e)} disabled={!imageUploaded}>Crear Perfil</button>
+                        <Link to={"/profile"}>
+                            <button type="button" className="btn btn-dark me-2" onClick={(e) => handleSubmit(e)} disabled={!imageUploaded}>Crear Perfil</button>
+                        </Link>
                         <Link to={"/password"}>
                             <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                         </Link>
