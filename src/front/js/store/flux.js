@@ -29,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("token");
 				console.log("login out");
 				setStore({ token: null });
-		
+
 			},
 
 			login: async (formData) => {
@@ -55,7 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			 signUp: async (formData) => {
+			signUp: async (formData) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -126,43 +126,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(data.message || "Error al crear usuario");
 					}
 					return response.json(); // Devuelve la respuesta JSON si la solicitud fue exitosa
-				} catch (error) 
-				{console.log("error")
+				} catch (error) {
+					console.log("error")
 				}
 			},
 
 			updateProfileInfo: async (formData) => {
-                try {
-                    const { token } = await getStore();
-                    const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
-                        method: "PUT",
-                        headers: {
-                            "Authorization": "Bearer " + token,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                    if (!response.ok) {
-                        const data = await response.json();
-                        throw new Error(data.message || "Error al actualizar las propiedades del usuario");
-                    }
-                    // Si la solicitud fue exitosa, actualiza el store con los nuevos datos del usuario
-                    const userData = await response.json();
-                    setStore({
-                        pet: userData.pet,
-                        gender: userData.gender,
-                        budget: userData.budget,
-                        find_roomie: userData.find_roomie,
-                        text_box: userData.text_box,
-                        profile_img: userData.profile_img
-                    });
-                    return userData; // Devuelve los datos actualizados del usuario
-                } catch (error) {
-                    throw error;
-                }
-            },
+				try {
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
+						method: "PUT",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify(formData)
+					});
+					if (!response.ok) {
+						const data = await response.json();
+						throw new Error(data.message || "Error al actualizar las propiedades del usuario");
+					}
+					// Si la solicitud fue exitosa, actualiza el store con los nuevos datos del usuario
+					const userData = await response.json();
+					setStore({
+						pet: userData.pet,
+						gender: userData.gender,
+						budget: userData.budget,
+						find_roomie: userData.find_roomie,
+						text_box: userData.text_box,
+						profile_img: userData.profile_img
+					});
+					return userData; // Devuelve los datos actualizados del usuario
+				} catch (error) {
+					throw error;
+				}
+			},
 
-			deleteUserProperties: async ()=> {
+			deleteUserProperties: async () => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
 						method: 'DELETE',
@@ -171,13 +171,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json'
 						}
 					});
-			
+
 					const responseData = await response.json();
-			
+
 					if (!response.ok) {
 						throw new Error(responseData.error || 'Failed to delete user properties');
 					}
-			
+
 					console.log(responseData.message); // Mensaje de éxito en caso de eliminación exitosa
 				} catch (error) {
 					console.error('Error deleting user properties:', error.message);
@@ -186,16 +186,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 
-			changePassword: async (oldPassword , newPassword) => {
+			changePassword: async (oldPassword, newPassword) => {
 				try {
 					const { token } = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/user/change/password', {
+					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
 						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
 							"Content-Type": "application/json"
 						},
-						body: JSON.stringify({ old_password: oldPassword ,new_password: newPassword })
+						body: JSON.stringify({ old_password: oldPassword, new_password: newPassword })
 					});
 
 					if (!response.ok) {
@@ -211,25 +211,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getAllUsers: async () => {
 				const { token } = await getStore()
-			
+
 				if (!token) {
 					console.error('Token no disponible. Inicia sesión nuevamente.');
 					return [];
 				}
-			
+
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
 					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-			
+
 					const data = await response.json();
-			
+
 					setStore({ allUsers: data });
 					console.log(data)
 					return data;
-			
+
 				} catch (error) {
 					throw error;
 				}
@@ -250,16 +250,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json",
 							"Authorization": "Bearer " + token,
 						},
-			
+
 					});
-			
+
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.message || "Error al obtener el perfil del usuario");
 					}
-			
+
 					const userData = await response.json();
-			
+
 					setUserData({
 						id: userData.id,
 						email: userData.email,
@@ -272,23 +272,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 						text_box: userData.properties.text_box,
 						profile_img: userData.properties.profile_img
 					});
-			
+
 				} catch (error) {
 					console.error('Error al obtener el perfil del usuario:', error);
-			
+
 					throw error;
 				}
 			},
-			
+
 			//traer los favoritos al que usuario le ha dado like
 			getFavoriteProfiles: async () => {
 				const { token } = await getStore();
-			
+
 				if (!token) {
 					console.error('Token no disponible. Inicia sesión nuevamente.');
 					return [];
 				}
-			
+
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/user/favorite/profiles', {
 						method: 'GET',
@@ -297,11 +297,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json',
 						},
 					});
-			
-					if (!response.ok) { 
+
+					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-			
+
 					const data = await response.json();
 					return data;
 				} catch (error) {
@@ -309,7 +309,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return [];
 				}
 			},
-			
+
 			//para añadir los favoritos mediante el ID del perfil del usuario
 			addFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
@@ -323,14 +323,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify({ profile_id: profileId }),
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-			
+
 					// Obtener la lista actualizada de perfiles favoritos después de agregar uno nuevo
 					const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
-			
+
 					setStore({ favoriteProfiles: updatedFavoriteProfiles });
 					return true;
 				} catch (error) {
@@ -338,8 +338,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			
-			
+
+
 			//borrar perfiles a los que ha dado like
 			removeFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
@@ -352,14 +352,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json',
 						},
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
-			
+
 					// Obtener la lista actualizada de perfiles favoritos después de eliminar uno
 					const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
-			
+
 					setStore({ favoriteProfiles: updatedFavoriteProfiles });
 					return true;
 				} catch (error) {
@@ -367,10 +367,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			
+
 			getUsersFilter: async (filters) => {
 				const { token } = await getStore()
-			
+
 				try {
 					const queryString = new URLSearchParams(filters).toString();
 					console.log(filters)
@@ -382,15 +382,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Authorization": "Bearer " + token,
 						}
 					});
-			
+
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.error || 'Error al obtener usuarios filtrados');
 					}
-			
+
 					const filteredUsers = await response.json();
 					return filteredUsers;
-			
+
 				} catch (error) {
 					console.error('Error al obtener usuarios filtrados:', error);
 					throw error;
@@ -401,13 +401,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const { token } = await getStore();
 
 				try {
-					const response = await fetch(process.env.BACKEND_URL  + '/user', {
+					const response = await fetch(process.env.BACKEND_URL + '/user', {
 						method: 'GET',
 						headers: {
 							"Authorization": "Bearer " + token,
 						}
 					});
-			
+
 					if (response.ok) {
 						const userData = await response.json();
 						setStore({
@@ -423,8 +423,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-			
-		
+
+
 
 
 		}
