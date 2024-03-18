@@ -42,7 +42,7 @@ export const Navbar = () => {
             )
             }
             </div>
-
+            
             <div className="favoritos">
 
             )}
