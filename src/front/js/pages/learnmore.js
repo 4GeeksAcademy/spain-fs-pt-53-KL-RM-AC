@@ -12,15 +12,15 @@ const LITERALS = {
 }
 
 export const LearnMore = () => {
-    const { store, actions } = useContext(Context);
+
     const [userData, setUserData] = useState({});
     const [showEmail, setShowEmail] = useState(false);
     const location = useLocation();
-   
+
     useEffect(() => {
+        console.log(location)
         setUserData(location.state.user);
-        // Llamar a la acción para obtener la información del usuario por ID
-        //actions.getUserById(id, setUserData)
+
     }, []);
 
     const handleClickContactar = () => {
@@ -28,12 +28,12 @@ export const LearnMore = () => {
     };
 
     return (
-        <div className="container-fluid learnmore p-4 postal">
+        <div className="container-fluid learnmore mt-4 p-4 postal">
             {userData && (
                 <div className="row">
-                    <div className="col-md-6">
-                        <div className="d-flex justify-content-center">
-                            <img src={userData.properties?.profile_img} className="profile-image rounded-start" alt="Profile" />
+                    <div className="col-md-6 pt-3">
+                        <div className="d-flex justify-content-center align-items-center">
+                            <img src={userData.properties?.profile_img} className="profile-image img-fluid rounded-circle" alt="Profile" style={{ width: '400px', height: '400px', objectFit: 'cover' }} />
                         </div>
                     </div>
                     <div className="col-md-6">
@@ -68,7 +68,7 @@ export const LearnMore = () => {
                             <hr />
                             <div className="row">
                                 <div className="col-md-12">
-                                        <p><strong>¿Por qué eres el compi ideal?</strong></p>
+                                    <p><strong>¿Por qué eres el compi ideal?</strong></p>
                                     <div className="ideal-companion">
                                         <p>{userData.properties?.text_box}</p>
                                     </div>

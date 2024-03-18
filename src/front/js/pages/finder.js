@@ -49,6 +49,7 @@ export const Finder = () => {
 
     const handleFilteredUsers = () => {
         actions.getUsersFilter(filters).then(data => {
+            console.log(data)
             if (data && data.length) {
                 setUsersData(data);
                 setFiltersActive(true);
@@ -67,8 +68,8 @@ export const Finder = () => {
         setFiltersActive(false);
         actions.getAllUsers().then(data => {
             if (data && data.length) {
-                setUsersData(data);  // Actualiza los perfiles con los datos obtenidos 
-                setNoProfilesFound(false); // Aquí establecemos noProfilesFound en false para mostrar todos los perfiles
+                setUsersData(data);  // actualiza los perfiles con los datos obtenidos 
+                setNoProfilesFound(false); // estable noProfilesFound en false para mostrar todos los perfiles
             }
         });
         // Restablecer los valores predeterminados de los selects
@@ -80,13 +81,13 @@ export const Finder = () => {
 
 
     const handleModalClose = () => {
-        // Restablecer los valores predeterminados de los selects
+        // restablecer los valores predeterminados de los selects
         document.getElementById('find_roomie').selectedIndex = 0;
         document.getElementById('gender').selectedIndex = 0;
         document.getElementById('pet').selectedIndex = 0;
         document.getElementById('budget').selectedIndex = 0;
 
-        // Actualizar los perfiles llamando a getAllUsers
+        // actualizar los perfiles llamando a getAllUsers
         actions.getAllUsers().then(data => {
             if (data && data.length) {
                 setUsersData(data);
@@ -128,13 +129,8 @@ export const Finder = () => {
         }
     };
 
-
-    // useEffect(() => {
-    //     // Actualizar userData cuando cambian los datos de los usuarios
-    //     setUsersData(store);
-    // }, [store]);
-
-
+  
+console.log(usersData)
     if (store.token && store.token !== "" && store.token !== undefined) {
 
         return (
