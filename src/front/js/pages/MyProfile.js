@@ -32,9 +32,11 @@ export const MyProfile = () => {
 
 
     useEffect(() => {
+        setLoading(true)
+
         const fetchProfile = async () => {
             try {
-                setLoading(true);
+                setLoading(true); // Establece loading como true al comenzar la carga
                 await actions.getProfile();
 
                 setLoading(false); // Cuando getProfile() ha terminado, establece loading como false
@@ -58,36 +60,25 @@ export const MyProfile = () => {
             userData.gender &&
             userData.budget &&
             userData.find_roomie &&
-            userData.profile_img && 
+            userData.profile_img &&
             userData.text_box &&
             userData.pet
         );
     };
 
-    if (store.token && store.token !== "" && store.token !== undefined) {
-        if (loading) {
-            return (
-                <div className="spinner-border text-success" role="status">
-                    <span className="sr-only">Cargando...</span>
-                </div>
-            );
-        }
-
+    // Si los datos del perfil aún no se han cargado, muestra un mensaje de carga o un indicador de carga
+    if (loading) {
         return (
-
-            <div className="nuevo">
-                {hasRequiredFields() ? (
-                    <div className="container myprofile mt-4 p-3 justify-content-center"> 
-                        <div className="postal">
-                            <div className="row">
-                                <div className="col-md-6 d-flex justify-content-center align-items-center pb-3">
-                                    <img src={userData.profile_img} className="profile-image img-fluid rounded-circle" alt="Profile" style={{ width: '400px', height: '400px', objectFit: 'cover' }} />
-
             <div className="spinner-border text-success" role="status">
                 <span className="sr-only">Cargando...</span>
             </div>
-        );}
-    
+        );
+    }
+    if (store.token && store.token !== "" && store.token !== undefined) {
+        return (
+            <PageNotAllowed />
+        );
+    }
     return (
         <div >
             {hasRequiredFields() ? (
@@ -137,12 +128,12 @@ export const MyProfile = () => {
                             </div>
                         </div>
                     </div>
-                ) : (
-                    <CreateProfile />
-                )}
-            </div>
-        );
-    } else {
-        return <PageNotAllowed />;
-    }
+                </>
+            ) : (
+                <CreateProfile />
+            )}
+        </div>
+
+    );
+
 };
