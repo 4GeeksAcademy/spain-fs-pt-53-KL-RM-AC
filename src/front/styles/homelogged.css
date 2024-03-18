@@ -9,19 +9,31 @@
     .profilesImg {
         height: 350px;
     }
-    
+
 
     .conectionImg {
         height: 200px;
         width: 200px;
         margin-right: 0;
-        
+
     }
 
-    .texto{
-        border-left: 2px solid;
+    .textLogged {
+        border-left: 2px solid rgba(50, 47, 47, 0.492);
         margin-top: 70px;
         margin-left: 30px;
+        font-family: "Be Vietnam Pro";
+        font-style: normal;
+        font-weight: 200;
+        font-size: medium;
     }
-    
+
+    .title {
+        text-align: center;
+        font-family: "Be Vietnam Pro";
+        font-style: normal;
+        font-weight: 1000;
+        color: #3f7a8d;
+        text-shadow: 0.5px 0.5px #ffffff;
+    }
 }

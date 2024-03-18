@@ -11,7 +11,7 @@ export const HomeLogged = () => {
             <div className="d-flex">
                 <div className="col-7 text-center justify-content-center">
                     <div className="container title">
-                        <h2 className="curved-text">Bienvenido a la comunidad</h2>
+                        <h2 className="title">Bienvenido a la comunidad</h2>
                     </div>
 
 
@@ -19,10 +19,7 @@ export const HomeLogged = () => {
                         <div className="container conectionImg">
                             <img src={OnlineWorld} className="onlineWorld" ></img>
                         </div>
-                        
-                            <p className="texto">"Explora el hogar de tus sueños: en nuestra plataforma, conectamos a más de 1000 personas que encuentran la habitación ideal para convivir felices y crear recuerdos inolvidables."</p>
-                        
-
+                        <p className="textLogged">"Explora el hogar de tus sueños: en nuestra plataforma, conectamos a más de 1000 personas que encuentran la habitación ideal para convivir felices y crear recuerdos inolvidables."</p>
                     </div>
                     <div className=" container d-flex justify-content-center mt-5 ">
                         <Link to="/finder">
