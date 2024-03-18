@@ -10,6 +10,7 @@ export const MyProfile = () => {
     const userData = {
 			user_name: store.user_name,
 			last_name: store.last_name,
+            email: store.email,
 			pet: store.pet,
 			gender: store.gender,
 			budget: store.budget,
@@ -18,12 +19,13 @@ export const MyProfile = () => {
 			profile_img: store.profile_img,
     }
     const [loading, setLoading] = useState(true); // Inicialmente, establece loading como true
-
+    
     useEffect(() => {
         const fetchProfile = async () => {
             try {
                 setLoading(true); // Establece loading como true al comenzar la carga
                 await actions.getProfile();
+                
                 setLoading(false); // Cuando getProfile() ha terminado, establece loading como false
             } catch (error) {
                 console.error("Error al obtener perfil:", error);
@@ -46,7 +48,7 @@ export const MyProfile = () => {
             userData.gender &&
             userData.budget &&
             userData.find_roomie &&
-            userData.profile_img &&
+            userData.profile_img && 
             userData.text_box &&
             userData.pet
         );

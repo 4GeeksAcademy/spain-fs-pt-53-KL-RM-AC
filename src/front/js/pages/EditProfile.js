@@ -1,6 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/FormsImgs.css";
 import { Link } from "react-router-dom";
 import ReactAvatarEditor from "react-avatar-editor";
 

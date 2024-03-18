@@ -55,7 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			signUp: async (formData) => {
+			 signUp: async (formData) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/signup', {
 						method: "POST",
@@ -189,7 +189,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			changePassword: async (oldPassword , newPassword) => {
 				try {
 					const { token } = await getStore();
-					const response = await fetch(process.env.BACKEND_URL + '/user/change-password', {
+					const response = await fetch(process.env.BACKEND_URL + '/user/change/password', {
 						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
