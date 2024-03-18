@@ -221,7 +221,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
+						method: "GET",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						}
+					});
+			
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
@@ -233,7 +240,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 			
 				} catch (error) {
-					throw error;
+					console.error('Error al obtener usuarios:', error);
+			
+					return { error: 'Error al obtener usuarios' };
+			
 				}
 			},
 
