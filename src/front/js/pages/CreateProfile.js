@@ -177,7 +177,7 @@ export const CreateProfile = () => {
                     </div>
 
 
-                    {alertMessage && (<div className="alert alert-danger mt-3">{alertMessage}</div>)}
+                    {alertMessage && (<div className="container alert alert-danger mt-3">{alertMessage}</div>)}
                 </form>
                 <div className="buttonsCP mt-5">
 
