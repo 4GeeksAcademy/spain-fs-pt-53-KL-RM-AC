@@ -64,7 +64,7 @@ export const MyProfile = () => {
         );}
     
     return (
-        <div className="container mt-2 p-3 justify-content-center">
+        <div >
             {hasRequiredFields() ? (
                 <>
                     <h3 className="text-center">Mi Perfil</h3>
