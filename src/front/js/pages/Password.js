@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import password from "../../img/Forgot password-bro.png";
-import "../../styles/FormsImgs.css";
+import "../../styles/password.css";
 
 export const Password = () => {
     const { store, actions } = useContext(Context);
@@ -20,10 +20,10 @@ export const Password = () => {
     };
 
     return (
-        <div className="container mt-5 p-3 justify-content-center ">
-            <div className="col-6">
+        <div className="password container mt-5 justify-content-center ">
+            <div className="passwordForm col-6">
                 <form>
-                    <h3 className="text-center">Cambiar Contraseña</h3>
+                    <h3 className="title text-center p-3">Cambiar Contraseña</h3>
 
                     <label htmlFor="inputPassword" className="form-label fw-bold">Contraseña Actual</label>
                     <input
