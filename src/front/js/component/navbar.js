@@ -7,7 +7,9 @@ import { Context } from "../store/appContext";
 export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
-    const {favoriteProfiles} = store
+
+    const { favoriteProfiles } = store
+
     const token = store.token;
 
     useEffect(() => {
@@ -15,7 +17,7 @@ export const Navbar = () => {
             try {
                 if (token) {
                     await actions.getFavoriteProfiles();
-                    
+
                 }
             } catch (error) {
                 console.error('Error al obtener perfiles favoritos:', error);
@@ -26,13 +28,25 @@ export const Navbar = () => {
 
     return (
         <div className="d-flex custom-navbar">
+
+
+            <div className="logo me-auto">
+
             {token ? (
                 <Link to="/homelogged">
                     <img className="navbar-brand imageLogo" src={compislogo} alt="" />
                 </Link>
             ) : (
                 <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+
+            )
+            }
+            </div>
+
+            <div className="favoritos">
+
             )}
+
 
             {token &&
                 <div className="dropdown">
@@ -50,6 +64,10 @@ export const Navbar = () => {
                     </ul>
                 </div>
             }
+
+            </div>
+        
+
             <div className="textNavbar">
                 <Link to="/profile">
                     <span> Mi perfil</span>
@@ -61,6 +79,8 @@ export const Navbar = () => {
                     <span onClick={() => actions.logout()}>Cerrar sesión</span>
                 </Link>
             </div>
+
+            
         </div>
     );
 }
