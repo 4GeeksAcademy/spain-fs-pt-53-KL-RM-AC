@@ -45,7 +45,7 @@ export const Navbar = () => {
             
             <div className="favoritos">
 
-            )}
+    
 
 
             {token &&
