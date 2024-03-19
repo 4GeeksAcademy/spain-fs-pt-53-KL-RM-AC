@@ -17,7 +17,6 @@ const LITERALS = {
 export const MyProfile = () => {
     const { store, actions } = useContext(Context);
     const userData = {
-
         user_name: store.user_name,
         last_name: store.last_name,
         pet: store.pet,
@@ -35,8 +34,9 @@ export const MyProfile = () => {
         setLoading(true)
 
         const fetchProfile = async () => {
+            setLoading(true); 
             try {
-                setLoading(true); // Establece loading como true al comenzar la carga
+               // Establece loading como true al comenzar la carga
                 await actions.getProfile();
 
                 setLoading(false); // Cuando getProfile() ha terminado, establece loading como false
@@ -62,7 +62,7 @@ export const MyProfile = () => {
             userData.find_roomie &&
             userData.profile_img &&
             userData.text_box &&
-            userData.pet
+            userData.pet 
         );
     };
 
