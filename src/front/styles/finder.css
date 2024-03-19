@@ -47,6 +47,9 @@
     /* Ajusta el padding horizontal */
 }
 
+.p {
+    padding: 5px;
+}
 
 .card {
     background-color: #3f7a8d5d;
