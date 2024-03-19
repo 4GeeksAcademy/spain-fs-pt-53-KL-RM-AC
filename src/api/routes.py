@@ -13,7 +13,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import re
 import os
-import bcrypt
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 
 api = Blueprint('api', __name__)
@@ -26,6 +26,8 @@ upload_folder = r'C:\rutaatucarpeta\uploads'
 # login
 # FUNCIONA 
 # UTILIZADO
+from flask_jwt_extended import create_access_token
+
 @api.route("/token", methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
@@ -34,12 +36,27 @@ def create_token():
     if not email or not password: 
        return jsonify({"message": "Email and password are required"}), 400
     
-    user = User.query.filter_by(email=email, password=password).first()
-    if not user:
+    user = User.query.filter_by(email=email).first()
+    if not user or not check_password_hash(user.password, password):
         return jsonify({"message": "Email or password are incorrect"}), 401
     
     access_token = create_access_token(identity=user.id)  # Aquí se utiliza el ID del usuario como identidad
     return jsonify({"access_token": access_token, "user_id": user.id})
+
+# @api.route("/token", methods=["POST"])
+# def create_token():
+#     email = request.json.get("email", None)
+#     password = request.json.get("password", None)
+    
+#     if not email or not password: 
+#        return jsonify({"message": "Email and password are required"}), 400
+    
+#     user = User.query.filter_by(email=email, password=password).first()
+#     if not user:
+#         return jsonify({"message": "Email or password are incorrect"}), 401
+    
+#     access_token = create_access_token(identity=user.id)  # Aquí se utiliza el ID del usuario como identidad
+#     return jsonify({"access_token": access_token, "user_id": user.id})
 
 
 # create user (registro)
@@ -60,9 +77,10 @@ def create_user():
         return jsonify({'message': 'The email is already in use'}), 400
     
     # Crear un nuevo usuario
+    hashed_password = generate_password_hash(body['password']).decode('utf-8')  # Hashear la contraseña
     new_user = User(
         email=body['email'],
-        password=body['password'],
+        password=hashed_password,  # Almacenar la contraseña hasheada
         user_name=body['user_name'],
         last_name=body['last_name']
     )
@@ -72,11 +90,43 @@ def create_user():
     
     # Retornar una respuesta exitosa
     try:
-     db.session.commit()
-     return jsonify({'message': 'User created successfully', 'user_id': new_user.id}), 201
+        db.session.commit()
+        return jsonify({'message': 'User created successfully', 'user_id': new_user.id}), 201
     except Exception as e:
-     db.session.rollback()
-     return jsonify({'msg': f'Error creating user: {str(e)}'}), 500
+        db.session.rollback()
+        return jsonify({'msg': f'Error creating user: {str(e)}'}), 500
+# @api.route('/signup', methods=['POST'])
+# def create_user():
+#     # Obtener los datos del cuerpo de la solicitud
+#     body = request.json
+    
+#     # Verificar si se proporcionaron los datos necesarios
+#     if not all(key in body for key in ['email', 'password', 'user_name', 'last_name']):
+#         return jsonify({'message': 'Required data is missing'}), 400
+
+#     # Verificar si el correo electrónico ya está en uso
+#     existing_user = User.query.filter_by(email=body['email']).first()
+#     if existing_user:
+#         return jsonify({'message': 'The email is already in use'}), 400
+    
+#     # Crear un nuevo usuario
+#     new_user = User(
+#         email=body['email'],
+#         password=body['password'],
+#         user_name=body['user_name'],
+#         last_name=body['last_name']
+#     )
+    
+#     # Guardar el nuevo usuario en la base de datos
+#     db.session.add(new_user)
+    
+#     # Retornar una respuesta exitosa
+#     try:
+#      db.session.commit()
+#      return jsonify({'message': 'User created successfully', 'user_id': new_user.id}), 201
+#     except Exception as e:
+#      db.session.rollback()
+#      return jsonify({'msg': f'Error creating user: {str(e)}'}), 500
 
 
 @api.route('/user', methods=['GET'])
@@ -88,9 +138,6 @@ def get_user_details():
         return jsonify({"message": "Usuario no encontrado"}), 404
     return jsonify(user.serialize()), 200
 
-# Cambio contrasena
-#FUNCIONA   
-# UTILIZADO
 @api.route('/change/password', methods=['PUT'])
 @jwt_required()  
 def change_password():
@@ -101,20 +148,45 @@ def change_password():
     new_password = body.get('new_password')
 
     # Verificar que el usuario exista en la base de datos
-    user = User.query.get(current_user_id)
+    user = User.query.filter_by(id=current_user_id).first()
     if not user:
         return jsonify({'error': 'Usuario no encontrado'}), 404
     
-    # Verificar que la contraseña antigua sea correcta
-    if user.password != old_password:
-        return jsonify({'error': 'La contraseña antigua no es correcta'}), 400
+    # Verificar que la contraseña actual sea correcta
+    if not check_password_hash(user.password, old_password):
+        return jsonify({'error': 'La contraseña actual no es correcta'}), 400
     
-    # Actualizar la contraseña del usuario
-    hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-    user.password = hashed_password
+    # Encriptar la nueva contraseña
+    hashed_new_password = generate_password_hash(new_password).decode('utf-8')
+    user.password = hashed_new_password
     db.session.commit()
 
     return jsonify({'message': 'Contraseña cambiada exitosamente'}), 200
+# @api.route('/change/password', methods=['PUT'])
+# @jwt_required()  
+# def change_password():
+#     current_user_id = get_jwt_identity()  
+    
+#     body = request.json
+#     old_password = body.get("old_password")
+#     new_password = body.get('new_password')
+
+#     # Verificar que el usuario exista en la base de datos
+#     user = User.query.filter_by(id = current_user_id).first()
+#     if not user:
+#         return jsonify({'error': 'Usuario no encontrado'}), 404
+    
+#     # Desencriptar la contraseña almacenada en la base de datos
+#     decrypted_password = bcrypt.check_password_hash(user.password, old_password)
+#     if not decrypted_password:
+#         return jsonify({'error': 'La contraseña actual no es correcta'}), 400
+    
+#     # Encriptar la nueva contraseña
+#     hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+#     user.password = hashed_password
+#     db.session.commit()
+
+#     return jsonify({'message': 'Contraseña cambiada exitosamente'}), 200
 
 # crea por primera vez los filtros de los user (crear perfil)
 # FUNCIONA

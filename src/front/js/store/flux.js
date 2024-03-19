@@ -164,6 +164,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteUserProperties: async () => {
 				try {
+					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
 						method: 'DELETE',
 						headers: {
