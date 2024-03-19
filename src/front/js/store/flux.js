@@ -28,7 +28,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				localStorage.removeItem("token");
 				console.log("login out");
-				setStore({ token: null });
+
+				setStore({
+					email: null,
+					password: null,
+					token: null,
+					user_name: null,
+					last_name: null,
+					pet: null,
+					gender: null,
+					budget: null,
+					find_roomie: null,
+					text_box: null,
+					profile_img: null,
+					favoriteProfiles: [],
+				});
+
 
 			},
 
@@ -220,7 +235,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				try {
 					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties');
+					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
+						method: "GET",
+						headers: {
+							"Authorization": "Bearer " + token,
+							"Content-Type": "application/json"
+						}
+					});
+			
 					if (!response.ok) {
 						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
 					}
@@ -232,7 +254,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 
 				} catch (error) {
-					throw error;
+					console.error('Error al obtener usuarios:', error);
+			
+					return { error: 'Error al obtener usuarios' };
+			
 				}
 			},
 

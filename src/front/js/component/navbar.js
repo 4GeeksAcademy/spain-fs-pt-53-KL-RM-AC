@@ -7,7 +7,9 @@ import { Context } from "../store/appContext";
 export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
+
     const { favoriteProfiles } = store
+
     const token = store.token;
 
     useEffect(() => {
@@ -27,18 +29,25 @@ export const Navbar = () => {
     return (
         <div className="d-flex custom-navbar">
 
+
             <div className="logo me-auto">
+
             {token ? (
                 <Link to="/homelogged">
                     <img className="navbar-brand imageLogo" src={compislogo} alt="" />
                 </Link>
             ) : (
                 <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+
             )
             }
             </div>
-
+            
             <div className="favoritos">
+
+    
+
+
             {token &&
                 <div className="dropdown">
                     <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,6 +64,7 @@ export const Navbar = () => {
                     </ul>
                 </div>
             }
+
             </div>
         
 

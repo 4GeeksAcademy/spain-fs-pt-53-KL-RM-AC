@@ -1,9 +1,56 @@
-.card{
-    background-color: #43A19E;
-    height: fit-content;
-    border: 0;
+.myprofile {
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-size: large;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #888888;
+    padding: 20px;
+    max-width: 970px;
+    /* Ancho máximo de la postal */
+    margin: 0 auto;
+    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
 }
-.img{
-    max-height: 100%;
-    background-color: aliceblue;
+
+.profile-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.myprofile-details {
+    flex-grow: 1;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.custom-btn {
+    display: flex;
+    align-items: center;
+}
+
+.postal-myprofile {
+    padding: 15px;
+}
+.myprofile .btn {
+    margin: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    align-self: center;
+}
+
+.user-info h2 {
+    margin-top: 0;
+}
+
+.user-info p {
+    margin-bottom: 10px;
+}
+
+.ideal-companion {
+    background-color: #3f7a8d42;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    max-height: 200px; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
 }

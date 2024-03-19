@@ -274,16 +274,16 @@ def get_users_filter():
         
 
     # Realizar una operación de unión (join) para obtener los nombres y apellidos de los usuarios
-    users_properties = db.session.query(UserProperties, User.user_name, User.last_name).\
-        join(User, User.id == UserProperties.user_id).\
+    users_properties = db.session.query(User, UserProperties).\
+        join(UserProperties, User.id == UserProperties.user_id).\
         filter(and_(*filters)).all()
 
     # Serializar las propiedades de los usuarios y obtener los nombres y apellidos de los usuarios correspondientes
     serialized_users = []
-    for user_property, user_name, last_name in users_properties:
-        serialized_user = user_property.serialize()
-        serialized_user['user_name'] = user_name
-        serialized_user['last_name'] = last_name
+    for user, users_properties in users_properties:
+        serialized_user = user.serialize()
+        serialized_user['properties'] = users_properties.serialize()
+ 
         serialized_users.append(serialized_user)
 
     return jsonify(serialized_users), 200
