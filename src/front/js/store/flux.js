@@ -29,6 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				localStorage.removeItem("token");
 				console.log("login out");
+
 				setStore({
 					email: null,
 					password: null,
@@ -43,6 +44,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					profile_img: null,
 					favoriteProfiles: [],
 				});
+
 
 			},
 
@@ -62,6 +64,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					else if (response.ok) {
 						const data = await response.json();
 						localStorage.setItem('token', data.access_token);
+						setStore({ token: data.access_token });
 						console.log('Token:', data.access_token);
 					}
 				} catch (error) {
@@ -198,7 +201,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(responseData.error || 'Failed to delete user properties');
 					}
 
-					console.log(responseData.message); // Mensaje de éxito en caso de eliminación exitosa
+					console.log(responseData.message); 
+					setStore({
+						...getStore(),
+						pet: null,
+						gender: null,
+						budget: null,
+						find_roomie: null,
+						text_box: null,
+						profile_img: null
+						// Actualiza cualquier otra propiedad que necesite ser restablecida
+					});// Mensaje de éxito en caso de eliminación exitosa
 				} catch (error) {
 					console.error('Error deleting user properties:', error.message);
 				}
@@ -210,7 +223,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const { token } = await getStore();
 
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/user/change/password', {
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
 						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
