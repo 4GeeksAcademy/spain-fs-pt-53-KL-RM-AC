@@ -21,14 +21,14 @@ export const Finder = () => {
     const [noProfilesFound, setNoProfilesFound] = useState(false);
     const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
-
+    
 
     useEffect(() => {
         actions.syncTokenFromLocalStorage();
         if (store.token === "" || store.token === null) {
             navigate("/");
         } else {
-            actions.getAllUsers().then(data => {
+            actions.getUsersFilter({}).then(data => {
                 if (data && data.length) {
                     setUsersData(data);
                 }
@@ -38,7 +38,7 @@ export const Finder = () => {
 
 
     const handleClick = userData => {
-        navigate("/learnmore", { state: { user: userData } });
+        navigate(`/learnmore/${userData.id}`);
     };
 
 
@@ -66,13 +66,12 @@ export const Finder = () => {
     const handleResetFilters = () => {
         setFilters({});
         setFiltersActive(false);
-        actions.getAllUsers().then(data => {
+        actions.getUsersFilter({}).then(data => {
             if (data && data.length) {
-                setUsersData(data);  // actualiza los perfiles con los datos obtenidos 
-                setNoProfilesFound(false); // estable noProfilesFound en false para mostrar todos los perfiles
+                setUsersData(data);
+                setNoProfilesFound(false);
             }
         });
-        // Restablecer los valores predeterminados de los selects
         document.getElementById('find_roomie').selectedIndex = 0;
         document.getElementById('gender').selectedIndex = 0;
         document.getElementById('pet').selectedIndex = 0;
@@ -81,14 +80,12 @@ export const Finder = () => {
 
 
     const handleModalClose = () => {
-        // restablecer los valores predeterminados de los selects
         document.getElementById('find_roomie').selectedIndex = 0;
         document.getElementById('gender').selectedIndex = 0;
         document.getElementById('pet').selectedIndex = 0;
         document.getElementById('budget').selectedIndex = 0;
 
-        // actualizar los perfiles llamando a getAllUsers
-        actions.getAllUsers().then(data => {
+        actions.getUsersFilter({}).then(data => {
             if (data && data.length) {
                 setUsersData(data);
                 setNoProfilesFound(false);
@@ -118,7 +115,6 @@ export const Finder = () => {
             if (store.token) {
                 await actions.removeFavoriteProfile(profileId);
                 console.log("Perfil eliminado de favoritos exitosamente");
-                // Actualiza la lista de favoritos después de eliminar uno
                 const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
                 setFavoriteProfiles(updatedFavoriteProfiles);
             } else {
@@ -131,143 +127,149 @@ export const Finder = () => {
 
 
     console.log(usersData)
-    if (!store.token || store.token === "" || store.token === undefined) {
-        return <PageNotAllowed />;
-    }
+    if (store.token && store.token !== "" && store.token !== undefined) {
 
-    return (
-        <div className="container p-5 finder">
-            <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
-            <div className="row">
-                <div className=" filter col-3 sticky-top">
-                    <h4>Filtros</h4>
-                    <form>
-                        <div className="situation">
-                            <h5>¿Qué buscas?</h5>
-                            <select id="find_roomie" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'find_roomie': e.target.value })}>
-                                <option defaultValue>¿Cual es tu situacion?</option>
-                                <option value="Apartment">Tengo piso, busco roomie</option>
-                                <option value="NoApartment">Busco roomie que tenga piso</option>
-                            </select>
+        return (
+            <div className="container p-5 finder">
+                <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
+                <div className="row">
+                    <div className=" filter col-3 sticky-top">
+                        <h4>Filtros</h4>
+                        <form>
+                            <div className="situation">
+                                <h5>¿Qué buscas?</h5>
+                                <select id="find_roomie" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'find_roomie': e.target.value })}>
+                                    <option defaultValue>¿Cual es tu situacion?</option>
+                                    <option value="Apartment">Tengo piso, busco roomie</option>
+                                    <option value="NoApartment">Busco roomie que tenga piso</option>
+                                </select>
 
-                        </div>
+                            </div>
 
-                        <hr></hr>
+                            <hr></hr>
 
-                        <div className="gender">
-                            <h5>Género</h5>
-                            <select id="gender" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'gender': e.target.value })}>
-                                <option defaultValue>Género</option>
-                                <option value="Female">Femenino</option>
-                                <option value="Male">Masculino</option>
-                            </select>
-                        </div>
+                            <div className="gender">
+                                <h5>Género</h5>
+                                <select id="gender" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'gender': e.target.value })}>
+                                    <option defaultValue>Género</option>
+                                    <option value="Female">Femenino</option>
+                                    <option value="Male">Masculino</option>
+                                </select>
+                            </div>
 
-                        <hr></hr>
+                            <hr></hr>
 
-                        <div className="pet">
-                            <h5>Mascota</h5>
-                            <select id="pet" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'pet': e.target.value })} >
-                                <option defaultValue>Mascota</option>
-                                <option value="Yes">Tengo mascota</option>
-                                <option value="No">No tengo mascota</option>
-                            </select>
-                        </div>
+                            <div className="pet">
+                                <h5>Mascota</h5>
+                                <select id="pet" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'pet': e.target.value })} >
+                                    <option defaultValue>Mascota</option>
+                                    <option value="Yes">Tengo mascota</option>
+                                    <option value="No">No tengo mascota</option>
+                                </select>
+                            </div>
 
-                        <hr></hr>
+                            <hr></hr>
 
-                        <div className="budget">
-                            <h5>Presupuesto</h5>
-                            <select id="budget" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'budget': e.target.value })}>
-                                <option defaultValue>Ajusta tu presupuesto</option>
-                                <option value="300">Hasta 300</option>
-                                <option value="400">Hasta 400</option>
-                                <option value="500">Hasta 500</option>
-                            </select>
-                        </div>
+                            <div className="budget">
+                                <h5>Presupuesto</h5>
+                                <select id="budget" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'budget': e.target.value })}>
+                                    <option defaultValue>Ajusta tu presupuesto</option>
+                                    <option value="300">Hasta 300</option>
+                                    <option value="400">Hasta 400</option>
+                                    <option value="500">Hasta 500</option>
+                                </select>
+                            </div>
 
-                        <hr></hr>
-                    </form>
+                            <hr></hr>
+                        </form>
 
-                    <button
-                        onClick={filtersActive ? handleResetFilters : handleFilteredUsers}
-                        className={`btn ${filtersActive ? "btn-reset" : "btn-primary"}`}
-                    >
-                        {filtersActive ? "Restablecer filtros" : "Aplicar filtros"}
-                    </button>
-                </div>
+                        <button
+                            onClick={filtersActive ? handleResetFilters : handleFilteredUsers}
+                            className={`btn ${filtersActive ? "btn-reset" : "btn-primary"}`}
+                        >
+                            {filtersActive ? "Restablecer filtros" : "Aplicar filtros"}
+                        </button>
+                    </div>
 
 
-                <div className="col-9">
-                    <div className="row row-cols-1 row-cols-md-3 g-4">
-                        {Array.isArray(usersData) &&
-                            usersData.map((userData, index) => (
-                                <div className="card shadow-sm" style={{ width: "18rem" }} key={index}>
-                                    <div className="card-body">
-                                        <div className="text-center">
-                                            <img
-                                                src={userData.properties?.profile_img}
-                                                className="img-fluid rounded-circle"
-                                                alt=""
-                                                style={{ width: '220px', height: '220px', objectFit: 'cover' }}
-                                            />
-                                        </div>
-                                        <hr />
-                                        <div className="card-center d-flex justify-content-around">
-                                            <h5 className="card-title-name">{userData.user_name}</h5>
-                                            <h5 className="card-title-name">{userData.last_name}</h5>
-                                        </div>
-
-                                        <div className="d-flex">
-                                            <div className="more-data d-flex justify-content-start">
-                                                <p><i className="fa-solid fa-paw"></i> {LITERALS[userData.properties?.pet]}</p>
+                    <div className="col-9">
+                        <div className="row row-cols-1 row-cols-md-3 g-4">
+                            {Array.isArray(usersData) &&
+                                usersData.map((userData, index) => (
+                                    <div className="card shadow-sm" style={{ width: "18rem" }} key={index}>
+                                        <div className="card-body">
+                                            <div className="text-center">
+                                                <img
+                                                    src={userData.properties?.profile_img}
+                                                    className="img-fluid rounded-circle"
+                                                    alt=""
+                                                    style={{ width: '220px', height: '220px', objectFit: 'cover' }}
+                                                />
                                             </div>
-                                            <div className="flex-row">
-                                                <p><i className="fa-solid fa-euro-sign"></i>{userData.properties?.budget}</p>
-                                                <p><i className="fa-solid fa-venus-mars"></i>{LITERALS[userData.properties?.gender]}</p>
+                                            <hr />
+                                            <div className="card-center d-flex justify-content-around">
+                                                <h5 className="card-title-name">{userData.user_name}</h5>
+                                                <h5 className="card-title-name">{userData.last_name}</h5>
                                             </div>
-                                        </div>
+
+                                            <div className="d-flex">
+                                                <div className="more-data p-2 d-flex justify-content-start">
+                                                    <p><i className="fa-solid fa-paw"></i> {LITERALS[userData.properties?.pet]}</p>
+                                                </div>
+                                                <div className="flex-row">
+                                                    <p><i className="fa-solid fa-euro-sign"></i>{userData.properties?.budget}</p>
+                                                    <p><i className="fa-solid fa-venus-mars"></i>{LITERALS[userData.properties?.gender]}</p>
+                                                </div>
+                                            </div>
 
 
-                                        <div className="d-flex  justify-content-between">
-                                            <div className="d-grid gap-2 d-md-flex">
-                                                <button
-                                                    onClick={() => {
-                                                        handleClick(userData);
-                                                    }}
-                                                    type="button"
-                                                    className="btn btn-success"
-                                                >
-                                                    Saber más
-                                                </button>
-                                            </div>
-                                            <div className="d-grid gap-1 d-md-flex justify-content-md-end">
-                                                <button
-                                                    onClick={() => handleAddToFavorites(userData.id)}
-                                                    className="btn btn-link text-end text-decoration-none"
-                                                >
-                                                    <i className="fas fa-heart"></i>
-                                                </button>
-                                                <button
-                                                    onClick={() => handleRemoveFromFavorites(userData.id)}
-                                                    className="btn btn-link text-end text-decoration-none"
-                                                >
-                                                    <i className="fa-solid fa-heart-crack"></i>
-                                                </button>
+                                            <div className="d-flex  justify-content-between">
+                                                <div className="d-grid gap-2 d-md-flex">
+                                                
+                                                    <button
+                                                        onClick={() => {
+                                                            handleClick(userData);
+                                                        }}
+                                                        type="button"
+                                                        className="btn btn-success"
+                                                    >
+                                                        Saber más
+                                                    </button>
+
+
+                                                </div>
+                                                <div className="d-grid gap-1 d-md-flex justify-content-md-end">
+                                                    <button
+                                                        onClick={() => handleAddToFavorites(userData.id)}
+                                                        className="btn btn-link text-end text-decoration-none"
+                                                    >
+                                                        <i className="fas fa-heart"></i>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleRemoveFromFavorites(userData.id)}
+                                                        className="btn btn-link text-end text-decoration-none"
+                                                    >
+                                                        <i className="fa-solid fa-heart-crack"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                        </div>
                     </div>
                 </div>
+
+                <ModalFilteredUsers show={noProfilesFound} handleClose={handleModalClose} />
+
             </div>
+        );
+    } else {
+        return (
+            <PageNotAllowed />
+        );
+    }
 
-            <ModalFilteredUsers show={noProfilesFound} handleClose={handleModalClose} />
-
-        </div>
-    );
-} ;
-
+};
 
 

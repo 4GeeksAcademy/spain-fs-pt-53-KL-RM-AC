@@ -271,20 +271,25 @@ def get_users_filter():
             filters.append(UserProperties.budget <= budget)
     if findroomie is not None:
         filters.append(UserProperties.find_roomie == findroomie)
-        
 
-    # Realizar una operación de unión (join) para obtener los nombres y apellidos de los usuarios
-    users_properties = db.session.query(User, UserProperties).\
-        join(UserProperties, User.id == UserProperties.user_id).\
-        filter(and_(*filters)).all()
+    # Si no se proporcionan filtros, devuelve todos los perfiles
+    if not filters:
+        users_properties = db.session.query(User, UserProperties).\
+            join(UserProperties, User.id == UserProperties.user_id).\
+            all()
+    else:
+        # Realizar una operación de unión (join) para obtener los nombres y apellidos de los usuarios
+        users_properties = db.session.query(User, UserProperties).\
+            join(UserProperties, User.id == UserProperties.user_id).\
+            filter(and_(*filters)).all()
 
     # Serializar las propiedades de los usuarios y obtener los nombres y apellidos de los usuarios correspondientes
     serialized_users = []
     for user, users_properties in users_properties:
-        serialized_user = user.serialize()
-        serialized_user['properties'] = users_properties.serialize()
- 
-        serialized_users.append(serialized_user)
+        if user.id != current_user_id:
+            serialized_user = user.serialize()
+            serialized_user['properties'] = users_properties.serialize()
+            serialized_users.append(serialized_user)
 
     return jsonify(serialized_users), 200
 
@@ -322,46 +327,6 @@ def get_user(user_id):
 
 ##########################################
 
-##########################################
-# obtiene todos los user con sus propiedades LO USO EN EL FLUX, ACTIONS, GETALLUSERS 
-# FUNCIONA
-# UTILIZADO
-@api.route('/users/properties', methods=['GET'])
-@jwt_required()
-def get_users_with_properties():
-    # Obtener todos los usuarios de la base de datos
-    users = User.query.all()
-    
-    # Lista para almacenar los datos serializados de todos los usuarios con propiedades
-    users_with_properties = []
-    
-    # Iterar sobre todos los usuarios
-    for user in users:
-        # Serializar los datos del usuario
-        serialized_user = user.serialize()
-        
-        # Obtener las propiedades del usuario
-        user_properties = UserProperties.query.filter_by(user_id=user.id).first()
-        
-        # Verificar si el usuario tiene propiedades
-        if user_properties:
-            # Serializar las propiedades del usuario
-            serialized_properties = user_properties.serialize()
-            # Agregar las propiedades al diccionario del usuario serializado
-            serialized_user['properties'] = serialized_properties
-        
-        # Agregar el usuario y sus propiedades (si las tiene) a la lista
-        users_with_properties.append(serialized_user)
-    
-    # Retornar la lista de usuarios con sus propiedades en formato JSON
-    return jsonify(users_with_properties), 200
-
-
-# trae usuarios (sin propiedades) no creo que se use
-# FUNCIONA
- 
-
-##########################
 #Favoritos
 # UTILIZADO
 @api.route('/user/favorite/profiles', methods=['POST'])
