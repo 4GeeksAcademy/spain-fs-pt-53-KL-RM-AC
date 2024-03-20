@@ -21,7 +21,7 @@ export const Finder = () => {
     const [noProfilesFound, setNoProfilesFound] = useState(false);
     const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
-
+    
 
     useEffect(() => {
         actions.syncTokenFromLocalStorage();
@@ -38,7 +38,7 @@ export const Finder = () => {
 
 
     const handleClick = userData => {
-        navigate("/learnmore", { state: { user: userData } });
+        navigate(`/learnmore/${userData.id}`);
     };
 
 
@@ -84,7 +84,7 @@ export const Finder = () => {
         document.getElementById('gender').selectedIndex = 0;
         document.getElementById('pet').selectedIndex = 0;
         document.getElementById('budget').selectedIndex = 0;
-    
+
         actions.getUsersFilter({}).then(data => {
             if (data && data.length) {
                 setUsersData(data);
@@ -125,8 +125,8 @@ export const Finder = () => {
         }
     };
 
-  
-console.log(usersData)
+
+    console.log(usersData)
     if (store.token && store.token !== "" && store.token !== undefined) {
 
         return (
@@ -225,6 +225,7 @@ console.log(usersData)
 
                                             <div className="d-flex  justify-content-between">
                                                 <div className="d-grid gap-2 d-md-flex">
+                                                
                                                     <button
                                                         onClick={() => {
                                                             handleClick(userData);
@@ -234,6 +235,8 @@ console.log(usersData)
                                                     >
                                                         Saber más
                                                     </button>
+
+
                                                 </div>
                                                 <div className="d-grid gap-1 d-md-flex justify-content-md-end">
                                                     <button

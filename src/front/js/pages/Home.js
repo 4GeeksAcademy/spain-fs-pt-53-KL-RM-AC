@@ -10,7 +10,7 @@ export const Home = () => {
 	return (
 		<div className="row home d-flex">
 			<div className="col-7">
-				<div className="d-flex m-0">
+				<div className="d-flex m-0 col-4">
 					<p className="title">COMPIS</p>
 					<p className="subtitle">APP</p>
 				</div>
