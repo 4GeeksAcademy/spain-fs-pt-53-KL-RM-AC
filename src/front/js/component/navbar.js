@@ -63,6 +63,23 @@ export const Navbar = () => {
                     </div>
                 }
 
+
+                {token &&
+                    <div className="dropdown">
+                        <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mis favoritos ({favoriteProfiles.length})
+                        </button>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                            {favoriteProfiles.map(profile => (
+                                <li key={profile.id}>
+                                    <p>
+                                        {profile.user_name} {profile.last_name}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                }
             </div>
 
 

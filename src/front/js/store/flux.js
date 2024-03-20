@@ -17,6 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			favoriteProfiles: [],
 
 		},
+
 		actions: {
 
 			syncTokenFromLocalStorage: () => {
@@ -87,8 +88,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-
-
 			getProfile: async () => {
 				const { token } = await getStore()
 					const response = await fetch(process.env.BACKEND_URL + '/user/profile', {
@@ -124,6 +123,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw new Error("Error al obtener el perfil del usuario: " + error.message);
 				}
 			},
+
 			addProfileInfo: async (formData) => {
 				const { token } = await getStore();
 
@@ -230,7 +230,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getAllUsers: async () => {
+			getUserById: async (id) => {
+
 				const { token } = await getStore()
 
 				if (!token) {
@@ -311,7 +312,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			//traer los favoritos al que usuario le ha dado like
+	
 			getFavoriteProfiles: async () => {
 				const { token } = await getStore();
 
@@ -340,8 +341,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return [];
 				}
 			},
-
-			//para añadir los favoritos mediante el ID del perfil del usuario
+			
 			addFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
 				const actions = getActions();
@@ -369,9 +369,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-
-
-			//borrar perfiles a los que ha dado like
+			
 			removeFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
 				const actions = getActions();
@@ -427,6 +425,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+
 			getUserDetails: async () => {
 
 				const { token } = await getStore();
@@ -453,10 +452,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-
-
-
-
+			
 		}
 
 	};
