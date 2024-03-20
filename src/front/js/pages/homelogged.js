@@ -11,7 +11,7 @@ export const HomeLogged = () => {
             <div className="d-flex">
                 <div className="col-7 text-center justify-content-center">
                     <div className="container title">
-                        <h2 className="title">Bienvenido a la comunidad</h2>
+                        <h2 className="title">Bienve nido a la comunidad</h2>
                     </div>
 
 
