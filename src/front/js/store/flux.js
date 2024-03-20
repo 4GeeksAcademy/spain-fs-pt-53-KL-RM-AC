@@ -111,13 +111,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						email: userData.email,
 						user_name: userData.user_name,
 						last_name: userData.last_name,
-						pet: userData.pet,
-						gender: userData.gender,
-						budget: userData.budget,
-						find_roomie: userData.find_roomie,
-						text_box: userData.text_box,
-						profile_img: userData.profile_img
+						pet: userData.properties.pet,
+						gender: userData.properties.gender,
+						budget: userData.properties.budget,
+						find_roomie: userData.properties.find_roomie,
+						text_box: userData.properties.text_box,
+						profile_img: userData.properties.profile_img
 					});
+					console.log(userData)
 
 				 }catch (error) {
 					throw new Error("Error al obtener el perfil del usuario: " + error.message);
