@@ -83,10 +83,10 @@
         },
         "cloudinary": {
             "hashes": [
-                "sha256:ef577671361c6b3814a8c143246ff2722837c6806fe85e8dfd0e6ad52029782a"
+                "sha256:922467259045ffdd81713b5ed2bc48f1d70f7f3e9812b8b0c206e99d665ed161"
             ],
             "index": "pypi",
-            "version": "==1.39.0"
+            "version": "==1.39.1"
         },
         "flask": {
             "hashes": [

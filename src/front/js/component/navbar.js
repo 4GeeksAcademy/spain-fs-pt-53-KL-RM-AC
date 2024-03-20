@@ -45,6 +45,25 @@ export const Navbar = () => {
 
             <div className="favoritos">
 
+
+                {token &&
+                    <div className="dropdown">
+                        <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mis favoritos ({favoriteProfiles.length})
+                        </button>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                            {favoriteProfiles.map(profile => (
+                                <li key={profile.id}>
+                                    <p>
+                                        {profile.user_name} {profile.last_name}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                }
+
+
                 {token &&
                     <div className="dropdown">
                         <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,6 +82,7 @@ export const Navbar = () => {
                 }
             </div>
 
+
             <div className="textNavbar">
                 <Link to="/profile">
                     <span> Mi perfil</span>
@@ -70,9 +90,14 @@ export const Navbar = () => {
                 <Link to="/finder">
                     <span>Buscar</span>
                 </Link>
-                <Link to="/user-login">
-                    <span onClick={() => actions.logout()}>Cerrar sesión</span>
-                </Link>
+                {!store.token ?
+                    <Link to="/user-login">
+                        <span>Iniciar Sesion</span>
+                    </Link> :
+                    <Link to="/user-login">
+                        <span onClick={() => actions.logout()}>Cerrar Sesion</span>
+                    </Link>
+                }
             </div>
 
 

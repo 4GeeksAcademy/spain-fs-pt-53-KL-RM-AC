@@ -21,9 +21,10 @@ export const CreateProfile = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
+            setLoading(false);
             try {
                 await actions.getUserDetails(store);
-                setLoading(false);
+
                 setUserData(store);
             } catch (error) {
                 console.error('Error al obtener los detalles del usuario:', error);
@@ -71,14 +72,10 @@ export const CreateProfile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Validar el formulario
         if (!formData.pet || !formData.gender || !formData.budget || !formData.find_roomie || !formData.text_box || !imageUploaded) {
             setAlertMessage("Por favor, completa todos los campos antes de enviar el formulario.");
             return; // Salir de la función si el formulario no está completo
         }
-
-        // Si el formulario está completo, intenta enviar los datos
         try {
             await actions.addProfileInfo(formData);
             setAlertMessage("");
@@ -172,7 +169,9 @@ export const CreateProfile = () => {
                         </div>
                         {alertMessage && (<div className="alert alert-danger">{alertMessage}</div>)}
                         <div className="buttonsCP mt-3">
-                            <button type="button " className="btn btn-dark me-2" onClick={handleSubmit} disabled={!imageUploaded}>Crear Perfil</button>
+                            <Link to={"/profile"}>
+                                <button type="button " className="btn btn-dark me-2" onClick={handleSubmit} disabled={!imageUploaded}>Crear Perfil</button>
+                            </Link>
                             <Link to={"/password"}>
                                 <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                             </Link>
