@@ -26,6 +26,15 @@ export const Navbar = () => {
         fetchFavoriteProfiles();
     }, [token, favoriteProfiles]);
 
+
+    const handleLogout = async () => {
+        try {
+            await actions.logout();
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    };
+
     return (
         <div className="d-flex custom-navbar">
 
@@ -74,7 +83,7 @@ export const Navbar = () => {
                     <span>Buscar</span>
                 </Link>
                 <Link to="/user-login">
-                    <span onClick={() => actions.logout()}>Cerrar sesión</span>
+                    <span onClick={() => handleLogout()}>Cerrar sesión</span>
                 </Link>
             </div>
 

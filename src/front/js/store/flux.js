@@ -90,8 +90,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			getProfile: async () => {
-				try {
-					const { token } = await getStore()
+				const { token } = await getStore()
 					const response = await fetch(process.env.BACKEND_URL + '/user/profile', {
 						method: "GET",
 						headers: {
@@ -99,11 +98,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json"
 						}
 					});
+					try {
 					if (!response.ok) {
 						const data = await response.json();
-						throw new Error(data.message || "Usuario no encontrado")
+						throw new Error(data.message || "Error al obtener el perfil del usuario")
 					}
+
 					const userData = await response.json();
+
 					setStore({
 						id: userData.id,
 						email: userData.email,
@@ -117,13 +119,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						profile_img: userData.profile_img
 					});
 
-				} catch (error) {
-					throw error;
+				 }catch (error) {
+					throw new Error("Error al obtener el perfil del usuario: " + error.message);
 				}
 			},
 			addProfileInfo: async (formData) => {
+				const { token } = await getStore();
+
 				try {
-					const { token } = await getStore();
 					console.log(formData)
 					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
 						method: "POST",
@@ -145,8 +148,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			updateProfileInfo: async (formData) => {
+				const { token } = await getStore();
+
 				try {
-					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
 						method: "PUT",
 						headers: {
@@ -176,9 +180,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteUserProperties: async () => {
+				const { token } = await getStore();
 
 				try {
-					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + '/user/properties', {
 						method: 'DELETE',
 						headers: {
@@ -202,8 +206,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			changePassword: async (oldPassword, newPassword) => {
+				const { token } = await getStore();
+
 				try {
-					const { token } = await getStore();
 					const response = await fetch(process.env.BACKEND_URL + '/user/change/password', {
 						method: "PUT",
 						headers: {
@@ -424,7 +429,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getUserDetails: async () => {
 
 				const { token } = await getStore();
-
 				try {
 					const response = await fetch(process.env.BACKEND_URL + '/user', {
 						method: 'GET',
