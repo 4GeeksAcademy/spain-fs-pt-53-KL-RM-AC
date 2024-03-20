@@ -146,5 +146,5 @@ export const EditProfile = () => {
                 </div>
             </div>
         </div>
-    );
+    ); 
 };
