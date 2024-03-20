@@ -17,6 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			favoriteProfiles: [],
 
 		},
+
 		actions: {
 
 			syncTokenFromLocalStorage: () => {
@@ -87,8 +88,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-
-
 			getProfile: async () => {
 				try {
 					const { token } = await getStore()
@@ -121,6 +120,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+
 			addProfileInfo: async (formData) => {
 				try {
 					const { token } = await getStore();
@@ -224,7 +224,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getAllUsers: async () => {
+			getUserById: async (id) => {
+
 				const { token } = await getStore()
 
 				if (!token) {
@@ -305,7 +306,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			//traer los favoritos al que usuario le ha dado like
+	
 			getFavoriteProfiles: async () => {
 				const { token } = await getStore();
 
@@ -334,8 +335,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return [];
 				}
 			},
-
-			//para añadir los favoritos mediante el ID del perfil del usuario
+			
 			addFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
 				const actions = getActions();
@@ -363,9 +363,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-
-
-			//borrar perfiles a los que ha dado like
+			
 			removeFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
 				const actions = getActions();
@@ -421,6 +419,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+
 			getUserDetails: async () => {
 
 				const { token } = await getStore();
@@ -448,10 +447,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-
-
-
-
+			
 		}
 
 	};

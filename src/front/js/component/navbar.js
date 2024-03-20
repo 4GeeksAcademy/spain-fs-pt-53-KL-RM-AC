@@ -32,41 +32,36 @@ export const Navbar = () => {
 
             <div className="logo me-auto">
 
-            {token ? (
-                <Link to="/homelogged">
+                {token ? (
+                    <Link to="/homelogged">
+                        <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+                    </Link>
+                ) : (
                     <img className="navbar-brand imageLogo" src={compislogo} alt="" />
-                </Link>
-            ) : (
-                <img className="navbar-brand imageLogo" src={compislogo} alt="" />
 
-            )
-            }
+                )
+                }
             </div>
-            
+
             <div className="favoritos">
 
-    
-
-
-            {token &&
-                <div className="dropdown">
-                    <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
-                        Mis favoritos ({favoriteProfiles.length})
-                    </button>
-                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
-                        {favoriteProfiles.map(profile => (
-                            <li key={profile.id}>
-                                <p>
-                                    {profile.user_name} {profile.last_name}
-                                </p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            }
-
+                {token &&
+                    <div className="dropdown">
+                        <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mis favoritos ({favoriteProfiles.length})
+                        </button>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                            {favoriteProfiles.map(profile => (
+                                <li key={profile.id}>
+                                    <p>
+                                        {profile.user_name} {profile.last_name}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                }
             </div>
-        
 
             <div className="textNavbar">
                 <Link to="/profile">
@@ -80,7 +75,7 @@ export const Navbar = () => {
                 </Link>
             </div>
 
-            
+
         </div>
     );
 }
