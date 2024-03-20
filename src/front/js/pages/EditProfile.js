@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/createProfile.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 export const EditProfile = () => {
     const { store, actions } = useContext(Context);
     const [alertMessage, setAlertMessage] = useState("");
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         pet: store.pet || "",
         gender: store.gender || "",
@@ -60,7 +61,9 @@ export const EditProfile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await actions.updateProfileInfo(formData);
+            if (await actions.updateProfileInfo(formData)){
+                navigate("/profile")
+            };
             setAlertMessage("");
         } catch (error) {
             console.error("Error al enviar datos:", error);
@@ -137,7 +140,9 @@ export const EditProfile = () => {
                         </div>
                         {alertMessage && (<div className="alert alert-danger">{alertMessage}</div>)}
                         <div className="buttonsCP mt-3">
-                            <button type="button" className="btn btn-dark me-2" onClick={handleSubmit}>Guardar</button>
+                            <Link to={"/profile"}>
+                                <button type="button" className="btn btn-dark me-2" onClick={handleSubmit}>Guardar</button>
+                            </Link>
                             <Link to={"/password"}>
                                 <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                             </Link>
@@ -146,5 +151,5 @@ export const EditProfile = () => {
                 </div>
             </div>
         </div>
-    ); 
+    );
 };

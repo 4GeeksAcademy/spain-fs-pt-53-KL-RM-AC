@@ -5,6 +5,7 @@ import OnlineWorld from "../../img/Online world-pana.png";
 import "../../styles/homelogged.css";
 
 export const HomeLogged = () => {
+
     return (
         <div className="container p-3 mt-5 logged">
             <div className="row">

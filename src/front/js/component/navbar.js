@@ -37,7 +37,9 @@ export const Navbar = () => {
                         <img className="navbar-brand imageLogo" src={compislogo} alt="" />
                     </Link>
                 ) : (
+                    <Link to={"/"}>
                     <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+                    </Link>
 
                 )
                 }
@@ -73,6 +75,8 @@ export const Navbar = () => {
                 <Link to="/finder">
                     <span>Buscar</span>
                 </Link>
+
+
                 {!store.token ?
                     <Link to="/user-login">
                         <span>Iniciar Sesion</span>
