@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { useParams, useLocation } from "react-router-dom";
-import "../../styles/learnmore.css";
 const LITERALS = {
     "Male": "Hombre",
     "Female": "Mujer",
@@ -11,17 +10,27 @@ const LITERALS = {
     "NoApartment": "Busco habitación",
 }
 
-export const LearnMore = () => {
 
+export const LearnMore = () => {
+    const { store, actions } = useContext(Context);
+    const { id } = useParams();
     const [userData, setUserData] = useState({});
     const [showEmail, setShowEmail] = useState(false);
-    const location = useLocation();
+
 
     useEffect(() => {
-        console.log(location)
-        setUserData(location.state.user);
 
-    }, []);
+        const fetchUserData = async () => {
+            try {
+                const user = await actions.getUserById(id);
+                setUserData(user);
+            } catch (error) {
+                console.error('Error al obtener los datos del usuario:', error);
+            }
+        };
+
+        fetchUserData(); // Llama a fetchUserData cuando el componente se monta
+    }, [id]); // Asegúrate de incluir 'id' como una dependencia para que se vuelva a llamar cuando cambie
 
     const handleClickContactar = () => {
         setShowEmail(true);
