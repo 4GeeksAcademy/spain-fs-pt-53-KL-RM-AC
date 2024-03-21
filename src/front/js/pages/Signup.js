@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/signUp.css";
 import { Link } from "react-router-dom";
@@ -6,14 +6,9 @@ import signUpImage from "../../img/signUpImage.png";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#55ccc9',
-        },
-    },
-});
 export const SignUp = () => {
     const { actions } = useContext(Context);
     const [formData, setFormData] = useState({
@@ -23,18 +18,41 @@ export const SignUp = () => {
         last_name: ""
     });
     const [alertMessage, setAlertMessage] = useState("");
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (alertMessage === "Usuario creado correctamente") {
+            setOpen(true);
+        }
+    }, [alertMessage]);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
+
+        // Verificar si alguno de los campos está vacío y establecer el mensaje apropiado
+        if (!e.target.value.trim()) {
+            setAlertMessage("Todos los campos son obligatorios");
+        } else {
+            setAlertMessage(""); // Limpiar el mensaje si todos los campos están llenos
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.email || !formData.password || !formData.user_name || !formData.last_name) {
+        if (!formData.email.trim() || !formData.password.trim() || !formData.user_name.trim() || !formData.last_name.trim()) {
             setAlertMessage("Todos los campos son obligatorios");
+            setOpen(true);
             return;
         }
         try {
@@ -53,8 +71,17 @@ export const SignUp = () => {
                 setAlertMessage("Error al crear el usuario");
                 console.error("Error al crear el usuario:", error);
             }
+            setOpen(true); // Abre el Snackbar incluso si hay un error
         }
     };
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#55ccc9',
+            },
+        },
+    });
 
     return (
         <ThemeProvider theme={theme}>
@@ -62,7 +89,7 @@ export const SignUp = () => {
                 <div className="row justify-content-center align-items-center">
                     <div className="col-lg-6 col-md-6 col-sm-12 d-flex">
                         <div className="container signUp">
-                            <form onSubmit={handleSubmit}>
+                            <form>
                                 <h1 className="title mb-1">Registrate</h1>
                                 <div className="textSignUp">
                                     <div className="mb-1">
@@ -82,27 +109,20 @@ export const SignUp = () => {
                                         <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" />
                                     </div>
                                     <div>
-                                        <span>¿Ya estás registrado? <Link to="/user-login" className="link">Iniciar Sesión</Link></span>
+                                        <span>¿Ya estás registrado? <Link to="/user-login" className="link">  Iniciar Sesión</Link></span>
                                     </div>
                                 </div>
                                 <Stack direction="row" spacing={2}>
-                                    <Button type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
+                                    <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
+                                    <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} style={{ marginTop: '40px' }}>
+                                        <Alert onClose={handleClose} severity={alertMessage === "Usuario creado correctamente" ? "success" : "error"} sx={{ width: '100%' }}>
+                                            {alertMessage}
+                                        </Alert>
+                                    </Snackbar>
                                 </Stack>
-                                {alertMessage && (
-                                    alertMessage === "Usuario creado correctamente" ? (
-                                        <div className="alert alert-success mt-3">{alertMessage}</div>
-                                    ) : (
-                                        <div className="alert alert-danger mt-3">{alertMessage}</div>
-                                    )
-                                )}
                             </form>
-
                         </div>
-                        {/* <div className="col">
-                            <img className="signUpImg img-fluid" src={signUpImage} alt="SignUp Image" />
-                        </div> */}
                     </div>
-
                 </div>
             </div>
         </ThemeProvider>
