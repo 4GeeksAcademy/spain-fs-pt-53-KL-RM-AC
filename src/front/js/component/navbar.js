@@ -17,7 +17,9 @@ export const Navbar = () => {
                         <img className="navbar-brand imageLogo" src={compislogo} alt="" />
                     </Link>
                 ) : (
+                    <Link  to="/">
                     <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+                    </Link>
                 )}
             </div>
             <div className="favoritos">
@@ -29,7 +31,7 @@ export const Navbar = () => {
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                             {favoriteProfiles.map(profile => (
                                 <li key={profile.id}>
-                                    <Link to={/learnmore/${profile.id}}>
+                                    <Link to={`/learnmore/${profile.id}`}>
                                         <p>
                                             {profile.user_name} {profile.last_name}
                                         </p>

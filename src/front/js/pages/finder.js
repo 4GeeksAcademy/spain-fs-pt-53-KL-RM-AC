@@ -24,16 +24,13 @@ export const Finder = () => {
     
 
     useEffect(() => {
-        actions.syncTokenFromLocalStorage();
-        if (store.token === "" || store.token === null) {
-            navigate("/");
-        } else {
+        
             actions.getUsersFilter({}).then(data => {
                 if (data && data.length) {
                     setUsersData(data);
                 }
-            });
-        }
+            
+        })
     }, []);
 
 
@@ -127,8 +124,9 @@ export const Finder = () => {
 
 
     console.log(usersData)
-    if (store.token && store.token !== "" && store.token !== undefined) {
-
+    if (!store.token || store.token === "" || store.token === undefined) {
+        return <PageNotAllowed />;
+    }
         return (
             <div className="container p-5 finder">
                 <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
@@ -264,11 +262,6 @@ export const Finder = () => {
 
             </div>
         );
-    } else {
-        return (
-            <PageNotAllowed />
-        );
-    }
 
 };
 
