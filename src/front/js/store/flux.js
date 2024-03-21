@@ -17,6 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			favoriteProfiles: [],
 
 		},
+
 		actions: {
 
 			syncTokenFromLocalStorage: () => {
@@ -28,6 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				localStorage.removeItem("token");
 				console.log("login out");
+
 				setStore({
 					email: null,
 					password: null,
@@ -42,6 +44,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					profile_img: null,
 					favoriteProfiles: [],
 				});
+
 
 			},
 
@@ -61,6 +64,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					else if (response.ok) {
 						const data = await response.json();
 						localStorage.setItem('token', data.access_token);
+						setStore({ token: data.access_token });
 						console.log('Token:', data.access_token);
 					}
 				} catch (error) {
@@ -86,8 +90,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-
-
 
 			getProfile: async () => {
 				const { token } = await getStore()
@@ -124,6 +126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw new Error("Error al obtener el perfil del usuario: " + error.message);
 				}
 			},
+
 			addProfileInfo: async (formData) => {
 				const { token } = await getStore();
 
@@ -198,7 +201,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(responseData.error || 'Failed to delete user properties');
 					}
 
-					console.log(responseData.message); // Mensaje de éxito en caso de eliminación exitosa
+					console.log(responseData.message); 
+					setStore({
+						...getStore(),
+						pet: null,
+						gender: null,
+						budget: null,
+						find_roomie: null,
+						text_box: null,
+						profile_img: null
+						// Actualiza cualquier otra propiedad que necesite ser restablecida
+					});// Mensaje de éxito en caso de eliminación exitosa
 				} catch (error) {
 					console.error('Error deleting user properties:', error.message);
 				}
@@ -210,7 +223,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const { token } = await getStore();
 
 				try {
-					const response = await fetch(process.env.BACKEND_URL + '/user/change/password', {
+					const { token } = await getStore();
+					const response = await fetch(process.env.BACKEND_URL + '/change/password', {
 						method: "PUT",
 						headers: {
 							"Authorization": "Bearer " + token,
@@ -230,58 +244,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getAllUsers: async () => {
-				const { token } = await getStore()
-
-				if (!token) {
-					console.error('Token no disponible. Inicia sesión nuevamente.');
-					return [];
-				}
-
-				try {
-					// Realizar la llamada a la API para obtener todos los usuarios con propiedades
-					const response = await fetch(process.env.BACKEND_URL + '/users/properties', {
-						method: "GET",
-						headers: {
-							"Authorization": "Bearer " + token,
-							"Content-Type": "application/json"
-						}
-					});
-			
-					if (!response.ok) {
-						throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
-					}
-
-					const data = await response.json();
-
-					setStore({ allUsers: data });
-					console.log(data)
-					return data;
-
-				} catch (error) {
-					console.error('Error al obtener usuarios:', error);
-			
-					return { error: 'Error al obtener usuarios' };
-			
-				}
-			},
-
-
-
 			getUserById: async (id) => {
 
-				//const token = token,
-				// tengo que almacenar los datos del usuario en el store userData:? const [userData, setUserData] = useState(null);
-				//  setUserData(userData);
-
 				try {
-					const response = await fetch(process.env.BACKEND_URL + ' /user/${id}', {
+					const { token } = await getStore();
+					const response = await fetch(`${process.env.BACKEND_URL}/user/${id}`, {
 						method: 'GET',
 						headers: {
 							"Content-Type": "application/json",
 							"Authorization": "Bearer " + token,
 						},
-
 					});
 
 					if (!response.ok) {
@@ -290,28 +262,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const userData = await response.json();
-
-					setUserData({
+					console.log(userData)
+					setStore({
 						id: userData.id,
 						email: userData.email,
 						user_name: userData.user_name,
 						last_name: userData.last_name,
 						pet: userData.properties.pet,
 						gender: userData.properties.gender,
-						budget: userData.properties.amount,
+						budget: userData.properties.budget,
 						find_roomie: userData.properties.find_roomie,
 						text_box: userData.properties.text_box,
 						profile_img: userData.properties.profile_img
 					});
-
+					return userData; // Devuelve los datos del usuario obtenidos
 				} catch (error) {
 					console.error('Error al obtener el perfil del usuario:', error);
-
 					throw error;
 				}
 			},
 
-			//traer los favoritos al que usuario le ha dado like
+
 			getFavoriteProfiles: async () => {
 				const { token } = await getStore();
 
@@ -341,7 +312,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			//para añadir los favoritos mediante el ID del perfil del usuario
 			addFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
 				const actions = getActions();
@@ -362,7 +332,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// Obtener la lista actualizada de perfiles favoritos después de agregar uno nuevo
 					const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
 
-					setStore({ favoriteProfiles: updatedFavoriteProfiles });
+					setStore({ favoriteProfiles: updatedFavoriteProfiles }); // Actualizar el estado favoriteProfiles
 					return true;
 				} catch (error) {
 					console.error('Error al agregar a favoritos:', error);
@@ -371,7 +341,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-			//borrar perfiles a los que ha dado like
 			removeFavoriteProfile: async (profileId) => {
 				const { token } = await getStore();
 				const actions = getActions();
@@ -427,6 +396,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
+
 			getUserDetails: async () => {
 
 				const { token } = await getStore();
@@ -453,9 +423,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error;
 				}
 			},
-
-
-
 
 		}
 

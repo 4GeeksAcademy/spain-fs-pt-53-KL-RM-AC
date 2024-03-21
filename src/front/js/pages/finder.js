@@ -21,14 +21,14 @@ export const Finder = () => {
     const [noProfilesFound, setNoProfilesFound] = useState(false);
     const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
-
+    
 
     useEffect(() => {
         actions.syncTokenFromLocalStorage();
         if (store.token === "" || store.token === null) {
             navigate("/");
         } else {
-            actions.getAllUsers().then(data => {
+            actions.getUsersFilter({}).then(data => {
                 if (data && data.length) {
                     setUsersData(data);
                 }
@@ -38,7 +38,7 @@ export const Finder = () => {
 
 
     const handleClick = userData => {
-        navigate("/learnmore", { state: { user: userData } });
+        navigate(`/learnmore/${userData.id}`);
     };
 
 
@@ -66,13 +66,12 @@ export const Finder = () => {
     const handleResetFilters = () => {
         setFilters({});
         setFiltersActive(false);
-        actions.getAllUsers().then(data => {
+        actions.getUsersFilter({}).then(data => {
             if (data && data.length) {
-                setUsersData(data);  // actualiza los perfiles con los datos obtenidos 
-                setNoProfilesFound(false); // estable noProfilesFound en false para mostrar todos los perfiles
+                setUsersData(data);
+                setNoProfilesFound(false);
             }
         });
-        // Restablecer los valores predeterminados de los selects
         document.getElementById('find_roomie').selectedIndex = 0;
         document.getElementById('gender').selectedIndex = 0;
         document.getElementById('pet').selectedIndex = 0;
@@ -81,14 +80,12 @@ export const Finder = () => {
 
 
     const handleModalClose = () => {
-        // restablecer los valores predeterminados de los selects
         document.getElementById('find_roomie').selectedIndex = 0;
         document.getElementById('gender').selectedIndex = 0;
         document.getElementById('pet').selectedIndex = 0;
         document.getElementById('budget').selectedIndex = 0;
 
-        // actualizar los perfiles llamando a getAllUsers
-        actions.getAllUsers().then(data => {
+        actions.getUsersFilter({}).then(data => {
             if (data && data.length) {
                 setUsersData(data);
                 setNoProfilesFound(false);
@@ -118,7 +115,6 @@ export const Finder = () => {
             if (store.token) {
                 await actions.removeFavoriteProfile(profileId);
                 console.log("Perfil eliminado de favoritos exitosamente");
-                // Actualiza la lista de favoritos después de eliminar uno
                 const updatedFavoriteProfiles = await actions.getFavoriteProfiles();
                 setFavoriteProfiles(updatedFavoriteProfiles);
             } else {
@@ -129,8 +125,8 @@ export const Finder = () => {
         }
     };
 
-  
-console.log(usersData)
+
+    console.log(usersData)
     if (store.token && store.token !== "" && store.token !== undefined) {
 
         return (
@@ -217,7 +213,7 @@ console.log(usersData)
                                             </div>
 
                                             <div className="d-flex">
-                                                <div className="more-data d-flex justify-content-start">
+                                                <div className="more-data p-2 d-flex justify-content-start">
                                                     <p><i className="fa-solid fa-paw"></i> {LITERALS[userData.properties?.pet]}</p>
                                                 </div>
                                                 <div className="flex-row">
@@ -229,6 +225,7 @@ console.log(usersData)
 
                                             <div className="d-flex  justify-content-between">
                                                 <div className="d-grid gap-2 d-md-flex">
+                                                
                                                     <button
                                                         onClick={() => {
                                                             handleClick(userData);
@@ -238,6 +235,8 @@ console.log(usersData)
                                                     >
                                                         Saber más
                                                     </button>
+
+
                                                 </div>
                                                 <div className="d-grid gap-1 d-md-flex justify-content-md-end">
                                                     <button

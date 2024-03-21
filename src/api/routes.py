@@ -13,7 +13,8 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import re
 import os
-import bcrypt
+from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token
 
 
 api = Blueprint('api', __name__)
@@ -34,13 +35,12 @@ def create_token():
     if not email or not password: 
        return jsonify({"message": "Email and password are required"}), 400
     
-    user = User.query.filter_by(email=email, password=password).first()
-    if not user:
+    user = User.query.filter_by(email=email).first()
+    if not user or not check_password_hash(user.password, password):
         return jsonify({"message": "Email or password are incorrect"}), 401
     
     access_token = create_access_token(identity=user.id)  # Aquí se utiliza el ID del usuario como identidad
     return jsonify({"access_token": access_token, "user_id": user.id})
-
 
 # create user (registro)
 # FUNCIONA 
@@ -60,9 +60,10 @@ def create_user():
         return jsonify({'message': 'The email is already in use'}), 400
     
     # Crear un nuevo usuario
+    hashed_password = generate_password_hash(body['password']).decode('utf-8')  # Hashear la contraseña
     new_user = User(
         email=body['email'],
-        password=body['password'],
+        password=hashed_password,  # Almacenar la contraseña hasheada
         user_name=body['user_name'],
         last_name=body['last_name']
     )
@@ -72,11 +73,11 @@ def create_user():
     
     # Retornar una respuesta exitosa
     try:
-     db.session.commit()
-     return jsonify({'message': 'User created successfully', 'user_id': new_user.id}), 201
+        db.session.commit()
+        return jsonify({'message': 'User created successfully', 'user_id': new_user.id}), 201
     except Exception as e:
-     db.session.rollback()
-     return jsonify({'msg': f'Error creating user: {str(e)}'}), 500
+        db.session.rollback()
+        return jsonify({'msg': f'Error creating user: {str(e)}'}), 500
 
 
 @api.route('/user', methods=['GET'])
@@ -88,9 +89,6 @@ def get_user_details():
         return jsonify({"message": "Usuario no encontrado"}), 404
     return jsonify(user.serialize()), 200
 
-# Cambio contrasena
-#FUNCIONA   
-# UTILIZADO
 @api.route('/change/password', methods=['PUT'])
 @jwt_required()  
 def change_password():
@@ -101,20 +99,21 @@ def change_password():
     new_password = body.get('new_password')
 
     # Verificar que el usuario exista en la base de datos
-    user = User.query.get(current_user_id)
+    user = User.query.filter_by(id=current_user_id).first()
     if not user:
         return jsonify({'error': 'Usuario no encontrado'}), 404
     
-    # Verificar que la contraseña antigua sea correcta
-    if user.password != old_password:
-        return jsonify({'error': 'La contraseña antigua no es correcta'}), 400
+    # Verificar que la contraseña actual sea correcta
+    if not check_password_hash(user.password, old_password):
+        return jsonify({'error': 'La contraseña actual no es correcta'}), 400
     
-    # Actualizar la contraseña del usuario
-    hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-    user.password = hashed_password
+    # Encriptar la nueva contraseña
+    hashed_new_password = generate_password_hash(new_password).decode('utf-8')
+    user.password = hashed_new_password
     db.session.commit()
 
     return jsonify({'message': 'Contraseña cambiada exitosamente'}), 200
+
 
 # crea por primera vez los filtros de los user (crear perfil)
 # FUNCIONA
@@ -272,20 +271,25 @@ def get_users_filter():
             filters.append(UserProperties.budget <= budget)
     if findroomie is not None:
         filters.append(UserProperties.find_roomie == findroomie)
-        
 
-    # Realizar una operación de unión (join) para obtener los nombres y apellidos de los usuarios
-    users_properties = db.session.query(User, UserProperties).\
-        join(UserProperties, User.id == UserProperties.user_id).\
-        filter(and_(*filters)).all()
+    # Si no se proporcionan filtros, devuelve todos los perfiles
+    if not filters:
+        users_properties = db.session.query(User, UserProperties).\
+            join(UserProperties, User.id == UserProperties.user_id).\
+            all()
+    else:
+        # Realizar una operación de unión (join) para obtener los nombres y apellidos de los usuarios
+        users_properties = db.session.query(User, UserProperties).\
+            join(UserProperties, User.id == UserProperties.user_id).\
+            filter(and_(*filters)).all()
 
     # Serializar las propiedades de los usuarios y obtener los nombres y apellidos de los usuarios correspondientes
     serialized_users = []
     for user, users_properties in users_properties:
-        serialized_user = user.serialize()
-        serialized_user['properties'] = users_properties.serialize()
- 
-        serialized_users.append(serialized_user)
+        if user.id != current_user_id:
+            serialized_user = user.serialize()
+            serialized_user['properties'] = users_properties.serialize()
+            serialized_users.append(serialized_user)
 
     return jsonify(serialized_users), 200
 
@@ -323,46 +327,6 @@ def get_user(user_id):
 
 ##########################################
 
-##########################################
-# obtiene todos los user con sus propiedades LO USO EN EL FLUX, ACTIONS, GETALLUSERS 
-# FUNCIONA
-# UTILIZADO
-@api.route('/users/properties', methods=['GET'])
-@jwt_required()
-def get_users_with_properties():
-    # Obtener todos los usuarios de la base de datos
-    users = User.query.all()
-    
-    # Lista para almacenar los datos serializados de todos los usuarios con propiedades
-    users_with_properties = []
-    
-    # Iterar sobre todos los usuarios
-    for user in users:
-        # Serializar los datos del usuario
-        serialized_user = user.serialize()
-        
-        # Obtener las propiedades del usuario
-        user_properties = UserProperties.query.filter_by(user_id=user.id).first()
-        
-        # Verificar si el usuario tiene propiedades
-        if user_properties:
-            # Serializar las propiedades del usuario
-            serialized_properties = user_properties.serialize()
-            # Agregar las propiedades al diccionario del usuario serializado
-            serialized_user['properties'] = serialized_properties
-        
-        # Agregar el usuario y sus propiedades (si las tiene) a la lista
-        users_with_properties.append(serialized_user)
-    
-    # Retornar la lista de usuarios con sus propiedades en formato JSON
-    return jsonify(users_with_properties), 200
-
-
-# trae usuarios (sin propiedades) no creo que se use
-# FUNCIONA
- 
-
-##########################
 #Favoritos
 # UTILIZADO
 @api.route('/user/favorite/profiles', methods=['POST'])

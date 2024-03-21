@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/MyProfile.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CreateProfile } from "./CreateProfile";
 import { PageNotAllowed } from "./PageNotAllowed";
 
@@ -28,6 +28,11 @@ export const MyProfile = () => {
         profile_img: store.profile_img,
     };
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setLoading(false); // Cuando el componente se monta, deja de mostrar el estado de carga
+    }, []);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -45,8 +50,16 @@ export const MyProfile = () => {
     }, []);
     console.log(userData)
 
-    const handleDelete = () => {
-        actions.deleteUserProperties();
+    const handleDelete = async () => {
+        try {
+            setLoading(true); // Activar indicador de carga
+            await actions.deleteUserProperties();
+            navigate("/homelogged"); // Redirigir a la página de inicio de sesión después de eliminar propiedades
+        } catch (error) {
+            console.error("Error al eliminar propiedades del usuario:", error);
+        } finally {
+            setLoading(false); // Desactivar indicador de carga independientemente del resultado
+        }
     };
 
     const hasRequiredFields = () => {
@@ -62,7 +75,7 @@ export const MyProfile = () => {
 
     if (!store.token || store.token === "" || store.token === undefined) {
         return <PageNotAllowed />;
-    } else if (loading ) {
+    } else if (loading) {
         return (
             <div className="spinner-border text-success" role="status">
                 <span className="sr-only">Cargando...</span>
@@ -74,7 +87,8 @@ export const MyProfile = () => {
                 <CreateProfile />
             </div>
         );
-    } else {
+    } 
+    else {
 
         return (
             <div className="nuevo">
@@ -101,9 +115,9 @@ export const MyProfile = () => {
                                     <Link to={"/edit"}>
                                         <button type="button" className="btn btn-dark m-3">Editar Perfil</button>
                                     </Link>
-                                    <Link to={"/homelogged "}>
-                                        <button type="button" className="btn btn-dark m-3" onClick={handleDelete}>Eliminar Perfil</button>
-                                    </Link>
+
+                                    <button type="button" className="btn btn-dark m-3" onClick={handleDelete}>Eliminar Perfil</button>
+
                                     <Link to={"/password"}>
                                         <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                                     </Link>

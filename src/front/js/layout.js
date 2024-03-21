@@ -26,31 +26,31 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
-        
-            <BrowserRouter basename={basename}>
-                <ScrollToTop>
-                    <Navbar />
-                    <Routes className="body">
-                        <Route element={<Home />} path="/" />
-                        <Route element={<MyProfile />} path="/profile" />
-                        <Route element={<CreateProfile />} path="/create" />
-                        <Route element={<EditProfile />} path="/edit" />
-                        <Route element={<Password />} path="/password" />
-                        <Route element={<Finder />} path="/finder" />
-                        <Route element={<HomeLogged />} path="/homelogged" />
-                        <Route element={<LearnMore />} path='/learnmore/:id' />
-                        <Route element={<SignUp/>} path="/user-signup" />
-                        <Route element={<Login/>} path="/user-login" />
-   
-                        <Route element={<h1>Not found!</h1>} />
 
-                    </Routes>
-                    <Footer />
-                </ScrollToTop>
-            </BrowserRouter>
+        <BrowserRouter basename={basename}>
+            <ScrollToTop>
+                <Navbar />
+                <Routes className="body">
+                    <Route element={<Home />} path="/" />
+                    <Route element={<MyProfile />} path="/profile" />
+                    <Route element={<CreateProfile />} path="/create" />
+                    <Route element={<EditProfile />} path="/edit" />
+                    <Route element={<Password />} path="/password" />
+                    <Route element={<Finder />} path="/finder" />
+                    <Route element={<HomeLogged />} path="/homelogged" />
+                    <Route element={<LearnMore />} path='/learnmore/:id' />
+                    <Route element={<SignUp />} path="/user-signup" />
+                    <Route element={<Login />} path="/user-login" />
+
+                    <Route element={<h1>Not found!</h1>} />
+
+                </Routes>
+                <Footer />
+            </ScrollToTop>
+        </BrowserRouter>
     );
 };
 

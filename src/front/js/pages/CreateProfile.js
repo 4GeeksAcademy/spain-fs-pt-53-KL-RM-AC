@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/createProfile.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { MyProfile } from "./MyProfile";
 
 export const CreateProfile = () => {
     const { store, actions } = useContext(Context);
@@ -18,6 +19,8 @@ export const CreateProfile = () => {
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true);
     const [imageUploaded, setImageUploaded] = useState(false);
+    const [profileCreated, setProfileCreated] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -74,11 +77,11 @@ export const CreateProfile = () => {
         e.preventDefault();
         if (!formData.pet || !formData.gender || !formData.budget || !formData.find_roomie || !formData.text_box || !imageUploaded) {
             setAlertMessage("Por favor, completa todos los campos antes de enviar el formulario.");
-            return; // Salir de la función si el formulario no está completo
+            return;
         }
         try {
             await actions.addProfileInfo(formData);
-            setAlertMessage("");
+            setProfileCreated(true); // Indicar que el perfil se ha creado correctamente
         } catch (error) {
             console.error("Error al enviar datos:", error);
             setAlertMessage("Error al crear el perfil");
@@ -95,6 +98,7 @@ export const CreateProfile = () => {
 
     return (
         <div className="container mt-2 p-3">
+             {profileCreated ? <MyProfile /> : (
             <div className="createProfile">
                 <div className="createProfilePage mt-2 p-3">
                     <form>
@@ -169,16 +173,16 @@ export const CreateProfile = () => {
                         </div>
                         {alertMessage && (<div className="alert alert-danger">{alertMessage}</div>)}
                         <div className="buttonsCP mt-3">
-                            <Link to={"/profile"}>
-                                <button type="button " className="btn btn-dark me-2" onClick={handleSubmit} disabled={!imageUploaded}>Crear Perfil</button>
-                            </Link>
+
+                            <button type="button " className="btn btn-dark me-2" onClick={handleSubmit} disabled={!imageUploaded}>Crear Perfil</button>
+
                             <Link to={"/password"}>
                                 <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
                             </Link>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>)}
         </div>
     );
 };
