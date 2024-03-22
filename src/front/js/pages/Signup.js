@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/signUp.css";
 import { Link } from "react-router-dom";
-import signUpImage from "../../img/signUpImage.png";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -73,7 +72,7 @@ export const SignUp = () => {
     const theme = createTheme({
         palette: {
             primary: {
-                main: '#55ccc9',
+                main: '#295f72',
             },
         },
     });
@@ -103,7 +102,7 @@ export const SignUp = () => {
                                         <label className="form-label">Contraseña</label>
                                         <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" />
                                     </div>
-                                    <div>
+                                    <div> 
                                         <span>¿Ya estás registrado? <Link to="/user-login" className="link">  Iniciar Sesión</Link></span>
                                     </div>
                                 </div>
