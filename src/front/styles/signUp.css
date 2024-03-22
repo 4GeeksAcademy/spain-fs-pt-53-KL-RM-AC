@@ -13,7 +13,7 @@
 
     .signUp {
         max-width: 400px;
-        max-height: 5 00px;
+        max-height: 500px;
         text-align: left;
         margin-top: 15px;
         margin-bottom: 20px;
@@ -51,7 +51,7 @@
         font-family: "Be Vietnam Pro", sans-serif;
         font-style: normal;
         font-weight: 500;
-        color: #3f7a8d;
+        color: #295f72;
         text-shadow: 1px 1px white;
     }
 
@@ -60,15 +60,5 @@
         text-decoration: solid;
         font-weight: bold;
     }
-
-    /* .signUpImg {
-        width: 200px;
-        height: 200px;
-        margin-top: 5px;
-        margin-top: 200px;
-        object-fit: cover;
-        justify-content: end;
-    } */
-
    
 }
