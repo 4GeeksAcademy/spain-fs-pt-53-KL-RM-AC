@@ -6,8 +6,7 @@ import signUpImage from "../../img/signUpImage.png";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import CustomAlert from "./Alerts";
 
 export const SignUp = () => {
     const { actions } = useContext(Context);
@@ -30,7 +29,6 @@ export const SignUp = () => {
         if (reason === 'clickaway') {
             return;
         }
-
         setOpen(false);
     };
 
@@ -40,11 +38,10 @@ export const SignUp = () => {
             [e.target.name]: e.target.value
         });
 
-        // Verificar si alguno de los campos está vacío y establecer el mensaje apropiado
         if (!e.target.value.trim()) {
             setAlertMessage("Todos los campos son obligatorios");
         } else {
-            setAlertMessage(""); // Limpiar el mensaje si todos los campos están llenos
+            setAlertMessage(""); 
         }
     };
 
@@ -71,7 +68,7 @@ export const SignUp = () => {
                 setAlertMessage("Error al crear el usuario");
                 console.error("Error al crear el usuario:", error);
             }
-            setOpen(true); // Abre el Snackbar incluso si hay un error
+            setOpen(true); 
         }
     };
 
@@ -114,11 +111,7 @@ export const SignUp = () => {
                                 </div>
                                 <Stack direction="row" spacing={2}>
                                     <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
-                                    <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} style={{ marginTop: '40px' }}>
-                                        <Alert onClose={handleClose} severity={alertMessage === "Usuario creado correctamente" ? "success" : "error"} sx={{ width: '100%' }}>
-                                            {alertMessage}
-                                        </Alert>
-                                    </Snackbar>
+                                    <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={alertMessage === "Usuario creado correctamente" ? "success" : "error"} />
                                 </Stack>
                             </form>
                         </div>
