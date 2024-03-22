@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import compislogo from "../../img/compis.png";
 import "../../styles/navbar.css";
 import { Context } from "../store/appContext";
+import { FadeMenu } from "./FadeMenu";
 
 export const Navbar = () => {
     const { store, actions } = useContext(Context);
@@ -25,10 +26,10 @@ export const Navbar = () => {
             <div className="favoritos">
                 {token && (
                     <div className="dropdown">
-                        <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
-                            Mis favoritos ({favoriteProfiles.length})
+                        <button className="btn btn-warning " type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i className="fa-solid fa-heart"></i> ({favoriteProfiles.length})
                         </button>
-                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                        <ul className="dropdown-menu m-2" aria-labelledby="dropdownMenuClickableInside">
                             {favoriteProfiles.map(profile => (
                                 <li key={profile.id}>
                                     <Link to={`/learnmore/${profile.id}`}>
@@ -42,23 +43,7 @@ export const Navbar = () => {
                     </div>
                 )}
             </div>
-            <div className="textNavbar">
-                <Link to="/profile">
-                    <span> Mi perfil</span>
-                </Link>
-                <Link to="/finder">
-                    <span>Buscar</span>
-                </Link>
-                {!store.token ? (
-                    <Link to="/user-login">
-                        <span>Iniciar Sesion</span>
-                    </Link>
-                ) : (
-                    <Link to="/user-login">
-                        <span onClick={() => actions.logout()}>Cerrar Sesion</span>
-                    </Link>
-                )}
-            </div>
+            <FadeMenu />
         </div>
     );
 };

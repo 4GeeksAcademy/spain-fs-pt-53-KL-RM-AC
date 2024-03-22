@@ -3,6 +3,8 @@ import { Context } from "../store/appContext";
 import password from "../../img/Forgot password-bro.png";
 import "../../styles/password.css";
 
+
+
 export const Password = () => {
     const { store, actions } = useContext(Context);
     const [oldPassword, setOldPassword] = useState("");

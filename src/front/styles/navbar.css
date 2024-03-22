@@ -30,6 +30,23 @@
   margin-top: 5px;
 }
 
-.dropdown {
-  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
+.btn{
+  border-radius: 50px;
+
+}
+
+
+.icon {
+  text-decoration: none;
+  color: black
+}
+
+.custom-menu-item {
+  color: black; 
+ 
+}
+
+.custom-menu-item a {
+  text-decoration: none; 
+  color: inherit; 
 }
