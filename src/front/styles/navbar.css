@@ -2,15 +2,16 @@
 .custom-navbar {
   display: flex;
   align-items: center;
-  background-color: #3f7a8d; 
+  background-color: #3f7a8d;
   font-family: Verdana;
   padding: 0px;
-  height: 50px; 
+  height: 50px;
 }
 
 .textNavbar {
   display: flex;
-  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
+  margin-right: 15px;
+  /* Ajusta el espacio entre los íconos y el borde derecho */
 }
 
 .textNavbar a {
@@ -19,7 +20,7 @@
   margin-left: 15px;
 }
 
-.textNavbar a:hover{
+.textNavbar a:hover {
   color: #55ccc9;
 }
 
@@ -30,10 +31,6 @@
   margin-top: 5px;
 }
 
-.btn{
-  border-radius: 50px;
-
-}
 
 
 .icon {
@@ -42,11 +39,11 @@
 }
 
 .custom-menu-item {
-  color: black; 
- 
+  color: black;
+
 }
 
 .custom-menu-item a {
-  text-decoration: none; 
-  color: inherit; 
+  text-decoration: none;
+  color: inherit;
 }
