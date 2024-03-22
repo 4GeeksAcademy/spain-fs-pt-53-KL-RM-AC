@@ -19,11 +19,6 @@ export const SignUp = () => {
     const [alertMessage, setAlertMessage] = useState("");
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        if (alertMessage === "Usuario creado correctamente") {
-            setOpen(true);
-        }
-    }, [alertMessage]);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -55,6 +50,7 @@ export const SignUp = () => {
         try {
             await actions.signUp(formData);
             setAlertMessage("Usuario creado correctamente");
+            setOpen(true)
             setFormData({
                 email: "",
                 password: "",
@@ -64,8 +60,10 @@ export const SignUp = () => {
         } catch (error) {
             if (error.message === "The email is already in use") {
                 setAlertMessage("El correo electrónico ya está en uso");
+                setOpen(true)
             } else {
                 setAlertMessage("Error al crear el usuario");
+                setOpen(true)
                 console.error("Error al crear el usuario:", error);
             }
             setOpen(true); 
