@@ -22,12 +22,18 @@ export const Finder = () => {
     const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
 
-
+    console.log(favoriteProfiles)
     useEffect(() => {
 
         actions.getUsersFilter({}).then(data => {
             if (data && data.length) {
                 setUsersData(data);
+            }
+
+        })
+        actions.getFavoriteProfiles().then(data => {
+            if (data && data.length) {
+                setFavoriteProfiles(data);
             }
 
         })
@@ -123,7 +129,6 @@ export const Finder = () => {
     };
 
 
-    console.log(usersData)
     if (!store.token || store.token === "" || store.token === undefined) {
         return <PageNotAllowed />;
     }
@@ -204,7 +209,7 @@ export const Finder = () => {
                                                 style={{ width: '220px', height: '220px', objectFit: 'cover' }}
                                             />
                                         </div>
-                                    
+
                                         <div className="card-center d-flex justify-content-around">
                                             <h5 className="card-title-name">{userData.user_name}</h5>
                                             <h5 className="card-title-name">{userData.last_name}</h5>
@@ -235,18 +240,25 @@ export const Finder = () => {
 
                                             </div>
                                             <div className="d-grid gap-1 d-md-flex justify-content-md-end">
-                                                <button
-                                                    onClick={() => handleAddToFavorites(userData.id)}
-                                                    className="btn btn-link text-end text-decoration-none"
-                                                >
-                                                    <i className="fa-solid fa-heart"></i>
-                                                </button>
-                                                <button
-                                                    onClick={() => handleRemoveFromFavorites(userData.id)}
-                                                    className="btn btn-link text-end text-decoration-none"
-                                                >
-                                                    <i className="fa-regular fa-heart"></i>
-                                                </button>
+                                                {
+                                                    favoriteProfiles.find(profile => profile.id === userData.id) ? (
+                                                        <button
+                                                            onClick={() => handleRemoveFromFavorites(userData.id)}
+                                                            className="btn btn-link text-end text-decoration-none"
+                                                        >
+                                                            <i className="fa-solid fa-heart"></i>
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => handleAddToFavorites(userData.id)}
+                                                            className="btn btn-link text-end text-decoration-none"
+                                                        >
+
+                                                            <i className="fa-regular fa-heart"></i>
+                                                        </button>
+                                                    )
+                                                }
+
                                             </div>
                                         </div>
                                     </div>
