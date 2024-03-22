@@ -204,7 +204,7 @@ export const Finder = () => {
                                                 style={{ width: '220px', height: '220px', objectFit: 'cover' }}
                                             />
                                         </div>
-                                        <hr />
+                                    
                                         <div className="card-center d-flex justify-content-around">
                                             <h5 className="card-title-name">{userData.user_name}</h5>
                                             <h5 className="card-title-name">{userData.last_name}</h5>
@@ -232,7 +232,6 @@ export const Finder = () => {
                                                 >
                                                     Saber más
                                                 </button>
-
 
                                             </div>
                                             <div className="d-grid gap-1 d-md-flex justify-content-md-end">

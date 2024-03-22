@@ -4,8 +4,6 @@ import compislogo from "../../img/compis.png";
 import "../../styles/navbar.css";
 import { Context } from "../store/appContext";
 
-
-//hola
 export const Navbar = () => {
     const { store, actions } = useContext(Context);
     const { favoriteProfiles } = store;
