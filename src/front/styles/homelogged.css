@@ -36,4 +36,11 @@
         color: #3f7a8d;
         text-shadow: 2px 2px 3px rgba(249, 246, 246, 0.52);
     }
+    .button {
+        width: 100%;
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 700;
+        font-family: "Be Vietnam Pro", sans-serif;
+    }
 }

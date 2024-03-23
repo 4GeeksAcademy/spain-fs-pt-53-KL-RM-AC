@@ -40,5 +40,12 @@
     .hangoutImg {
         width: 45%;
     }
+    .button {
+        width: 50%;
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 700;
+        font-family: "Be Vietnam Pro", sans-serif;
+    }
 
 }
