@@ -2,12 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/signUp.css";
 import { Link } from "react-router-dom";
-import signUpImage from "../../img/signUpImage.png";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import CustomAlert from "./Alerts";
 
 export const SignUp = () => {
     const { actions } = useContext(Context);
@@ -20,17 +18,11 @@ export const SignUp = () => {
     const [alertMessage, setAlertMessage] = useState("");
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        if (alertMessage === "Usuario creado correctamente") {
-            setOpen(true);
-        }
-    }, [alertMessage]);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
-
         setOpen(false);
     };
 
@@ -40,11 +32,10 @@ export const SignUp = () => {
             [e.target.name]: e.target.value
         });
 
-        // Verificar si alguno de los campos está vacío y establecer el mensaje apropiado
         if (!e.target.value.trim()) {
             setAlertMessage("Todos los campos son obligatorios");
         } else {
-            setAlertMessage(""); // Limpiar el mensaje si todos los campos están llenos
+            setAlertMessage(""); 
         }
     };
 
@@ -58,6 +49,7 @@ export const SignUp = () => {
         try {
             await actions.signUp(formData);
             setAlertMessage("Usuario creado correctamente");
+            setOpen(true)
             setFormData({
                 email: "",
                 password: "",
@@ -67,18 +59,20 @@ export const SignUp = () => {
         } catch (error) {
             if (error.message === "The email is already in use") {
                 setAlertMessage("El correo electrónico ya está en uso");
+                setOpen(true)
             } else {
                 setAlertMessage("Error al crear el usuario");
+                setOpen(true)
                 console.error("Error al crear el usuario:", error);
             }
-            setOpen(true); // Abre el Snackbar incluso si hay un error
+            setOpen(true); 
         }
     };
 
     const theme = createTheme({
         palette: {
             primary: {
-                main: '#55ccc9',
+                main: '#295f72',
             },
         },
     });
@@ -108,17 +102,13 @@ export const SignUp = () => {
                                         <label className="form-label">Contraseña</label>
                                         <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" />
                                     </div>
-                                    <div>
+                                    <div> 
                                         <span>¿Ya estás registrado? <Link to="/user-login" className="link">  Iniciar Sesión</Link></span>
                                     </div>
                                 </div>
                                 <Stack direction="row" spacing={2}>
                                     <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
-                                    <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} style={{ marginTop: '40px' }}>
-                                        <Alert onClose={handleClose} severity={alertMessage === "Usuario creado correctamente" ? "success" : "error"} sx={{ width: '100%' }}>
-                                            {alertMessage}
-                                        </Alert>
-                                    </Snackbar>
+                                    <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={alertMessage === "Usuario creado correctamente" ? "success" : "error"} />
                                 </Stack>
                             </form>
                         </div>
