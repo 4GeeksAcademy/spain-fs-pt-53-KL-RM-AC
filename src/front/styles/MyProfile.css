@@ -6,7 +6,6 @@
     box-shadow: 2px 2px 5px #888888;
     padding: 20px;
     max-width: 970px;
-    /* Ancho máximo de la postal */
     margin: 0 auto;
     background: linear-gradient(to bottom, #ffffff, #f0f0f0);
 }
