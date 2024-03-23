@@ -28,7 +28,7 @@ export const Navbar = () => {
           minWidth: '10px', // Reducir el ancho mínimo del círculo
           height: '14px', // Reducir la altura del círculo
           width: '14px',
-     
+    
         },
       }));
 
