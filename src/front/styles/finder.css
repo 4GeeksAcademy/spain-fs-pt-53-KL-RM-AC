@@ -2,7 +2,7 @@
     width: 100%;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #02323D;
+    /* border: 1px solid #02323D; */
 }
 
 .filter button {
@@ -21,14 +21,14 @@
     opacity: 0.8;
 }
 
-.btn {
+/* .btn {
     background-color: #dd0025;
     border: none;
     color: white;
     text-align: center;
     padding: 10px 20px;
     cursor: pointer;
-}
+} */
 
 .btn-reset {
     background-color: #c8c8c8;

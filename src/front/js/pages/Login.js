@@ -81,7 +81,7 @@ export const Login = () => {
                                     <input type="password" className="input form-control" id="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" />
                                 </div>
                                 <Stack direction="row" spacing={2}>
-                                    <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Iniciar Sesion</Button>
+                                    <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
                                     <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={"error"} />
                                 </Stack>
                             </form>
