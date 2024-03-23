@@ -41,8 +41,7 @@ export const EditProfile = () => {
         formDataImage.append("upload_preset", "injqzpue");
 
         try {
-            const response = await fetch(
-                'https://api.cloudinary.com/v1_1/dru67quag/image/upload',
+            const response = await fetch(process.env.BACKEND_URL_CLOUDINARY + 'image/upload',
                 {
                     method: "POST",
                     body: formDataImage,

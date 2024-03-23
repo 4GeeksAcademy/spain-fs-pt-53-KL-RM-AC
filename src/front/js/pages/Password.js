@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import password from "../../img/Forgot password-bro.png";
 import "../../styles/password.css";
-
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CustomAlert from "./Alerts";
 
 
 export const Password = () => {
@@ -10,58 +12,84 @@ export const Password = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
+    const [open, setOpen] = useState(false);
+
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     const handleChangePassword = async () => {
         try {
             await actions.changePassword(oldPassword, newPassword);
             setAlertMessage("Contraseña cambiada exitosamente");
-            // Puedes agregar aquí cualquier otra lógica que desees después de cambiar la contraseña
+            setOpen(true)
+
         } catch (error) {
-            setAlertMessage("Error al cambiar la contraseña: " + error.message);
+            setAlertMessage("Error al cambiar la contraseña");
+            setOpen(true);
+            if (error.message == "La contraseña actual no es correcta");
+            setAlertMessage("Contraseña antigua incorrecta");
+            setOpen(true)
         }
     };
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#295f72',
+            },
+        },
+    });
 
     return (
-        <div className="password container mt-5 justify-content-center ">
-            <div className="passwordForm col-6">
-                <form>
-                    <h3 className="title text-center p-3">Cambiar Contraseña</h3>
+        <ThemeProvider theme={theme}>
+            <div className="password container">
+                <div className="row justify-content-center align-items-center">
 
-                    <label htmlFor="inputPassword" className="form-label fw-bold">Contraseña Actual</label>
-                    <input
-                        type="password"
-                        id="inputPassword"
-                        className="form-control"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        aria-describedby="passwordHelpBlock"
-                    />
-                    <label htmlFor="inputNewPassword" className="form-label fw-bold mt-3">Nueva Contraseña</label>
-                    <input
-                        type="password"
-                        id="inputNewPassword"
-                        className="form-control"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        aria-describedby="newPasswordHelpBlock"
-                    />
-                    {alertMessage && (
-                        alertMessage === "Contraseña cambiada exitosamente" ? (
-                            <div className="alert alert-success mt-3">{alertMessage}</div>
-                        ) : (
-                            <div className="alert alert-danger mt-3">{alertMessage}</div>
-                        )
-                    )}
-                    <div className="d-flex justify-content-center mt-5 mb-5">
-                        <button type="button" className="btn btn-dark" onClick={handleChangePassword}>Cambiar Contraseña</button>
+                    <div className="col-lg-6 col-md-8 col-sm-10">
+                        <div className="passwordForm container ">
+                            <form className="p-3 m-3">
+                                <h3 className="title  mb-4">Cambiar Contraseña</h3>
+                                <div className="mb-2">
+                                <label htmlFor="inputPassword" className="form-label ">Contraseña Actual</label>
+                                <input
+                                    type="password"
+                                    id="inputPassword"
+                                    className="form-control"
+                                    value={oldPassword}
+                                    onChange={(e) => setOldPassword(e.target.value)}
+                                    aria-describedby="passwordHelpBlock"
+                                />
+                                </div>
+
+                                <div className="mb-2">
+                                <label htmlFor="inputNewPassword" className="form-label">Nueva Contraseña</label>
+                                <input
+                                    type="password"
+                                    id="inputNewPassword"
+                                    className="form-control"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    aria-describedby="newPasswordHelpBlock"
+                                />
+                                </div>
+                                
+                                <Stack direction="row" spacing={2}>
+                                    <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={alertMessage === "Contraseña cambiada exitosamente" ? "success" : "error"} />
+                                </Stack>
+                                <div className="d-flex justify-content-center">
+                                    <Button onClick={handleChangePassword} color="primary" variant="outlined" className="button">Cambiar Contraseña</Button>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
-
-                </form>
+                </div>
             </div>
-            <div className="possition-relative">
-                <img src={password} className="passwordImg position-absolute bottom-0 end-0" alt="Password Img"></img>
-            </div>
-        </div>
+        </ThemeProvider>
     );
 };
 
