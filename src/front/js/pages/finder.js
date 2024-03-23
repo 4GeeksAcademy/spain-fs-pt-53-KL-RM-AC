@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/finder.css";
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ModalFilteredUsers } from "../component/modalFilteredUsers";
 const LITERALS = {
     "Male": <i className="fa-solid fa-mars"></i>,
     "Female": <i className="fa-solid fa-venus"></i>,
     "Yes": <i className="fa-solid fa-paw"></i>,
     "No": "",
-    "Apartment": "Busco rommie",
+    "Apartment": "Busco compañero",
     "NoApartment": "Busco habitación",
 }
 import { PageNotAllowed } from "./PageNotAllowed";
@@ -22,7 +24,16 @@ export const Finder = () => {
     const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
 
-    console.log(favoriteProfiles)
+    
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#295f72',
+            },
+        },
+    });
+
+
     useEffect(() => {
 
         actions.getUsersFilter({}).then(data => {
@@ -133,7 +144,9 @@ export const Finder = () => {
         return <PageNotAllowed />;
     }
     return (
-        <div className="containerfinder p-3 finder">
+    <ThemeProvider theme={theme}>
+    <div className="finder">      
+        <div className=" containerfinder p-3 ">
             <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
             <div className="row justify-content-center">
                 <div className="col-md-3">
@@ -143,7 +156,7 @@ export const Finder = () => {
                             <div className="situation">
                                 <h5>¿Qué buscas?</h5>
                                 <select id="find_roomie" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'find_roomie': e.target.value })}>
-                                    <option defaultValue>¿Cual es tu situacion?</option>
+                                    <option defaultValue></option>
                                     <option value="Apartment">Tengo piso, busco roomie</option>
                                     <option value="NoApartment">Busco roomie que tenga piso</option>
                                 </select>
@@ -152,7 +165,7 @@ export const Finder = () => {
                             <div className="gender">
                                 <h5>Género</h5>
                                 <select id="gender" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'gender': e.target.value })}>
-                                    <option defaultValue>Género</option>
+                                    <option defaultValue></option>
                                     <option value="Female">Femenino</option>
                                     <option value="Male">Masculino</option>
                                 </select>
@@ -161,29 +174,30 @@ export const Finder = () => {
                             <div className="pet">
                                 <h5>Mascota</h5>
                                 <select id="pet" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'pet': e.target.value })} >
-                                    <option defaultValue>Mascota</option>
+                                    <option defaultValue></option>
                                     <option value="Yes">Tengo mascota</option>
                                     <option value="No">No tengo mascota</option>
                                 </select>
                             </div>
-                           
+                            <hr />
                             <div className="budget">
                                 <h5>Presupuesto</h5>
                                 <select id="budget" className="form-select" aria-label="Default select example" onChange={(e) => handleSetFilter({ 'budget': e.target.value })}>
-                                    <option defaultValue>Ajusta tu presupuesto</option>
+                                    <option defaultValue></option>
                                     <option value="300">Hasta 300</option>
                                     <option value="400">Hasta 400</option>
                                     <option value="500">Hasta 500</option>
                                 </select>
                             </div>
-            
+                            <hr />
                         </form>
-                        <button
+                        <Button
                             onClick={filtersActive ? handleResetFilters : handleFilteredUsers}
-                            className={`btn ${filtersActive ? "btn-reset" : "btn-primary"}`}
+                            className={`button ${filtersActive ? "btn-reset" : "btn-primary"}`}
+                            type="button" color="primary" variant="outlined"
                         >
                             {filtersActive ? "Restablecer filtros" : "Aplicar filtros"}
-                        </button>
+                        </Button>
                     </div>
                 </div>
                 <div className="col-md-9">
@@ -192,10 +206,11 @@ export const Finder = () => {
                             usersData.map((userData, index) => (
                                 <div className="col-lg-4 col-md-6 col-sm-12 mb-4" key={index}>
                                     <div className="card shadow-sm">
-                                        <div className="image">
+                                        <div className="image d-flex justify-content-center align-items-center p-1">
                                             <img
                                                 src={userData.properties?.profile_img}
                                                 alt="Card Image"
+                                                className="profile-image img-fluid rounded-circle" style={{ width: '220px', height: '220px', objectFit: 'cover'}}
                                             />
                                         </div>
                                         <div className="content">
@@ -211,31 +226,31 @@ export const Finder = () => {
                                             <div className="buttons"> 
                                                 <div className="d-flex justify-content-between">
                                                     <div className="d-grid gap-2 d-md-flex">
-                                                        <button
+                                                        <Button
                                                             onClick={() => {
                                                                 handleClick(userData);
                                                             }}
-                                                            className="btn bn3637 bn38"
+                                                            type="button" color="primary" variant="outlined" className="button"
                                                         >
                                                             Saber más
-                                                        </button>
+                                                        </Button>
                                                     </div>
                                                     <div className="d-grid gap-1 d-md-flex justify-content-md-end">
                                                         {
                                                             favoriteProfiles.find(profile => profile.id === userData.id) ? (
-                                                                <button
+                                                                <Button
                                                                     onClick={() => handleRemoveFromFavorites(userData.id)}
-                                                                    className="btn btn-link text-end text-decoration-none"
+                                                                    type="button" variant="outlined" className="button"
                                                                 >
                                                                     <i className="fa-solid fa-heart"></i>
-                                                                </button>
+                                                                </Button>
                                                             ) : (
-                                                                <button
+                                                                <Button
                                                                     onClick={() => handleAddToFavorites(userData.id)}
-                                                                    className="btn btn-link text-end text-decoration-none"
+                                                                    type="button" variant="outlined" className="button"
                                                                 >
                                                                     <i className="fa-regular fa-heart"></i>
-                                                                </button>
+                                                                </Button>
                                                             )
                                                         }
                                                     </div>
@@ -250,6 +265,8 @@ export const Finder = () => {
             </div>
             <ModalFilteredUsers show={noProfilesFound} handleClose={handleModalClose} />
         </div>
+    </div>
+    </ThemeProvider>
     );
 
 
