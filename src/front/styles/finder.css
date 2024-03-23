@@ -1,117 +1,95 @@
-.form-select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #02323D;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-.filter button {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 1rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover,
-.btn-secondary:hover {
-    opacity: 0.8;
-}
-
-.btn {
-    background-color: #3c18b3;
-    border: none;
-    color: white;
-    text-align: center;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-.btn-reset {
-    background-color: #c8c8c8;
-}
-
-/* Centra los botones */
-.d-grid .btn {
-    width: auto;
+.containerfinder {
+    max-width: 1200px;
     margin: 0 auto;
-    /* Centra horizontalmente */
+    padding: 30px 15px;
 }
 
-/* Reduce el padding de los botones cuando están centrados */
-.d-grid .btn {
-    padding: 0.5rem 1rem;
-    /* Ajusta el padding horizontal */
-}
-
-.p {
-    padding: 5px;
-}
-
-.card {
-    background-color: #3f7a8d5d;
-    border: none;
-    transition: transform 0.3s ease;
-
-    border-radius: 10px;
-    /* Bordes redondeados */
-    margin: 10px;
-    /* Margen exterior entre las cartas */
+.filter {
+    background-color: #f9f9f9;
     padding: 15px;
-    /* Espacio interno dentro de cada carta */
-    width: 500px;
-    /* Ancho fijo para todas las cartas */
-    height: auto;
-    /* Altura automática basada en el contenido */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Sombra */
-
+    border-radius: 10px;
 }
 
-.card .img-fluid {
-    width: 100%;
-    /* La imagen ocupará todo el ancho de la tarjeta */
-    height: auto;
-    /* Altura automática para mantener la proporción */
-    border-radius: 10px 10px 0 0;
-    /* Añade bordes redondeados solo en la parte superior */
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-body {
-    padding: 1rem;
-}
-
-.card button {
-    font-size: 14px;
-}
-
-
-.bn3637 {
-    display: inline-flex;
+.icons p {
+    margin-right: 8px;
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
     align-items: center;
-    justify-content: center;
-    padding: 0.7rem 2rem;
-    font-weight: 700;
-    font-size: 18px;
+    color: #014E60;
+}
+
+.containerfinder .card {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    height: 355px;
+    /* Altura más corta */
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.containerfinder .card .image img {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.containerfinder .card .content {
+    padding: 10px 0;
+    color: #111;
     text-align: center;
-    text-decoration: none;
-    color: #fff;
-    backface-visibility: hidden;
-    border: 0.3rem solid transparent;
-    border-radius: 3rem;
-  }
-  .bn38 {
-    border-color: transparent;
-    transition: background-color 0.3s ease-in-out;
-  }
-    
-  .bn38:hover {
-    background-color: #60605e;
-  }
+    visibility: visible;
+    opacity: 1;
+    transition: 0.3s ease-in-out;
+}
+
+.containerfinder .card .buttons {
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+}
+
+.containerfinder .card:hover {
+    height: 420px;
+    /* Altura más larga */
+}
+
+.containerfinder .card:hover .buttons {
+    opacity: 1;
+    visibility: visible;
+}
+
+.containerfinder .card .buttons button {
+    margin-top: 8px;
+}
+
+@media (max-width: 992px) {
+    .filter {
+        width: 100%;
+    }
+
+    .container .card {
+        width: calc(50% - 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    .container .card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 576px) {
+    .container .card {
+        width: calc(100% - 20px);
+    }
+}
