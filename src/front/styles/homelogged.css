@@ -1,8 +1,15 @@
 .logged {
+    background-image: url("https://img.freepik.com/free-photo/two-female-friends-dancing-together-bed-while-listening-music_23-2148708926.jpg?t=st=1711309118~exp=1711312718~hmac=d6b594f837c0f33a2f1f3d0044306c9cc2261dd5d1029636d33d15e6ab93146a&w=900");
     display: flex;
     align-items: center;
     justify-content: center;
     height: 600px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 
     .onlineWorld {
         height: 200px;
@@ -22,14 +29,21 @@
 
     }
 
+    .box {
+        background-color: rgba(240, 248, 255, 0.616);
+        width: 500px;
+        padding: 3px;
+    }
+
     .textLogged {
+        margin-top: 3px;
         border-left: 2px solid rgba(50, 47, 47, 0.492);
-        margin-top: 70px;
         margin-left: 30px;
         font-family: "Be Vietnam Pro";
         font-style: normal;
         font-weight: 400;
         font-size: medium;
+       
     }
 
     .title {
@@ -42,7 +56,7 @@
     }
 
     .button {
-        width: 75%;
+        width: 100%;
         border-radius: 25px;
         margin-top: 15px;
         font-weight: 700;

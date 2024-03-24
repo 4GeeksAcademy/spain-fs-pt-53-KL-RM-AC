@@ -30,7 +30,7 @@ export const FadeMenu = () => {
                 onClick={handleClick}
 
             >
-                <i class=" icon fa-solid fa-bars fa-xl"></i>
+                <i className=" icon fa-solid fa-bars fa-xl"></i>
             </Button>
             <Menu
                 id="fade-menu"
