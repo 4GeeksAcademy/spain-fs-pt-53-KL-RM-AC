@@ -15,8 +15,6 @@
         max-width: 400px;
         max-height: 500px;
         text-align: left;
-        margin-top: 15px;
-        margin-bottom: 20px;
         justify-content: center;
         padding: 20px;
         border-radius: 5px;
@@ -60,5 +58,13 @@
         text-decoration: solid;
         font-weight: bold;
     }
-   
+
+    .form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 600px;
+    }
+
+
 }
