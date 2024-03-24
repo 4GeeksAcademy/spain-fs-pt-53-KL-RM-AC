@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/learnmore.css";
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 const LITERALS = {
     "Male": "Hombre",
     "Female": "Mujer",
@@ -29,25 +32,35 @@ export const LearnMore = () => {
             }
         };
 
-        fetchUserData(); // Llama a fetchUserData cuando el componente se monta
-    }, [id]); // Asegúrate de incluir 'id' como una dependencia para que se vuelva a llamar cuando cambie
+        fetchUserData();
+    }, [id]); //'id' como una dependencia para que se vuelva a llamar cuando cambie
 
     const handleClickContactar = () => {
         setShowEmail(true);
     };
 
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#295f72',
+            },
+        },
+    });
+
+
     return (
-        <div className="container-fluid learnmore mt-4 p-4 postal">
+    <ThemeProvider theme={theme}>
+        <div className="learnmore container-fluid mt-4 p-4 postal">
             {userData && (
                 <div className="row">
-                    <div className="col-md-6 pt-3">
+                    <div className= "col-md-6 d-flex justify-content-center align-items-center p-1">
                         <div className="d-flex justify-content-center align-items-center">
-                            <img src={userData.properties?.profile_img} className="profile-image img-fluid rounded-circle" alt="Profile" style={{ width: '400px', height: '400px', objectFit: 'cover' }} />
+                            <img src={userData.properties?.profile_img} className="profile-image img-fluid rounded-circle" alt="Profile" style={{ width: '320px', height: '320px', objectFit: 'cover' }} />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="user-info">
-                            <h2 className="text-center">Perfil de Usuario</h2>
+                            <h3 className="text-center">Perfil de Usuario</h3>
                             <hr></hr>
                             <div className="row">
                                 <div className="col-md-6">
@@ -68,7 +81,7 @@ export const LearnMore = () => {
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <p><strong>Presupuesto:</strong> {userData.properties?.budget}</p>
+                                    <p><i className="fa-solid fa-euro-sign"></i> <strong> Presupuesto:</strong> {userData.properties?.budget}</p>
                                 </div>
                                 <div className="col-md-6">
                                     <p><strong>Situación actual:</strong> {LITERALS[userData.properties?.find_roomie]}</p>
@@ -92,13 +105,11 @@ export const LearnMore = () => {
                             )}
                             <div className="row">
                                 <div className="col-md-12 d-flex justify-content-center">
-                                    <button
-                                        type="button"
-                                        className="btn btn-success"
+                                <Button type="button" className="button "color="primary" variant="outlined"
                                         onClick={handleClickContactar}
                                     >
                                         Contactar
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
@@ -106,5 +117,6 @@ export const LearnMore = () => {
                 </div>
             )}
         </div>
+    </ThemeProvider>
     );
 };

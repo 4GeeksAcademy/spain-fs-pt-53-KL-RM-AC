@@ -1,17 +1,9 @@
 .PageNotAllowed {
     font-family: "Be Vietnam Pro";
     color: rgb(83, 77, 77);
-
-
-    h5 {
-        background-color: #dcafaf95;
-        border-radius: 10px;
-        border-color: grey;
-        box-shadow: 2px 2px darkgray;
-        padding: 20px;
-        justify-content: center;
-
-    }
+    text-align: center;
+    justify-content: center;
+    margin-top: 20px;
 
     .link {
         color: #dd0025;
@@ -19,5 +11,12 @@
 
     .link:hover {
         color: #f74343;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 }

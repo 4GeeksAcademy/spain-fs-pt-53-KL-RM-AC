@@ -1,8 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/createProfile.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MyProfile } from "./MyProfile";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CustomAlert from "./Alerts";
 
 export const CreateProfile = () => {
     const { store, actions } = useContext(Context);
@@ -20,7 +25,16 @@ export const CreateProfile = () => {
     const [loading, setLoading] = useState(true);
     const [imageUploaded, setImageUploaded] = useState(false);
     const [profileCreated, setProfileCreated] = useState(false);
-    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -53,8 +67,7 @@ export const CreateProfile = () => {
         formDataImage.append("upload_preset", "injqzpue");
 
         try {
-            const response = await fetch(
-                'https://api.cloudinary.com/v1_1/dru67quag/image/upload',
+            const response = await fetch(process.env.BACKEND_URL_CLOUDINARY + 'image/upload',
                 {
                     method: "POST",
                     body: formDataImage,
@@ -77,16 +90,30 @@ export const CreateProfile = () => {
         e.preventDefault();
         if (!formData.pet || !formData.gender || !formData.budget || !formData.find_roomie || !formData.text_box || !imageUploaded) {
             setAlertMessage("Por favor, completa todos los campos antes de enviar el formulario.");
+            setOpen(true);
             return;
         }
         try {
             await actions.addProfileInfo(formData);
-            setProfileCreated(true); // Indicar que el perfil se ha creado correctamente
+            setProfileCreated(true);
+            setAlertMessage("Perfil creado correctamente")
+            setOpen(true) // Indicar que el perfil se ha creado correctamente
         } catch (error) {
             console.error("Error al enviar datos:", error);
             setAlertMessage("Error al crear el perfil");
+            setOpen(true)
         }
     };
+
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#295f72',
+            },
+        },
+    });
+
 
     if (loading) {
         return (
@@ -97,92 +124,106 @@ export const CreateProfile = () => {
     }
 
     return (
-        <div className="container mt-2 p-3">
-             {profileCreated ? <MyProfile /> : (
-            <div className="createProfile">
-                <div className="createProfilePage mt-2 p-3">
-                    <form>
-                        <div className="row">
-                            <div className="col-lg-4 col-md-6 col-sm-12 mb-3">
-                                <div className="profileImg">
-                                    {image ? (
-                                        <img src={URL.createObjectURL(image)} alt="Uploaded" className="uploaded-img img-fluid" />
-                                    ) : (
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsg0F0hqjo2pVSEgusU_JvJ4WOxd-U1QWMnw&usqp=CAU" alt="Placeholder" className="placeholder-img img-fluid" />
-                                    )}
-                                </div>
-                                <input
-                                    id="fileInput"
-                                    name="profile_img"
-                                    type="file"
-                                    hidden // Oculta el input
-                                    onChange={handleNewImage}
-                                />
-                                <label htmlFor="fileInput" className="labelImg btn btn-primary mt-3">
-                                    Escoge una imagen
-                                </label>
-                            </div>
-                            <div className="col-lg-8 col-md-6 col-sm-12">
-                                <div className="nameCreateProfile mb-3">
-                                    <h3>{userData.user_name} {userData.last_name}</h3>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-sm-6">
-                                        <label className="form-label fw-bold">Que buscas?</label>
-                                        <select className="form-select" name="find_roomie" value={formData.find_roomie} onChange={handleInputChange}>
-                                            <option value="">Que buscas?</option>
-                                            <option value="Apartment">Tengo piso y busco roomie</option>
-                                            <option value="NoApartment">Busco roomie con piso</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <label className="form-label fw-bold">Cual es tu presupuesto?</label>
-                                        <input type="text" className="form-control" id="budget" name="budget" value={formData.budget} onChange={handleInputChange} />
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-sm-6">
-                                        <label className="form-label fw-bold">Tienes mascota</label>
-                                        <select className="form-select" name="pet" value={formData.pet} onChange={handleInputChange}>
-                                            <option value="">Tienes mascota?</option>
-                                            <option value="Yes">Si</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <label className="form-label fw-bold">Genero</label>
-                                        <select className="form-select" name="gender" value={formData.gender} onChange={handleInputChange}>
-                                            <option value="">Selecciona te genero</option>
-                                            <option value="Female">Mujer</option>
-                                            <option value="Male">Hombre</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">Por que serias el compi ideal?</label>
-                                    <textarea
-                                        className="form-control"
-                                        id="exampleFormControlTextarea1"
-                                        rows="3"
-                                        value={formData.text_box}
-                                        onChange={handleInputChange}
-                                        name="text_box"
-                                    ></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        {alertMessage && (<div className="alert alert-danger">{alertMessage}</div>)}
-                        <div className="buttonsCP mt-3">
+        <ThemeProvider theme={theme}>
+            <div className="container p-2">
+                {profileCreated ? <MyProfile /> : (
+                    <div className="createProfile d-flex">
+                        <div className="createProfilePage mt-2 p-3">
+                            <form>
+                                <div className="row">
+                                    <div className="col-lg-5 col-md-6 col-sm-12 mb-3 images">
+                                        <div className="profileImg">
+                                            {image ? (
+                                                <img src={URL.createObjectURL(image)} alt="Uploaded" className="uploaded-img img-fluid" />
+                                            ) : (
+                                                <img src="https://static.vecteezy.com/system/resources/previews/021/548/095/original/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg" alt="Placeholder" className="placeholder-img img-fluid" />
+                                            )}
+                                        </div>
+                                        <input
+                                            id="fileInput"
+                                            name="profile_img"
+                                            type="file"
+                                            hidden // Oculta el input
+                                            onChange={handleNewImage}
 
-                            <button type="button " className="btn btn-dark me-2" onClick={handleSubmit} disabled={!imageUploaded}>Crear Perfil</button>
-
-                            <Link to={"/password"}>
-                                <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
-                            </Link>
+                                        />
+                                        <label htmlFor="fileInput" className="labelImg mt-3">
+                                            <CloudUploadIcon />
+                                        </label>
+                                    </div>
+                                    <div className="col-lg-7 col-md-6 col-sm-12">
+                                        <div className="nameCreateProfile mb-3">
+                                            <h3>{userData.user_name} {userData.last_name}</h3>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <div className="col-sm-6">
+                                                <label className="form-label fw-bold">Que buscas?</label>
+                                                <select className="form-select" name="find_roomie" value={formData.find_roomie} onChange={handleInputChange}>
+                                                    <option value="">Que buscas?</option>
+                                                    <option value="Apartment">Tengo piso y busco roomie</option>
+                                                    <option value="NoApartment">Busco roomie con piso</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <label className="form-label fw-bold">Cual es tu presupuesto?</label>
+                                                <div className="input-group">
+                                                    <span className="input-group-text presupuesto">€</span>
+                                                    <input
+                                                        type="number"
+                                                        className="form-control presupuesto"
+                                                        id="budget"
+                                                        name="budget"
+                                                        value={formData.budget}
+                                                        onChange={handleInputChange}
+                                                        inputMode="numeric" // Indica que es un campo numérico
+                                                        aria-label="Presupuesto en euros"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <div className="col-sm-6">
+                                                <label className="form-label fw-bold">Tienes mascota</label>
+                                                <select className="form-select" name="pet" value={formData.pet} onChange={handleInputChange}>
+                                                    <option value="">Tienes mascota?</option>
+                                                    <option value="Yes">Si</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <label className="form-label fw-bold">Genero</label>
+                                                <select className="form-select" name="gender" value={formData.gender} onChange={handleInputChange}>
+                                                    <option value="">Selecciona te genero</option>
+                                                    <option value="Female">Mujer</option>
+                                                    <option value="Male">Hombre</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">Por que serias el compi ideal?</label>
+                                            <textarea
+                                                className="form-control"
+                                                id="exampleFormControlTextarea1"
+                                                rows="2"
+                                                value={formData.text_box}
+                                                onChange={handleInputChange}
+                                                name="text_box"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <Stack direction="row" spacing={2} className="buttons">
+                                    <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
+                                    <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={alertMessage === "Perfil creado correctamente" ? "success" : "error"} />
+                                    <Link to={"/password"}>
+                                        <Button type="button" color="primary" variant="outlined" className="button">Cambiar Contrasena</Button>
+                                    </Link>
+                                </Stack>
+                            </form>
                         </div>
-                    </form>
-                </div>
-            </div>)}
-        </div>
+                    </div>)}
+            </div>
+        </ThemeProvider>
+
     );
 };

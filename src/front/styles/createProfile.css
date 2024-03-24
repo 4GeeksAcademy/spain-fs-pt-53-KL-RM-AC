@@ -1,52 +1,94 @@
+.createProfile {
+    .createProfilePage {
+        background-color: #ffffff;
+        border-radius: 5px;
+        border-color: rgb(8, 8, 8);
+        box-shadow: 2px 2px rgba(18, 17, 17, 0.379);
+        padding: 5px;
+        margin: auto;
+    }
 
 
-.createProfile{
-    background-color: #ffffff;
-    border-radius: 10px;
-    border-color: grey;
-    box-shadow: 2px 2px darkgray;
-    padding: 10px;
-    
     .spinner-border {
         text-align: center;
         justify-content: center;
     }
-    .createProfilePage{
+
+    .createProfilePage {
         font-family: "Be Vietnam Pro", sans-serif;
         font-style: normal;
-        font-size: small;
+        font-size: 10px;
+    }
+
+    .images {
+        justify-content: center;
+        text-align: center;
     }
 
     .uploaded-img {
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
     }
-    .placeholder-img{
-        width: 300px;
-        height: 300px;
+
+    .placeholder-img {
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
     }
 
 
-    .inputOption{
+    .inputOption {
         width: 50%;
     }
 
-    .nameCreateProfile{
+    .nameCreateProfile {
         margin-bottom: 20px;
     }
 
-    .buttonsCP{
+    .buttonsCP {
         text-align: center;
         justify-content: center;
     }
 
-    .imageGroup{
+    .imageGroup {
         text-align: center;
         justify-content: center;
     }
-    .labelImg{
+
+    .labelImg {
         margin-top: 10px;
+
+    }
+
+    .labelImg:hover {
+        color: aquamarine;
+    }
+
+    .presupuesto {
+        font-size: 10px;
+        padding: 4px;
+        height: 30px;
+    }
+
+    .form-select {
+        font-size: 10px;
+        padding: 4px;
+        height: 30px;
+
+    }
+
+    .button {
+        width: 150px;
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 600;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-size: xx-small;
+
+    }
+
+    .buttons {
+        justify-content: center;
     }
 }

@@ -1,93 +1,84 @@
-.form-select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #02323D;
-}
+.finder {
+    
+    .containerfinder {
 
-.filter button {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 1rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 15px;
+        box-sizing: border-box;
+        font-family: "Be Vietnam Pro", sans-serif;
+    }
 
-.btn-primary:hover,
-.btn-secondary:hover {
-    opacity: 0.8;
-}
+    .filter {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+    }
 
-.btn {
-    background-color: #dd0025;
-    border: none;
-    color: white;
-    text-align: center;
-    padding: 10px 20px;
-    cursor: pointer;
-}
+    .button {
 
-.btn-reset {
-    background-color: #c8c8c8;
-}
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 600;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-size: small;
 
-/* Centra los botones */
-.d-grid .btn {
-    width: auto;
-    margin: 0 auto;
-    /* Centra horizontalmente */
-}
+    }
 
-/* Reduce el padding de los botones cuando están centrados */
-.d-grid .btn {
-    padding: 0.5rem 1rem;
-    /* Ajusta el padding horizontal */
-}
+    .icons p {
+        margin-right: 8px;
+        display: flex;
+        justify-content: center;
+        /* Centra los elementos horizontalmente */
+        align-items: center;
+        color: #014E60;
+    }
 
-.p {
-    padding: 5px;
-}
+    .containerfinder .card {
+        background-color: #fff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+        height: 370px;
+        /* Altura más corta */
+        transition: height 0.3s ease-in-out;
+        overflow: hidden;
+    }
 
-.card {
-    background-color: #3f7a8d5d;
-    border: none;
-    transition: transform 0.3s ease;
+    .containerfinder .card .image img {
+        width: 100%;
+        height: 250px;
+        border-radius: 15px;
+        object-fit: cover;
+    }
 
-    border-radius: 10px;
-    /* Bordes redondeados */
-    margin: 10px;
-    /* Margen exterior entre las cartas */
-    padding: 15px;
-    /* Espacio interno dentro de cada carta */
-    width: 500px;
-    /* Ancho fijo para todas las cartas */
-    height: auto;
-    /* Altura automática basada en el contenido */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Sombra */
+    .containerfinder .card .content {
+        padding: 10px 0;
+        color: #111;
+        text-align: center;
+        visibility: visible;
+        opacity: 1;
+        transition: 0.3s ease-in-out;
+    }
 
-}
+    .containerfinder .card .buttons {
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
 
-.card .img-fluid {
-    width: 100%;
-    /* La imagen ocupará todo el ancho de la tarjeta */
-    height: auto;
-    /* Altura automática para mantener la proporción */
-    border-radius: 10px 10px 0 0;
-    /* Añade bordes redondeados solo en la parte superior */
-}
+    .containerfinder .card:hover {
+        height: 420px;
+        /* Altura más larga */
+    }
 
-.card:hover {
-    transform: translateY(-5px);
-}
+    .containerfinder .card:hover .buttons {
+        opacity: 1;
+        visibility: visible;
+    }
 
-.card-body {
-    padding: 1rem;
-}
-
-.card button {
-    font-size: 14px;
+    .containerfinder .card .buttons button {
+        margin-top: 8px;
+        border-radius: 25px;
+    }
 }

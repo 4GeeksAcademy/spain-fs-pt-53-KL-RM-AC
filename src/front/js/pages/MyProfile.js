@@ -4,7 +4,9 @@ import "../../styles/MyProfile.css";
 import { Link, useNavigate } from "react-router-dom";
 import { CreateProfile } from "./CreateProfile";
 import { PageNotAllowed } from "./PageNotAllowed";
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 const LITERALS = {
     "Male": "Hombre",
     "Female": "Mujer",
@@ -29,6 +31,14 @@ export const MyProfile = () => {
     };
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#295f72',
+            },
+        },
+    });
 
     useEffect(() => {
         setLoading(false); // Cuando el componente se monta, deja de mostrar el estado de carga
@@ -87,47 +97,49 @@ export const MyProfile = () => {
                 <CreateProfile />
             </div>
         );
-    } 
+    }
     else {
 
         return (
-            <div className="nuevo">
-                <div className="container myprofile mt-4 p-3 justify-content-center">
-                    <div className="postal-myprofile">
-                        <div className="row">
-                            <div className="col-md-6 d-flex justify-content-center align-items-center pb-3">
-                                <img src={userData.profile_img} className="profile-image img-fluid rounded-circle" alt="Profile" style={{ width: '400px', height: '400px', objectFit: 'cover' }} />
-                            </div>
-                            <div className="col-md-6 user-info">
-                                <h2 className="text-center">Mi Perfil</h2>
-                                <hr />
-                                <p><strong>Nombre:</strong> {userData.user_name} {userData.last_name}</p>
-                                <p><strong>Email:</strong> {userData.email}</p>
-                                <p><i className="fa-solid fa-venus-mars"></i><strong> Género:</strong> {LITERALS[userData.gender]}</p>
-                                <p><i className="fa-solid fa-paw"></i><strong> Tienes mascota:</strong> {LITERALS[userData.pet]}</p>
-                                <p><i className="fa-solid fa-euro-sign"></i><strong> Presupuesto:</strong> {userData.budget}</p>
-                                <p><strong>¿Qúe buscas?:</strong> {LITERALS[userData.find_roomie]}</p>
-                                <p><strong>¿Por qué serías el compañero ideal?</strong></p>
-                                <div className="ideal-companion">
-                                    <p>{userData.text_box}</p>
+            <ThemeProvider theme={theme}>
+                <div className="nuevo">
+                    <div className="myprofile container mt-4 p-3 justify-content-center">
+                        <div className="postal-myprofile">
+                            <div className="row">
+                                <div className="col-md-6 d-flex justify-content-center align-items-center p-1">
+                                    <img src={userData.profile_img} className="profile-image img-fluid rounded-circle" alt="Profile" style={{ width: '320px', height: '320px', objectFit: 'cover' }} />
                                 </div>
-                                <div className="custom-btn d-flex justify-content-center">
-                                    <Link to={"/edit"}>
-                                        <button type="button" className="btn btn-dark m-3">Editar Perfil</button>
-                                    </Link>
+                                <div className="col-md-6 user-info">
+                                    <h3 className="text-center">Mi perfil </h3>
+                                    <hr />
+                                    <p><strong>Nombre:</strong> {userData.user_name} {userData.last_name}</p>
+                                    <p><strong>Email:</strong> {userData.email}</p>
+                                    <p><i className="fa-solid fa-venus-mars"></i><strong> Género:</strong> {LITERALS[userData.gender]}</p>
+                                    <p><i className="fa-solid fa-paw"></i><strong> Tienes mascota:</strong> {LITERALS[userData.pet]}</p>
+                                    <p><i className="fa-solid fa-euro-sign"></i><strong> Presupuesto:</strong> {userData.budget}</p>
+                                    <p><strong>¿Qúe buscas?:</strong> {LITERALS[userData.find_roomie]}</p>
+                                    <p><strong>¿Por qué serías el compañero ideal?</strong></p>
+                                    <div className="ideal-companion">
+                                        <p>{userData.text_box}</p>
+                                    </div>
+                                    <Stack direction="row" spacing={2} className="buttons">
+                                        <Link to={"/edit"}>
+                                            <Button type="button" color="primary" variant="outlined" className="button p-2">Editar Perfil</Button>
+                                        </Link>
 
-                                    <button type="button" className="btn btn-dark m-3" onClick={handleDelete}>Eliminar Perfil</button>
+                                        <Button type="button" color="primary" variant="outlined" className="button btn" onClick={handleDelete}>Eliminar Perfil</Button>
 
-                                    <Link to={"/password"}>
-                                        <button type="button" className="btn btn-dark">Cambiar Contrasena</button>
-                                    </Link>
+                                        <Link to={"/password"}>
+                                            <Button type="button" color="primary" variant="outlined" className="button btn">Cambiar Contrasena</Button>
+                                        </Link>
+                                    </Stack>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
+            </ThemeProvider>
         );
     }
 };
