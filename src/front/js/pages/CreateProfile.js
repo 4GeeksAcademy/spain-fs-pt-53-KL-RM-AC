@@ -153,19 +153,18 @@ export const CreateProfile = () => {
                                     </div>
                                     <div className="col-lg-7 col-md-6 col-sm-12">
                                         <div className="nameCreateProfile mb-3">
-                                            <h3>{userData.user_name} {userData.last_name}</h3>
+                                            <h4>{userData.user_name} {userData.last_name}</h4>
                                         </div>
                                         <div className="row mb-3">
                                             <div className="col-sm-6">
                                                 <label className="form-label fw-bold">Que buscas?</label>
-                                                <select className="form-select" name="find_roomie" value={formData.find_roomie} onChange={handleInputChange}>
-                                                    <option value="">Que buscas?</option>
+                                                <select className="form-select" name="find_roomie" value={formData.find_roomie} onChange={handleInputChange} aria-placeholder=" ">
                                                     <option value="Apartment">Tengo piso y busco roomie</option>
                                                     <option value="NoApartment">Busco roomie con piso</option>
                                                 </select>
                                             </div>
                                             <div className="col-sm-6">
-                                                <label className="form-label fw-bold">Cual es tu presupuesto?</label>
+                                                <label className="form-label fw-bold">Presupuesto ?</label>
                                                 <div className="input-group">
                                                     <span className="input-group-text presupuesto">€</span>
                                                     <input
@@ -202,7 +201,7 @@ export const CreateProfile = () => {
                                         <div className="mb-3">
                                             <label className="form-label fw-bold">Por que serias el compi ideal?</label>
                                             <textarea
-                                                className="form-control"
+                                                className="form-control text"
                                                 id="exampleFormControlTextarea1"
                                                 rows="2"
                                                 value={formData.text_box}

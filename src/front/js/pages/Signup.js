@@ -48,7 +48,7 @@ export const SignUp = () => {
         }
         try {
             await actions.signUp(formData);
-            setAlertMessage("Usuario creado correctamente");
+            setAlertMessage("Usuario creado correctamente, Inicie Sesion");
             setOpen(true)
             setFormData({
                 email: "",
@@ -108,7 +108,7 @@ export const SignUp = () => {
                                 </div>
                                 <Stack direction="row" spacing={2}>
                                     <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
-                                    <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={alertMessage === "Usuario creado correctamente" ? "success" : "error"} />
+                                    <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={alertMessage === "Usuario creado correctamente, Inicie Sesion" ? "success" : "error"} />
                                 </Stack>
                             </form>
                         </div>

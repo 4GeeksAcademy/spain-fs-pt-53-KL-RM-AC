@@ -171,7 +171,7 @@ export const EditProfile = () => {
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">Por que serias el compi ideal?</label>
-                                        <textarea className="form-control" rows="2" value={formData.text_box} onChange={handleInputChange} name="text_box"></textarea>
+                                        <textarea className="form-control text" rows="2" value={formData.text_box} onChange={handleInputChange} name="text_box"></textarea>
                                     </div>
                                 </div>
                             </div>
