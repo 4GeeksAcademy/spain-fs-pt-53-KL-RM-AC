@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CustomAlert from "./Alerts";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 export const CreateProfile = () => {
     const { store, actions } = useContext(Context);
@@ -26,6 +28,7 @@ export const CreateProfile = () => {
     const [imageUploaded, setImageUploaded] = useState(false);
     const [profileCreated, setProfileCreated] = useState(false);
     const [open, setOpen] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
 
 
     const handleClose = (event, reason) => {
@@ -65,8 +68,8 @@ export const CreateProfile = () => {
         const formDataImage = new FormData();
         formDataImage.append("file", image);
         formDataImage.append("upload_preset", "injqzpue");
-
         try {
+            setUploadingImage(true); // Establece el estado de carga de la imagen a true
             const response = await fetch(process.env.BACKEND_URL_CLOUDINARY + 'image/upload',
                 {
                     method: "POST",
@@ -79,12 +82,14 @@ export const CreateProfile = () => {
                 profile_img: data.secure_url // Actualiza el estado con la URL de la imagen cargada
             });
             setImageUploaded(true);
-
         } catch (error) {
             setImageUploaded(false);
             console.error("Error al cargar la imagen:", error);
+        } finally {
+            setUploadingImage(false); // Restablece el estado de carga de la imagen a false una vez que se complete la carga
         }
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -117,7 +122,7 @@ export const CreateProfile = () => {
 
     if (loading) {
         return (
-            <div className="spinner-border text-primary" role="status">
+            <div className="spinner-border text-primary mx-auto" role="status">
                 <span className="visually-hidden">Cargando...</span>
             </div>
         );
@@ -125,13 +130,12 @@ export const CreateProfile = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div className="container p-2">
+            <div className="createProfile">
                 {profileCreated ? <MyProfile /> : (
-                    <div className="createProfile d-flex">
-                        <div className="createProfilePage mt-2 p-3">
+                        <div className="createProfilePage">
                             <form>
                                 <div className="row">
-                                    <div className="col-lg-5 col-md-6 col-sm-12 mb-3 images">
+                                    <div className="col-md-6 col-sm-12 images">
                                         <div className="profileImg">
                                             {image ? (
                                                 <img src={URL.createObjectURL(image)} alt="Uploaded" className="uploaded-img img-fluid" />
@@ -148,57 +152,54 @@ export const CreateProfile = () => {
 
                                         />
                                         <label htmlFor="fileInput" className="labelImg mt-3">
-                                            <CloudUploadIcon />
-                                        </label>
+                                            {uploadingImage ? <CircularProgress color="primary" /> : <CloudUploadIcon />}                                        </label>
                                     </div>
-                                    <div className="col-lg-7 col-md-6 col-sm-12">
+                                    <div className="col-md-6 col-sm-12">
+                                        <h3 className="text-center">Crear Perfil</h3>
+                                        <hr />
                                         <div className="nameCreateProfile mb-3">
-                                            <h4>{userData.user_name} {userData.last_name}</h4>
+                                            <p><strong>Nombre:</strong> {userData.user_name} {userData.last_name}</p>
                                         </div>
-                                        <div className="row mb-3">
-                                            <div className="col-sm-6">
-                                                <label className="form-label fw-bold">Que buscas?</label>
-                                                <select className="form-select" name="find_roomie" value={formData.find_roomie} onChange={handleInputChange} aria-placeholder=" ">
-                                                    <option value="Apartment">Tengo piso y busco roomie</option>
-                                                    <option value="NoApartment">Busco roomie con piso</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <label className="form-label fw-bold">Presupuesto ?</label>
-                                                <div className="input-group">
-                                                    <span className="input-group-text presupuesto">€</span>
-                                                    <input
-                                                        type="number"
-                                                        className="form-control presupuesto"
-                                                        id="budget"
-                                                        name="budget"
-                                                        value={formData.budget}
-                                                        onChange={handleInputChange}
-                                                        inputMode="numeric" // Indica que es un campo numérico
-                                                        aria-label="Presupuesto en euros"
-                                                    />
-                                                </div>
+                                        <div>
+                                            <label className="form-label fw-bold">Que buscas?</label>
+                                            <select className="form-select" name="find_roomie" value={formData.find_roomie} onChange={handleInputChange} aria-placeholder=" ">
+                                                <option value="Apartment">Tengo piso y busco roomie</option>
+                                                <option value="NoApartment">Busco roomie con piso</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="form-label fw-bold">Presupuesto?</label>
+                                            <div className="input-group">
+                                                <span className="input-group-text presupuesto">€</span>
+                                                <input
+                                                    type="number"
+                                                    className="form-control presupuesto"
+                                                    id="budget"
+                                                    name="budget"
+                                                    value={formData.budget}
+                                                    onChange={handleInputChange}
+                                                    inputMode="numeric" // Indica que es un campo numérico
+                                                    aria-label="Presupuesto en euros"
+                                                />
                                             </div>
                                         </div>
-                                        <div className="row mb-3">
-                                            <div className="col-sm-6">
-                                                <label className="form-label fw-bold">Tienes mascota</label>
-                                                <select className="form-select" name="pet" value={formData.pet} onChange={handleInputChange}>
-                                                    <option value="">Tienes mascota?</option>
-                                                    <option value="Yes">Si</option>
-                                                    <option value="No">No</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <label className="form-label fw-bold">Genero</label>
-                                                <select className="form-select" name="gender" value={formData.gender} onChange={handleInputChange}>
-                                                    <option value="">Selecciona te genero</option>
-                                                    <option value="Female">Mujer</option>
-                                                    <option value="Male">Hombre</option>
-                                                </select>
-                                            </div>
+                                        <div>
+                                            <label className="form-label fw-bold">Tienes mascota</label>
+                                            <select className="form-select" name="pet" value={formData.pet} onChange={handleInputChange}>
+                                                <option value="">Tienes mascota?</option>
+                                                <option value="Yes">Si</option>
+                                                <option value="No">No</option>
+                                            </select>
                                         </div>
-                                        <div className="mb-3">
+                                        <div>
+                                            <label className="form-label fw-bold">Genero</label>
+                                            <select className="form-select" name="gender" value={formData.gender} onChange={handleInputChange}>
+                                                <option value="">Selecciona te genero</option>
+                                                <option value="Female">Mujer</option>
+                                                <option value="Male">Hombre</option>
+                                            </select>
+                                        </div>
+                                        <div>
                                             <label className="form-label fw-bold">Por que serias el compi ideal?</label>
                                             <textarea
                                                 className="form-control text"
@@ -212,14 +213,15 @@ export const CreateProfile = () => {
                                     </div>
                                 </div>
                                 <Stack direction="row" spacing={2} className="buttons">
-                                    <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
+                                    <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button" disabled={!imageUploaded} >
+                                        Continuar
+                                    </Button>
                                     <CustomAlert open={open} onClose={handleClose} message={alertMessage} severity={alertMessage === "Perfil creado correctamente" ? "success" : "error"} />
                                     <Link to={"/password"}>
                                         <Button type="button" color="primary" variant="outlined" className="button">Cambiar Contrasena</Button>
                                     </Link>
                                 </Stack>
                             </form>
-                        </div>
                     </div>)}
             </div>
         </ThemeProvider>

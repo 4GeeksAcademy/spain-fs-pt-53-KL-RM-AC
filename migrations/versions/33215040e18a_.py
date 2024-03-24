@@ -2,7 +2,15 @@
 
 Revision ID: 33215040e18a
 Revises: 
+<<<<<<< HEAD:migrations/versions/33215040e18a_.py
 Create Date: 2024-03-24 15:14:24.083735
+=======
+<<<<<<< HEAD:migrations/versions/722e68efea7c_.py
+Create Date: 2024-03-23 11:42:02.340428
+=======
+Create Date: 2024-03-24 11:24:29.593527
+>>>>>>> Rocio:migrations/versions/502b73baa12b_.py
+>>>>>>> Karen:migrations/versions/502b73baa12b_.py
 
 """
 from alembic import op
@@ -10,7 +18,15 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
+<<<<<<< HEAD:migrations/versions/33215040e18a_.py
 revision = '33215040e18a'
+=======
+<<<<<<< HEAD:migrations/versions/722e68efea7c_.py
+revision = '722e68efea7c'
+=======
+revision = '502b73baa12b'
+>>>>>>> Rocio:migrations/versions/502b73baa12b_.py
+>>>>>>> Karen:migrations/versions/502b73baa12b_.py
 down_revision = None
 branch_labels = None
 depends_on = None
