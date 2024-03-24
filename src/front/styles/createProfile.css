@@ -2,40 +2,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 600px;
+    min-height: 100vh;
     margin-top: 60px;
-    margin-bottom: 60px;
-
 
 
     .createProfilePage {
         background-color: #ffffff;
         border-radius: 5px;
-        border-color: rgb(8, 8, 8 );
+        border-color: rgb(8, 8, 8);
         box-shadow: 2px 2px rgba(18, 17, 17, 0.379);
         padding: 20px;
-        width: 850px;
-    }
-
-    .createProfilePage {
+        width: 100%;
+        max-width: 850px;
+        margin: 60px auto;
         font-family: "Be Vietnam Pro", sans-serif;
         font-style: normal;
         font-size: 91%;
     }
 
     .images {
-        justify-content: center;
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         margin-top: 40px;
     }
 
-    .uploaded-img {
-        width: 320px;
-        height: 320px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
+    .uploaded-img,
     .placeholder-img {
         width: 320px;
         height: 320px;
@@ -43,44 +35,13 @@
         object-fit: cover;
     }
 
-
-    .inputOption {
-        width: 100%;
-    }
-
-    .nameCreateProfile {
-        margin-bottom: 20px;
-    }
-
-    .buttonsCP {
-        text-align: center;
-        justify-content: center;
-    }
-
     .labelImg {
         margin-top: 15px;
         font-size: large;
-
     }
 
     .labelImg:hover {
         color: #33758c;
-    }
-
-    .presupuesto {
-        font-size: 91%;
-        padding: 4px;
-        height: 30px;
-        margin-bottom: 5px;
-
-    }
-
-    .form-select {
-        font-size: 91%;
-        padding: 4px;
-        height: 30px;
-        margin-bottom: 5px;
-
     }
 
     .button {
@@ -88,16 +49,17 @@
         margin-top: 20px;
         font-weight: 700;
         font-family: "Be Vietnam Pro", sans-serif;
-        font-size: x-small;
-
+        font-size: small;
     }
 
     .buttons {
         justify-content: center;
     }
 
-    .text {
-        font-size: x-small;
-
+    @media screen and (max-width: 768px) {
+        .createProfilePage {
+            margin: 50px auto;
+            padding: 10px;
+        }
     }
 }

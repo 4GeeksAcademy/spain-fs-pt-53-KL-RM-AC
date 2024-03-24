@@ -105,7 +105,7 @@ export const CreateProfile = () => {
             setOpen(true) // Indicar que el perfil se ha creado correctamente
         } catch (error) {
             console.error("Error al enviar datos:", error);
-            setAlertMessage("Error al crear el perfil");
+            setAlertMessage("Error al guardar perfil");
             setOpen(true)
         }
     };

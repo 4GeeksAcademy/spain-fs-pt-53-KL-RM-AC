@@ -9,13 +9,17 @@ export const PageNotAllowed = () => {
 
 	return (
 		<div className="PageNotAllowed container">
-			<div className="content">
-				<Stack sx={{ width: '50%' }} spacing={2} className="alertPNA">
-					<Alert variant="outlined" severity="error">
+
+			<div className="content row col-12">
+				<Stack sx={{ width: '50%' }} spacing={2} className="alertPNA" justifyContent="center" alignItems="center" >
+					<Alert variant="outlined" severity="error" justifyContent="center" alignItems="center" >
 						Debes <Link to={"/user-signup"} className="link">Registrarte</Link> o <Link to={"/user-login"} className="link">Iniciar sesion</Link> para acceder a esta vista.
 					</Alert>
 				</Stack>
-				<img src={noData} style={{ width: '300px', height: '300px', margin: 'auto' }} />
+			</div>
+			<div className="content row col-12">
+
+				<img src={noData} style={{ width: '500px', height: '500px', margin: 'auto' }} />
 			</div>
 		</div>
 	);

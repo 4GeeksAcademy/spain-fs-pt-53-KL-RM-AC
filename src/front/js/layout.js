@@ -31,7 +31,7 @@ const Layout = () => {
         <BrowserRouter basename={basename}>
             <ScrollToTop>
                 <Navbar />
-                <div className="containerLayout">
+                <div className="containerLayout" style={{height:'100vh',}}>
                     <Routes className="body">
                         <Route element={<Home />} path="/" />
                         <Route element={<MyProfile />} path="/profile" />
