@@ -1,48 +1,49 @@
+
 .createProfile {
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+
+
     .createProfilePage {
         background-color: #ffffff;
         border-radius: 5px;
         border-color: rgb(8, 8, 8);
         box-shadow: 2px 2px rgba(18, 17, 17, 0.379);
-        padding: 5px;
-        margin: auto;
-    }
-
-
-    .spinner-border {
-        text-align: center;
-        justify-content: center;
+        padding: 20px;
+        width: 850px;
     }
 
     .createProfilePage {
         font-family: "Be Vietnam Pro", sans-serif;
         font-style: normal;
-        font-size: 10px;
+        font-size: 91%;
     }
 
     .images {
         justify-content: center;
         text-align: center;
+        margin-top: 40px;
     }
 
     .uploaded-img {
-        width: 200px;
-        height: 200px;
+        width: 320px;
+        height: 320px;
         border-radius: 50%;
         object-fit: cover;
     }
 
     .placeholder-img {
-        width: 200px;
-        height: 200px;
+        width: 320px;
+        height: 320px;
         border-radius: 50%;
         object-fit: cover;
     }
 
 
     .inputOption {
-        width: 50%;
+        width: 100%;
     }
 
     .nameCreateProfile {
@@ -54,40 +55,38 @@
         justify-content: center;
     }
 
-    .imageGroup {
-        text-align: center;
-        justify-content: center;
-    }
-
     .labelImg {
-        margin-top: 10px;
+        margin-top: 15px;
+        font-size: large;
 
     }
 
     .labelImg:hover {
-        color: aquamarine;
+        color: #33758c;
     }
 
     .presupuesto {
-        font-size: 10px;
+        font-size: 91%;
         padding: 4px;
         height: 30px;
+        margin-bottom: 5px;
+
     }
 
     .form-select {
-        font-size: 10px;
+        font-size: 91%;
         padding: 4px;
         height: 30px;
+        margin-bottom: 5px;
 
     }
 
     .button {
-        width: 150px;
         border-radius: 25px;
-        margin-top: 15px;
-        font-weight: 600;
+        margin-top: 20px;
+        font-weight: 700;
         font-family: "Be Vietnam Pro", sans-serif;
-        font-size: xx-small;
+        font-size: x-small;
 
     }
 
@@ -95,7 +94,8 @@
         justify-content: center;
     }
 
-    .text{
-        font-size: xx-small;
+    .text {
+        font-size: x-small;
+
     }
 }
