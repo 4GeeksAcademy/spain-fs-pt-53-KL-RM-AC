@@ -20,6 +20,7 @@ export const HomeLogged = () => {
     return (
         <ThemeProvider theme={theme}>
             <div className="container p-3 mt-5 logged">
+                <div>
                 <div className="row">
                     <div className="col-lg-7 col-md-12">
                         <div className="text-center">
@@ -50,6 +51,7 @@ export const HomeLogged = () => {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </ThemeProvider>
     );

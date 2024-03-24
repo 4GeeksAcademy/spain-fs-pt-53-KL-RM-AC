@@ -81,7 +81,7 @@ export const SignUp = () => {
         <ThemeProvider theme={theme}>
             <div className="container-fluid signUpStyles">
                 <div className="row justify-content-center align-items-center">
-                    <div className="col-lg-6 col-md-6 col-sm-12 d-flex">
+                    <div className="col-lg-6 col-md-6 col-sm-12 d-flex form">
                         <div className="container signUp">
                             <form>
                                 <h1 className="title mb-1">Registrate</h1>

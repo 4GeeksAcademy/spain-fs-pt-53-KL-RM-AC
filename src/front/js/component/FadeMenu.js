@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import { Link } from 'react-router-dom';
-import '../../styles/navbar.css'; // Importa el archivo de estilos CSS
+import '../../styles/navbar.css'; 
 
 export const FadeMenu = () => {
     const { store, actions } = useContext(Context);
@@ -41,7 +41,7 @@ export const FadeMenu = () => {
                 open={open}
                 onClose={handleClose}
                 TransitionComponent={Fade}
-                className="mt-3"
+                className="mt-4"
             >
                 <MenuItem className="custom-menu-item" onClick={handleClose}> {/* Aplica la clase CSS personalizada al elemento MenuItem */}
                     <Link to="/profile"><i className="fa-regular fa-user"></i> Mi perfil</Link> {/* Envuelve el enlace dentro del elemento MenuItem */}

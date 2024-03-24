@@ -68,7 +68,7 @@ export const Login = () => {
         <ThemeProvider theme={theme}>
             <div className="container-fluid loginStyles">
                 <div className="row justify-content-center align-items-center">
-                    <div className="col-lg-6 col-md-8 col-sm-10">
+                    <div className="col-lg-6 col-md-8 col-sm-10 form">
                         <div className="container textLogin login mx-auto">
                             <form onSubmit={handleSubmit} className="p-3 m-3">
                                 <h1 className="title mb-4">Iniciar Sesion</h1>

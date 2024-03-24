@@ -55,8 +55,8 @@ export const Navbar = () => {
                         <ul className="dropdown-menu m-2" aria-labelledby="dropdownMenuClickableInside">
                             {favoriteProfiles.map(profile => (
                                 <li key={profile.id}>
-                                    <Link to={`/learnmore/${profile.id}`}>
-                                        <p>
+                                    <Link to={`/learnmore/${profile.id}`} className="link">
+                                        <p className="name">
                                             {profile.user_name} {profile.last_name}
                                         </p>
                                     </Link>
