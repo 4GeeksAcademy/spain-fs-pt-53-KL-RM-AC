@@ -1,3 +1,4 @@
+
 .myprofile {
     font-weight: 600;
     font-family: "Be Vietnam Pro", sans-serif;
@@ -8,8 +9,18 @@
     padding: 20px;
     max-width: 850px;
     margin: 0 auto;
+    margin-bottom: 60px;
     background: linear-gradient(to bottom, #ffffff, #f0f0f0);
-    
+
+    .myprofile .container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+    margin-top: 30px;
+   
+    }
+
 
     .profile-image {
         max-width: 100%;
@@ -38,12 +49,14 @@
 
     }
 
+
     .buttons {
         justify-content: center;
     }
 
     .postal-myprofile {
         padding: 15px;
+        
     }
 
     .myprofile .button {

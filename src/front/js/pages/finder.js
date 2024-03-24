@@ -144,8 +144,8 @@ export const Finder = () => {
     }
     return (
         <ThemeProvider theme={theme}>
-            <div className="finder">
-                <div className=" containerfinder p-3 ">
+            <div className="finder mb-2">
+                <div className="containerfinder p-3 mb-5">
                     <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
                     <div className="row justify-content-center">
                         <div className="col-md-3">
@@ -211,7 +211,7 @@ export const Finder = () => {
                                 </Stack>
                             </div>
                         </div>
-                        <div className="col-md-9">
+                        <div className="finderbottom col-md-9">
                             <div className="row justify-content-center">
                                 {Array.isArray(usersData) &&
                                     usersData.map((userData, index) => (

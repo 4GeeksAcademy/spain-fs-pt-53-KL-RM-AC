@@ -107,9 +107,9 @@ export const MyProfile = () => {
 
         return (
             <ThemeProvider theme={theme}>
-                <div className="nuevo">
-                    <div className="myprofile container mt-4 p-3 justify-content-center">
-                        <div className="postal-myprofile">
+                <div className="nuevo d-flex mt-5">
+                    <div className="myprofile container mt-4 p-3 d-flex justify-content-center align-items-center mt-5">
+                        <div className="postal-myprofile d-flex justify-content-center align-items-center">
                             <div className="row">
                                 <div className="col-md-6 d-flex justify-content-center align-items-center p-1">
                                     <img src={userData.profile_img} className="profile-image img-fluid rounded-circle" alt="Profile" style={{ width: '320px', height: '320px', objectFit: 'cover' }} />
