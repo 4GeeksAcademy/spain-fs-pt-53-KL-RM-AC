@@ -1,13 +1,4 @@
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    background-image: url("https://img.freepik.com/foto-gratis/imagen-papel-tapiz-gris-claro-fondo-trazo-pincel-acrilico_53876-104726.jpg?t=st=1710428797~exp=1710432397~hmac=8e26a03128ecfbb6b55d86fbf24dbb71dabeed3ad1f1a2e0c17987026409bacc&w=826");
-    background-size: cover
-    
-    
-}
+
 
 .loginStyles {
 

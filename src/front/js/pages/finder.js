@@ -149,7 +149,7 @@ export const Finder = () => {
             <ModalFilteredUsers show={noProfilesFound} handleClose={() => setNoProfilesFound(false)} />
             <div className="row justify-content-center">
                 <div className="col-md-3">
-                    <div className="filter sticky-top">
+                    <div className="filter">
                         <h4>Filtros</h4>
                         <form>
                             <div className="situation">
