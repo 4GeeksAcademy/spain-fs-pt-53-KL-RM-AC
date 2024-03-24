@@ -31,9 +31,11 @@ export const Home = () => {
                         <p>Por eso hemos creado una web donde podrás encontrar al compi que más encaje contigo</p>
                     </div>
                     <div className="buttonHome">
-                        <Link to={"/user-signup"}>
-                            <Button color="primary" variant="contained" className="button"><i className="fa-solid fa-magnifying-glass p-2"></i>Buscar compi</Button>
-                        </Link>
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" >
+                            <Link to={"/user-signup"}>
+                                <Button color="primary" variant="contained" className="button"><i className="fa-solid fa-magnifying-glass p-2"></i>Buscar compi</Button>
+                            </Link>
+                        </Stack>
                     </div>
                 </div>
             </div>
