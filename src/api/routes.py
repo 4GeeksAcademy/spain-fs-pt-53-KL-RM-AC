@@ -260,16 +260,16 @@ def get_users_filter():
     budget = request.args.get('budget')
     findroomie = request.args.get('find_roomie')
 
-    if pet is not None:
+    if pet is not None and pet != "":
         filters.append(UserProperties.pet == pet)
-    if gender is not None:
+    if gender is not None and gender != "":
         filters.append(UserProperties.gender == gender)
-    if budget is not None:
+    if budget is not None and budget != "":
         if findroomie == 'Apartment':
             filters.append(UserProperties.budget <= budget)
         elif findroomie == 'NoApartment':
             filters.append(UserProperties.budget <= budget)
-    if findroomie is not None:
+    if findroomie is not None and findroomie != "":
         filters.append(UserProperties.find_roomie == findroomie)
 
     # Si no se proporcionan filtros, devuelve todos los perfiles

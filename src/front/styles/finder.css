@@ -25,6 +25,10 @@
 
     }
 
+    .buttons {
+        justify-content: center;
+    }
+
     .icons p {
         margin-right: 8px;
         display: flex;
