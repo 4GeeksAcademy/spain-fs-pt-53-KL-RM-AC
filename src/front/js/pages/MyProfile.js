@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CreateProfile } from "./CreateProfile";
 import { PageNotAllowed } from "./PageNotAllowed";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 const LITERALS = {
@@ -87,9 +88,13 @@ export const MyProfile = () => {
         return <PageNotAllowed />;
     } else if (loading) {
         return (
-            <div className="spinner-border text-success" role="status">
-                <span className="sr-only">Cargando...</span>
-            </div>
+            <ThemeProvider theme={theme}>
+                <div className="spinner-container">
+                    <div className="spinner">
+                        <CircularProgress color="primary" />
+                    </div>
+                </div>
+            </ThemeProvider>
         );
     } else if (!hasRequiredFields()) {
         return (

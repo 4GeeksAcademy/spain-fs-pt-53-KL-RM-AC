@@ -44,11 +44,7 @@ export const Home = () => {
 						<p className="question">
 							¿Quieres unirte a la comunidad?
 						</p>
-						<Stack direction="row" spacing={2}>
-							<Link to={"/user-signup"}>
-								<Button color="primary" variant="outlined" className="button"><i className="fa-solid fa-magnifying-glass p-2"></i>Buscar Roomie</Button>
-							</Link>
-						</Stack>
+					 
 
 					</div>
 

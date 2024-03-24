@@ -9,13 +9,14 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { red } from '@mui/material/colors';
+import { Button } from "@mui/material";
 
 export const Navbar = () => {
     const { store, actions } = useContext(Context);
     const { favoriteProfiles } = store;
     const token = store.token;
-    const [value, setValue] = React.useState('recents');
     const color = red[900];
+
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
@@ -28,11 +29,19 @@ export const Navbar = () => {
             minWidth: '10px',
             height: '14px',
             width: '14px',
-
         },
     }));
 
+    const handleRemoveFavorite = async (profileId) => {
+        const success = await actions.removeFavoriteProfile(profileId);
+        if (success) {
+            // Si la eliminación fue exitosa, actualizamos la lista de perfiles favoritos
+            actions.getFavoriteProfiles();
+        }
+    };
+
     return (
+
         <div className="d-flex custom-navbar">
             <div className="logo me-auto">
                 {token ? (
@@ -54,12 +63,13 @@ export const Navbar = () => {
                         </IconButton>
                         <ul className="dropdown-menu m-2" aria-labelledby="dropdownMenuClickableInside">
                             {favoriteProfiles.map(profile => (
-                                <li key={profile.id}>
+                                <li key={profile.id} className="d-flex li justify-content-between">
                                     <Link to={`/learnmore/${profile.id}`} className="link">
                                         <p className="name">
                                             {profile.user_name} {profile.last_name}
                                         </p>
                                     </Link>
+                                    <i className="button fa-solid fa-xmark" onClick={() => handleRemoveFavorite(profile.id)}></i>                                    
                                 </li>
                             ))}
                         </ul>
@@ -68,5 +78,6 @@ export const Navbar = () => {
             </div>
             <FadeMenu />
         </div>
+
     );
 };
