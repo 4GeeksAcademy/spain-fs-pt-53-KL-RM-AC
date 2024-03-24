@@ -3,11 +3,25 @@ import { Context } from "../store/appContext";
 import HangOut from "../../img/Hang out-cuate.png"
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
+	const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#295f72',
+            },
+        },
+    });
+
 
 	return (
+		<ThemeProvider theme={theme}>
+
 		<div className="row home d-flex">
 			<div className="col-7">
 				<div className="d-flex m-0 col-4">
@@ -24,7 +38,7 @@ export const Home = () => {
 						¿Quieres unirte a la comunidad?
 					</p>
 					<Link to={"/user-signup"}>
-						<button type="button" className="btn btn-dark me-2 btn-lg"><i className="fa-solid fa-magnifying-glass"></i>  Buscar Roomie</button>
+						<Button color="primary" variant="outlined" className="button"><i className="fa-solid fa-magnifying-glass"></i>    Buscar Roomie</Button>
 					</Link>
 
 				</div>
@@ -35,5 +49,6 @@ export const Home = () => {
 				</div>
 			</div>
 		</div>
+		</ThemeProvider>
 	);
 };

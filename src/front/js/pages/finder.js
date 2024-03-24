@@ -54,7 +54,6 @@ export const Finder = () => {
             } else {
                 setUsersData([]);
                 setNoProfilesFound(true);
-                console.log("no se encontraron perfiles que cumplan estas condiciones")
                 setFiltersActive(false);
             }
         });
@@ -123,7 +122,6 @@ export const Finder = () => {
     };
 
 
-    console.log(usersData)
     if (!store.token || store.token === "" || store.token === undefined) {
         return <PageNotAllowed />;
     }
