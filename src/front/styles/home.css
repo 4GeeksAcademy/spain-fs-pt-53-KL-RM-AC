@@ -1,24 +1,28 @@
 .home {
     font-family: "Be Vietnam Pro";
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px; */
 
-    
+
 
     .title {
-        font-size: 150px;
+        font-size: 125px;
         color: #014E60;
         font-style: normal;
         font-weight: 700;
-        color: #3f7a8d;
+        color: #295f72;
         padding-left: 20px;
-        text-shadow: 2px 2px 3px rgba(0,0,0,0.52);
+        text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.52);
 
     }
 
     .subtitle {
-        font-size: 50px;
+        font-size: 25px;
         margin-top: 100px;
         color: #c93d27bd;
-        text-shadow: 2px 2px 3px rgba(0,0,0,0.52);
+        text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.52);
     }
 
     .textHome {
@@ -26,7 +30,7 @@
         font-family: "Be Vietnam Pro";
         font-style: normal;
         font-weight: 200;
-        font-size: medium;
+        font-size: small;
     }
 
     .container {
@@ -34,13 +38,20 @@
     }
 
     .question {
-        font-size: 30px;
+        font-size: 20px;
         color: #014E60;
         font-weight: 400;
     }
 
     .hangoutImg {
-        width: 45%;
+        width: 35%;
+    }
+
+    .button {
+        width: 100%;
+        border-radius: 25px;
+        font-weight: 700;
+        font-family: "Be Vietnam Pro", sans-serif;
     }
 
 }

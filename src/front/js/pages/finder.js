@@ -78,7 +78,6 @@ export const Finder = () => {
             } else {
                 setUsersData([]);
                 setNoProfilesFound(true);
-                console.log("no se encontraron perfiles que cumplan estas condiciones")
                 setFiltersActive(false);
             }
         });

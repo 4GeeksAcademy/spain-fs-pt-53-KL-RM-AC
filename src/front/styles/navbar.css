@@ -1,26 +1,9 @@
-/* navbar.css */
 .custom-navbar {
   display: flex;
   align-items: center;
-  background-color: #3f7a8d; 
-  font-family: Verdana;
+  background-color: #3f7a8d;
   padding: 0px;
-  height: 50px; 
-}
-
-.textNavbar {
-  display: flex;
-  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
-}
-
-.textNavbar a {
-  color: white;
-  text-decoration: none;
-  margin-left: 15px;
-}
-
-.textNavbar a:hover{
-  color: #55ccc9;
+  height: 50px;
 }
 
 .imageLogo {
@@ -30,6 +13,28 @@
   margin-top: 5px;
 }
 
-.dropdown {
-  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
+.icon {
+  text-decoration: none;
+  color: black
+}
+
+.custom-menu-item {
+  color: black;
+
+}
+
+.custom-menu-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.name {
+  margin: 10px;
+  padding: 7px;
+  border-bottom: 0.5px rgba(0, 0, 0, 0.297) solid;
 }

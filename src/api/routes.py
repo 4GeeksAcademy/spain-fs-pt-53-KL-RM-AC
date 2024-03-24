@@ -101,11 +101,11 @@ def change_password():
     # Verificar que el usuario exista en la base de datos
     user = User.query.filter_by(id=current_user_id).first()
     if not user:
-        return jsonify({'error': 'Usuario no encontrado'}), 404
+        return jsonify({'message': 'Usuario no encontrado'}), 404
     
     # Verificar que la contraseña actual sea correcta
     if not check_password_hash(user.password, old_password):
-        return jsonify({'error': 'La contraseña actual no es correcta'}), 400
+        return jsonify({'message': 'La contraseña actual no es correcta'}), 400
     
     # Encriptar la nueva contraseña
     hashed_new_password = generate_password_hash(new_password).decode('utf-8')
