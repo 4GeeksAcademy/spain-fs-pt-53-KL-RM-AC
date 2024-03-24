@@ -19,18 +19,18 @@ export const Navbar = () => {
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
-          right: 4,
-          top: 9,
-          padding: '2px 4px',
-          fontSize: '0.65rem',
-          fontWeight: 'bold',
-          backgroundColor: color,
-          minWidth: '10px', // Reducir el ancho mínimo del círculo
-          height: '14px', // Reducir la altura del círculo
-          width: '14px',
-    
+            right: 4,
+            top: 9,
+            padding: '2px 4px',
+            fontSize: '0.65rem',
+            fontWeight: 'bold',
+            backgroundColor: color,
+            minWidth: '10px',
+            height: '14px',
+            width: '14px',
+
         },
-      }));
+    }));
 
     return (
         <div className="d-flex custom-navbar">
@@ -48,17 +48,10 @@ export const Navbar = () => {
             <div className="favoritos">
                 {token && (
                     <div className="dropdown">
-
-                        {/* <IconButton aria-label="Favorite">
-                                <FavoriteIcon /> ({favoriteProfiles.length})
-                            </IconButton> */}
                         <IconButton type="button" className="btn btn-primary position-relative" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
-                        <FavoriteIcon />
-                        <StyledBadge badgeContent={favoriteProfiles.length} color="red"></StyledBadge>
+                            <FavoriteIcon />
+                            <StyledBadge badgeContent={favoriteProfiles.length} color="red"></StyledBadge>
                         </IconButton>
-                        {/* <button className="btn btn-warning " type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i className="fa-solid fa-heart"></i> ({favoriteProfiles.length})
-                        </button> */}
                         <ul className="dropdown-menu m-2" aria-labelledby="dropdownMenuClickableInside">
                             {favoriteProfiles.map(profile => (
                                 <li key={profile.id}>

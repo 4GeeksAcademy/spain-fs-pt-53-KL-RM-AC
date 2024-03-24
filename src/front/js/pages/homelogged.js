@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import OnlineWorld from "../../img/Online world-pana.png";
 import "../../styles/homelogged.css";
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export const HomeLogged = () => {
@@ -29,16 +30,18 @@ export const HomeLogged = () => {
                                 <div className="container conectionImg">
                                     <img src={OnlineWorld} className="onlineWorld" alt="Online World" />
                                 </div>
-                                <p className="textLogged">"Explora el hogar de tus sueños: en nuestra plataforma, conectamos a más de 1000 personas que encuentran la habitación ideal para convivir felices y crear recuerdos inolvidables."</p>
+                                <p className="textLogged">"Desde nuestra plataforma, conectamos a más de 1000 personas que encuentran la habitación ideal para convivir felices y crear recuerdos inolvidables."</p>
                             </div>
+                            <Stack direction="row" spacing={2}>
                             <div className="container d-flex justify-content-center justify-content-md-start mt-5">
                                 <Link to="/finder">
-                                    <Button color="primary" variant="outlined" className="button mx-3 mx-md-5"><i className="fa-solid fa-magnifying-glass"></i> Buscar</Button>
+                                    <Button color="primary" variant="outlined" className="button mx-3 mx-md-5"><i className="fa-solid fa-magnifying-glass m-1"></i> Buscar</Button>
                                 </Link>
                                 <Link to="/profile">
-                                    <Button color="primary" variant="outlined" className="button mx-3 mx-md-5"><i className="fa-regular fa-user"></i> Mi perfil</Button>
+                                    <Button color="primary" variant="outlined" className="button mx-3 mx-md-5"><i className="fa-regular fa-user m-1"></i> Mi perfil</Button>
                                 </Link>
                             </div>
+                            </Stack>
                         </div>
                     </div>
                     <div className="col-lg-5 col-md-12">
