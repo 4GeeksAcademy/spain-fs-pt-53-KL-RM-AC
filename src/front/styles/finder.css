@@ -14,7 +14,7 @@
         background-color: #f9f9f9;
         padding: 15px;
         border-radius: 10px;
-        position: fixed;
+        position: sticky;
         margin: auto;
         max-width: 275px;
     }
