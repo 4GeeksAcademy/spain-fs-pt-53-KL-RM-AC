@@ -24,6 +24,22 @@ body {
 }
 
 
+.spinner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999; /* Asegura que el spinner esté por encima de otros elementos */
+}
+ 
+.spinner {
+    width: 50px; /* Ancho del spinner */
+    height: 50px; /* Altura del spinner */
+}
 
 .home {
     font-family: "Be Vietnam Pro", sans-serif;

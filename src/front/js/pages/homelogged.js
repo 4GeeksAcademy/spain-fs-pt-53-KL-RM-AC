@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-import OnlineWorld from "../../img/Online world-pana.png";
 import "../../styles/homelogged.css";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
