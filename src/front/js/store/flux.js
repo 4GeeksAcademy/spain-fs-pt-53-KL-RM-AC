@@ -305,6 +305,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
+					setStore({favoriteProfiles: data})
 					return data;
 				} catch (error) {
 					console.error('Error al obtener perfiles favoritos:', error);

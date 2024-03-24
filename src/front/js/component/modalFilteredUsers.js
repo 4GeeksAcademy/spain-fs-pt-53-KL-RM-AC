@@ -7,7 +7,6 @@ export const ModalFilteredUsers = ({ show, handleClose }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">No se encontraron perfiles</h5>
-                        <button type="button" className="btn-close" aria-label="Close" onClick={handleClose}></button>
                     </div>
                     <div className="modal-body">
                         <p>No hay perfiles que cumplan con los filtros seleccionados.</p>
