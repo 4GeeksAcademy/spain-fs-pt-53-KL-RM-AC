@@ -1,9 +1,10 @@
 .finder {
-    
+    height: 100vh;
     .containerfinder {
-
+        height: 100vh;
         max-width: 1200px;
         margin: 0 auto;
+        margin-top: 50px;
         padding: 30px 15px;
         box-sizing: border-box;
         font-family: "Be Vietnam Pro", sans-serif;
@@ -13,6 +14,9 @@
         background-color: #f9f9f9;
         padding: 15px;
         border-radius: 10px;
+        position: fixed;
+        margin: auto;
+        max-width: 275px;
     }
 
     .button {
