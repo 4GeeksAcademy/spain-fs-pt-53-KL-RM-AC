@@ -130,10 +130,9 @@ export const CreateProfile = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div className="container p-2">
+            <div className="createProfile">
                 {profileCreated ? <MyProfile /> : (
-                    <div className="createProfile">
-                        <div className="createProfilePage mt-2 ">
+                        <div className="createProfilePage">
                             <form>
                                 <div className="row">
                                     <div className="col-md-6 col-sm-12 images">
@@ -223,7 +222,6 @@ export const CreateProfile = () => {
                                     </Link>
                                 </Stack>
                             </form>
-                        </div>
                     </div>)}
             </div>
         </ThemeProvider>

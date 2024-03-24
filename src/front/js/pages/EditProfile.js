@@ -105,7 +105,6 @@ export const EditProfile = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div className="container  p-2">
                 <div className="createProfile">
                     <div className="createProfilePage mt-2 ">
                         <form>
@@ -126,7 +125,7 @@ export const EditProfile = () => {
                                         onChange={handleNewImage}
                                     />
                                     <label htmlFor="fileInput" className="labelImg btn">
-                                        {uploadingImage ? <CircularProgress color="primary" /> : <CloudUploadIcon />}
+                                    {uploadingImage ? <CircularProgress color="primary" /> : <CloudUploadIcon />}                                   
                                     </label>
                                 </div>
                                 <div className="col-md-6 col-sm-12">
@@ -191,7 +190,6 @@ export const EditProfile = () => {
                         </form>
                     </div>
                 </div>
-            </div >
         </ThemeProvider >
     );
 };

@@ -1,14 +1,16 @@
 .createProfile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
 
     .createProfilePage {
         background-color: #ffffff;
         border-radius: 5px;
         border-color: rgb(8, 8, 8);
         box-shadow: 2px 2px rgba(18, 17, 17, 0.379);
-        margin: auto;
         padding: 20px;
-        max-width: 850px;
-
+        width: 850px;
     }
 
 
@@ -59,7 +61,7 @@
 
     .labelImg {
         margin-top: 15px;
-       font-size: large;
+        font-size: large;
 
     }
 
