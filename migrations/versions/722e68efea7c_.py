@@ -4,11 +4,6 @@
 Revision ID: 722e68efea7c
 Revises: 
 Create Date: 2024-03-23 11:42:02.340428
-========
-Revision ID: b9f92529e42b
-Revises: 
-Create Date: 2024-03-23 11:08:55.583425
->>>>>>>> Rocio:migrations/versions/b9f92529e42b_.py
 
 """
 from alembic import op
@@ -16,11 +11,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/722e68efea7c_.py
 revision = '722e68efea7c'
-========
-revision = 'b9f92529e42b'
->>>>>>>> Rocio:migrations/versions/b9f92529e42b_.py
 down_revision = None
 branch_labels = None
 depends_on = None
