@@ -1,0 +1,97 @@
+.finder {
+    height: 100vh;
+    .containerfinder {
+        height: 100vh;
+        max-width: 1200px;
+        margin-bottom: 60px;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 30px 15px;
+        box-sizing: border-box;
+        font-family: "Be Vietnam Pro", sans-serif;
+    }
+
+    .filter {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 9px;
+        position: sticky;
+        margin: auto;
+        max-width: 275px;
+    }
+
+
+    .finderbottom {
+        margin-bottom: 60px;
+    }
+    .button {
+
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 600;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-size: small;
+
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .icons p {
+        margin-right: 8px;
+        display: flex;
+        justify-content: center;
+        /* Centra los elementos horizontalmente */
+        align-items: center;
+        color: #014E60;
+    }
+
+    .containerfinder .card {
+        background-color: #fff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 9px;
+        height: 370px;
+        /* Altura más corta */
+        transition: height 0.3s ease-in-out;
+        overflow: hidden;
+    }
+
+    .containerfinder .card .image img {
+        width: 100%;
+        height: 250px;
+        border-radius: 15px;
+        object-fit: cover;
+    }
+
+    .containerfinder .card .content {
+        padding: 10px 0;
+        color: #111;
+        text-align: center;
+        visibility: visible;
+        opacity: 1;
+        transition: 0.3s ease-in-out;
+    }
+
+    .containerfinder .card .buttons {
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
+
+    .containerfinder .card:hover {
+        height: 420px;
+        /* Altura más larga */
+    }
+
+    .containerfinder .card:hover .buttons {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .containerfinder .card .buttons button {
+        margin-top: 8px;
+        border-radius: 25px;
+    }
+}

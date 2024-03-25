@@ -1,0 +1,47 @@
+
+.loginStyles {
+
+    .login {
+        max-width: 400px;
+        text-align: left;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        justify-content: end;
+        background-color: #ffffff;
+        border-radius: 5px;
+        border-color: rgb(8, 8, 8);
+        box-shadow: 2px 2px rgba(18, 17, 17, 0.379);
+        padding: 10px;
+    }
+
+    .textLogin {
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 100;
+        font-size: small;
+    }
+
+    .title {
+        text-align: center;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        color: #295f72;
+        text-shadow: 1px 1px white;
+    }
+
+    .button {
+        width: 100%;
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 700;
+        font-family: "Be Vietnam Pro", sans-serif;
+    }
+    .form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 600px;
+    }
+
+}

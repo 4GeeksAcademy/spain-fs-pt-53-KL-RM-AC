@@ -1,0 +1,42 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .modal-content {
+        position: relative; 
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 100%;
+        z-index: 1; /* Asegura que el contenido esté por encima del fondo */
+    }
+    
+    .modal-header {
+        text-align: center;
+    }
+    
+    .modal-body {
+        text-align: center;
+    }
+    
+    .modal-footer {
+        text-align: center;
+    }
+}
+

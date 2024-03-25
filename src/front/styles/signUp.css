@@ -1,0 +1,70 @@
+.signUpStyles {
+    height: 100vh;
+
+    .button {
+        width: 100%;
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 700;
+        font-family: "Be Vietnam Pro", sans-serif;
+
+    }
+
+
+    .signUp {
+        max-width: 400px;
+        max-height: 500px;
+        text-align: left;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 2px 2px rgba(18, 17, 17, 0.379);
+        border-color: rgb(8, 8, 8);
+
+    }
+
+    .textSignUp {
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 100;
+        font-size: small;
+
+    }
+
+    .alert {
+        margin-top: 10px;
+        lighting-color: #ff0000;
+
+
+    }
+
+    .form-control {
+        height: 40px;
+    }
+
+
+    .title {
+        text-align: center;
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        color: #295f72;
+        text-shadow: 1px 1px white;
+    }
+
+    .link {
+        color: #55ccc9;
+        text-decoration: solid;
+        font-weight: bold;
+    }
+
+    .form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 600px;
+    }
+
+
+}
