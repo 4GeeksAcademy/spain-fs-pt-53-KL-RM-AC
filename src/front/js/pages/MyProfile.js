@@ -128,13 +128,13 @@ export const MyProfile = () => {
                                         <p>{userData.text_box}</p>
                                     </div>
                                     <Stack direction="row" spacing={2} className="buttons">
-                                        <Link to={"/edit"}>
+                                        <Link to={"/edit"} style={{ textDecoration: 'none' }}>
                                             <Button type="button" color="primary" variant="outlined" className="button p-2">Editar Perfil</Button>
                                         </Link>
 
                                         <Button type="button" color="primary" variant="outlined" className="button btn" onClick={handleDelete}>Eliminar Perfil</Button>
 
-                                        <Link to={"/password"}>
+                                        <Link to={"/password"} style={{ textDecoration: 'none' }}>
                                             <Button type="button" color="primary" variant="outlined" className="button btn">Cambiar Contrasena</Button>
                                         </Link>
                                     </Stack>

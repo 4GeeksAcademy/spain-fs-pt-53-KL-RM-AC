@@ -9,8 +9,15 @@
     padding: 20px;
     max-width: 850px;
     margin: 0 auto;
+    margin-top: 90px;
+    margin-bottom: 80px;
     background: linear-gradient(to bottom, #ffffff, #f0f0f0);
 
+
+    .learnmore .container-fluid{
+        margin-bottom: 80px;
+    }
+    
     .button {
         width: 150px;
         border-radius: 25px;

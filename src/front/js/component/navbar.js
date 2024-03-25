@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import compislogo from "../../img/compis.png";
+import compis6 from "../../img/compis6.png";
 import "../../styles/navbar.css";
 import { Context } from "../store/appContext";
 import { FadeMenu } from "./FadeMenu";
@@ -46,11 +46,11 @@ export const Navbar = () => {
             <div className="logo me-auto">
                 {token ? (
                     <Link to="/homelogged">
-                        <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+                        <img className="navbar-brand imageLogo" src={compis6} alt="" />
                     </Link>
                 ) : (
                     <Link to="/">
-                        <img className="navbar-brand imageLogo" src={compislogo} alt="" />
+                        <img className="navbar-brand imageLogo" src={compis6} alt="" />
                     </Link>
                 )}
             </div>
@@ -62,17 +62,24 @@ export const Navbar = () => {
                             <StyledBadge badgeContent={favoriteProfiles.length} color="red"></StyledBadge>
                         </IconButton>
                         <ul className="dropdown-menu m-2" aria-labelledby="dropdownMenuClickableInside">
-                            {favoriteProfiles.map(profile => (
-                                <li key={profile.id} className="d-flex li justify-content-between">
-                                    <Link to={`/learnmore/${profile.id}`} className="link">
-                                        <p className="name">
-                                            {profile.user_name} {profile.last_name}
-                                        </p>
-                                    </Link>
-                                    <i className="button fa-solid fa-xmark" onClick={() => handleRemoveFavorite(profile.id)}></i>                                    
+                            {favoriteProfiles.length > 0 ? (
+                                favoriteProfiles.map(profile => (
+                                    <li key={profile.id} className="d-flex li justify-content-between">
+                                        <Link to={`/learnmore/${profile.id}`} className="link">
+                                            <p className="name">
+                                                {profile.user_name} {profile.last_name}
+                                            </p>
+                                        </Link>
+                                        <i className="button fa-solid fa-xmark" onClick={() => handleRemoveFavorite(profile.id)}></i>
+                                    </li>
+                                ))
+                            ) : (
+                                <li className="d-flex li justify-content-center">
+                                    <p>No tienes ningún favorito</p>
                                 </li>
-                            ))}
+                            )}
                         </ul>
+
                     </div>
                 )}
             </div>
