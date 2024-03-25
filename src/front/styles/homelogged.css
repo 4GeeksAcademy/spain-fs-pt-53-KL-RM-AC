@@ -1,31 +1,47 @@
 .logged {
+    background-image: url("https://img.freepik.com/free-photo/two-female-friends-dancing-together-bed-while-listening-music_23-2148708926.jpg?t=st=1711309118~exp=1711312718~hmac=d6b594f837c0f33a2f1f3d0044306c9cc2261dd5d1029636d33d15e6ab93146a&w=900");
+    background-size: cover;
+    
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /* 100% de la altura de la ventana gráfica */
 
-    .onlineWorld {
-        height: 200px;
-        width: 200px;
 
+
+
+
+    .box {
+        background-color: rgba(242, 244, 244, 0.616);
+        width: 500px;
+        padding: 3px;
     }
 
-    .profilesImg {
-        height: 350px;
+    @media (max-width: 768px) {
+        .logged {
+            /* Cambiar el tamaño de la imagen de fondo para dispositivos más pequeños */
+            background-size: contain;
+        }
     }
 
-
-    .conectionImg {
-        height: 200px;
-        width: 200px;
-        margin-right: 0;
-
+    @media (max-width: 480px) {
+        .logged {
+            /* Cambiar el tamaño de la imagen de fondo para dispositivos más pequeños como teléfonos móviles */
+            background-size: cover;
+        }
     }
 
     .textLogged {
+        margin-top: 3px;
         border-left: 2px solid rgba(50, 47, 47, 0.492);
-        margin-top: 70px;
         margin-left: 30px;
         font-family: "Be Vietnam Pro";
         font-style: normal;
         font-weight: 400;
         font-size: medium;
+
     }
 
     .title {
@@ -33,7 +49,17 @@
         font-family: "Be Vietnam Pro";
         font-style: normal;
         font-weight: 1000;
-        color: #3f7a8d;
-        text-shadow: 2px 2px 3px rgba(249, 246, 246, 0.52);
+        color: #000000;
+        text-shadow: 2px 2px 3px rgba(247, 248, 248, 0.52);
+    }
+
+    .button {
+        width: 100%;
+        border-radius: 25px;
+        margin-top: 15px;
+        font-weight: 700;
+        font-family: "Be Vietnam Pro", sans-serif;
+
+
     }
 }

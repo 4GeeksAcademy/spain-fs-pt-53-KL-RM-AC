@@ -1,39 +1,44 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import HangOut from "../../img/Hang out-cuate.png"
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
+import { Stack } from "@mui/material";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
 
-	return (
-		<div className="row home d-flex">
-			<div className="col-7">
-				<div className="d-flex m-0 col-4">
-					<p className="title">COMPIS</p>
-					<p className="subtitle">APP</p>
-				</div>
-				<div className="container ">
-					<p className="textHome p-2">
-						Sabemos lo dificil que es encontrar a tu match...pero estamos aquí para ayudarte a encontrar a tu compi de piso perfecto.
-					</p>
-				</div>
-				<div className="text-center">
-					<p className="question">
-						¿Quieres unirte a la comunidad?
-					</p>
-					<Link to={"/user-signup"}>
-						<button type="button" className="btn btn-dark me-2 btn-lg"><i className="fa-solid fa-magnifying-glass"></i>  Buscar Roomie</button>
-					</Link>
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: '#295f72',
+            },
+        },
+    });
 
-				</div>
-			</div>
-			<div className="col-5">
-				<div className="possition-relative">
-					<img src={HangOut} className="hangoutImg position-absolute bottom-0 end-0"></img>
-				</div>
-			</div>
-		</div>
-	);
-};
+
+    return (
+        <ThemeProvider theme={theme}>
+            <div className="home">
+                <video autoPlay loop muted className="video-background">
+                    <source src="https://videocdn.cdnpk.net/excite/content/video/premium/partners0322/large_preview/103280_C0020_A.mp4?filename=5079165_watch_television_tv_1920x1080.mp4" type="video/mp4" />
+                </video>
+                <div className="overlay"></div>
+                <div className="formulario-bienvenida">
+                    <h2>Sabemos lo difícil que es encontrar un compi de piso ideal</h2>
+                    <div className="textHome">
+                        <p>Por eso hemos creado una web donde podrás encontrar al compi que más encaje contigo</p>
+                    </div>
+                    <div className="buttonHome">
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" >
+                            <Link to={"/user-signup"}>
+                                <Button color="primary" variant="contained" className="button"><i className="fa-solid fa-magnifying-glass p-2"></i>Buscar compi</Button>
+                            </Link>
+                        </Stack>
+                    </div>
+                </div>
+            </div>
+        </ThemeProvider>
+    );
+}

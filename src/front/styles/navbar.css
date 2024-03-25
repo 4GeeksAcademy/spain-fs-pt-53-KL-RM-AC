@@ -1,35 +1,61 @@
-/* navbar.css */
 .custom-navbar {
   display: flex;
   align-items: center;
-  background-color: #3f7a8d; 
-  font-family: Verdana;
+  background-color: #3f7a8d;
   padding: 0px;
   height: 50px; 
-}
-
-.textNavbar {
-  display: flex;
-  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
-}
-
-.textNavbar a {
-  color: white;
-  text-decoration: none;
-  margin-left: 15px;
-}
-
-.textNavbar a:hover{
-  color: #55ccc9;
+  position:fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 3000;
 }
 
 .imageLogo {
-  height: 50px;
-  width: 60px;
-  margin-left: 10px;
+  margin-top: 20px;
+  height: 200px;
+  width: 220px;
   margin-top: 5px;
 }
 
-.dropdown {
-  margin-right: 15px; /* Ajusta el espacio entre los íconos y el borde derecho */
+.icon {
+  text-decoration: none;
+  color: black
+}
+
+.custom-menu-item {
+  color: black;
+
+}
+
+.custom-menu-item a {
+  text-decoration: none;
+  color: inherit;
+}
+.dropdown-menu{
+  min-width: 13rem;
+  border-color: rgb(8, 8, 8);
+  box-shadow: 2px 2px rgba(18, 17, 17, 0.379);
+}
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.li {
+  border-bottom: 0.5px rgba(0, 0, 0, 0.297) solid;
+  margin-left:10px;
+  margin-right: 10px;
+  
+}
+
+.name{
+  margin: 0;
+  padding: 7px;
+}
+
+.button {
+  margin-top: 5px;
+  padding: 7px;
 }

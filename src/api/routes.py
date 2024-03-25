@@ -101,11 +101,11 @@ def change_password():
     # Verificar que el usuario exista en la base de datos
     user = User.query.filter_by(id=current_user_id).first()
     if not user:
-        return jsonify({'error': 'Usuario no encontrado'}), 404
+        return jsonify({'message': 'Usuario no encontrado'}), 404
     
     # Verificar que la contraseña actual sea correcta
     if not check_password_hash(user.password, old_password):
-        return jsonify({'error': 'La contraseña actual no es correcta'}), 400
+        return jsonify({'message': 'La contraseña actual no es correcta'}), 400
     
     # Encriptar la nueva contraseña
     hashed_new_password = generate_password_hash(new_password).decode('utf-8')
@@ -260,16 +260,16 @@ def get_users_filter():
     budget = request.args.get('budget')
     findroomie = request.args.get('find_roomie')
 
-    if pet is not None:
+    if pet is not None and pet != "":
         filters.append(UserProperties.pet == pet)
-    if gender is not None:
+    if gender is not None and gender != "":
         filters.append(UserProperties.gender == gender)
-    if budget is not None:
+    if budget is not None and budget != "":
         if findroomie == 'Apartment':
             filters.append(UserProperties.budget <= budget)
         elif findroomie == 'NoApartment':
             filters.append(UserProperties.budget <= budget)
-    if findroomie is not None:
+    if findroomie is not None and findroomie != "":
         filters.append(UserProperties.find_roomie == findroomie)
 
     # Si no se proporcionan filtros, devuelve todos los perfiles
