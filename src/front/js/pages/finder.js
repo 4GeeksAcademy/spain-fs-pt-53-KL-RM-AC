@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ModalFilteredUsers } from "../component/modalFilteredUsers";
+
+
 const LITERALS = {
     "Male": <i className="fa-solid fa-mars"></i>,
     "Female": <i className="fa-solid fa-venus"></i>,
@@ -137,6 +139,7 @@ export const Finder = () => {
             console.error("Error al eliminar de favoritos:", error);
         }
     };
+
 
 
     if (!store.token || store.token === "" || store.token === undefined) {

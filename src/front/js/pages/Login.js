@@ -19,6 +19,11 @@ export const Login = () => {
     });
     const [alertMessage, setAlertMessage] = useState("");
     const [open, setOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
 
     const handleChange = (e) => {
@@ -45,7 +50,7 @@ export const Login = () => {
         } catch (error) {
             if (error.message === "Email or password are incorrect")
                 setAlertMessage("Correo electrónico o contraseña incorrectos");
-                setOpen(true)
+            setOpen(true)
 
         }
     };
@@ -56,7 +61,7 @@ export const Login = () => {
         }
         setOpen(false);
     };
-    
+
     const theme = createTheme({
         palette: {
             primary: {
@@ -76,9 +81,27 @@ export const Login = () => {
                                     <label className="form-label">Correo</label>
                                     <input type="email" className="input form-control" id="email" name="email" value={formData.email} onChange={handleChange} autoComplete="current-user_name" />
                                 </div>
-                                <div className="mb-2">
+                                <div className="mb-1 input-container">
                                     <label className="form-label">Contraseña</label>
-                                    <input type="password" className="input form-control" id="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" />
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        className="form-control"
+                                        id="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        autoComplete="current-password"
+                                    />
+                                    <button
+                                        className="eye"
+                                        type="button"
+                                        onClick={handleTogglePasswordVisibility}
+                                    >
+                                        {showPassword ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+                                    </button>
+                                    <div id="passwordHelpBlock" className="form-text">
+                                        * La contraseña debe tener al menos 8 caracteres, incluir al menos un número y un carácter especial.
+                                    </div>
                                 </div>
                                 <Stack direction="row" spacing={2}>
                                     <Button onClick={handleSubmit} type="submit" color="primary" variant="outlined" className="button">Continuar</Button>
