@@ -13,6 +13,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import re
 import os
+from sqlalchemy import or_
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 
@@ -259,6 +260,8 @@ def get_users_filter():
     gender = request.args.get('gender')
     budget = request.args.get('budget')
     findroomie = request.args.get('find_roomie')
+    user_name = request.args.get('user_name')
+    last_name = request.args.get('last_name')
 
     if pet is not None and pet != "":
         filters.append(UserProperties.pet == pet)
@@ -271,6 +274,11 @@ def get_users_filter():
             filters.append(UserProperties.budget <= budget)
     if findroomie is not None and findroomie != "":
         filters.append(UserProperties.find_roomie == findroomie)
+    if user_name:
+    
+        filters.append(User.user_name.ilike(f'%{user_name}%'))
+    if last_name:
+        filters.append(User.last_name.ilike(f'%{last_name}%'))
 
     # Si no se proporcionan filtros, devuelve todos los perfiles
     if not filters:
@@ -292,6 +300,7 @@ def get_users_filter():
             serialized_users.append(serialized_user)
 
     return jsonify(serialized_users), 200
+
 
 #####################################################
 # OBTIENE EL USUARIO CON SUS PROPIEDADES A TRAVEZ DE SU ID. LEARN MORE  

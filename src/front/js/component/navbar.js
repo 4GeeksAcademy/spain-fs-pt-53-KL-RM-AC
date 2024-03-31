@@ -14,8 +14,8 @@ export const Navbar = () => {
     const { favoriteProfiles } = store;
     const token = store.token;
     const color = red[900];
-    const [activeLink, setActiveLink] = useState(""); // Estado local para realizar un seguimiento de qué enlace está activo
-
+    const [activeLink, setActiveLink] = useState("");
+    
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
             right: 4,
@@ -33,13 +33,11 @@ export const Navbar = () => {
     const handleRemoveFavorite = async (profileId) => {
         const success = await actions.removeFavoriteProfile(profileId);
         if (success) {
-            // Si la eliminación fue exitosa, actualizamos la lista de perfiles favoritos
             actions.getFavoriteProfiles();
         }
     };
 
     return (
-
         <div className="d-flex custom-navbar">
             <div className="logo me-auto">
                 {token ? (
@@ -59,8 +57,8 @@ export const Navbar = () => {
                     </Link>
                 </div>
             )}
-            <div className="favoritos">
-                {token && (
+            {token && (
+                <div className="favoritos">
                     <div className="dropdown">
                         <IconButton type="button" className="btn btn-primary position-relative" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
                             <i className="fa-solid fa-heart"></i>
@@ -84,17 +82,20 @@ export const Navbar = () => {
                                 </li>
                             )}
                         </ul>
-
                     </div>
-                )}
-            </div>
+                </div>
+            )}
             <div className="d-flex">
-                <div onClick={() => setActiveLink("profile")} className={`m-3 ${activeLink === "profile" && "active-link"}`}>
-                    <Link to="/profile" className="link"><i className="fa-regular fa-user"></i> Mi perfil</Link>
-                </div>
-                <div onClick={() => setActiveLink("finder")} className={`m-3 ${activeLink === "finder" && "active-link"}`}>
-                    <Link to="/finder" className="link"><i className="fa-solid fa-magnifying-glass"></i>  Buscar</Link>
-                </div>
+                {token && (
+                    <>
+                        <div onClick={() => setActiveLink("profile")} className={`m-3 ${activeLink === "profile" && "active-link"}`}>
+                            <Link to="/profile" className="link"><i className="fa-regular fa-user"></i> Mi perfil</Link>
+                        </div>
+                        <div onClick={() => setActiveLink("finder")} className={`m-3 ${activeLink === "finder" && "active-link"}`}>
+                            <Link to="/finder" className="link"><i className="fa-solid fa-magnifying-glass"></i>  Buscar</Link>
+                        </div>
+                    </>
+                )}
                 {!store.token ? (
                     <div onClick={() => setActiveLink("login")} className={`m-3 ${activeLink === "login" && "active-link"}`}>
                         <Link to="/user-login" className="link"><i className="fa-solid fa-arrow-right-to-bracket"></i> Iniciar Sesión</Link>
@@ -105,11 +106,6 @@ export const Navbar = () => {
                     </div>
                 )}
             </div>
-
-
         </div>
-
-
-
     );
 };
