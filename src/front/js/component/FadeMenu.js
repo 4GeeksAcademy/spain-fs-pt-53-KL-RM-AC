@@ -5,7 +5,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import { Link } from 'react-router-dom';
-import '../../styles/navbar.css'; 
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import '../../styles/navbar.css';
 
 export const FadeMenu = () => {
     const { store, actions } = useContext(Context);
@@ -21,6 +23,36 @@ export const FadeMenu = () => {
     };
 
     return (
+        <div className="d-flex align-items-center"> 
+            {token && (
+                    <div className="favoritos">
+                        <div className="dropdown">
+                            <IconButton type="button" className="btn btn-primary position-relative" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i className="fa-solid fa-heart"></i>
+                                <Badge badgeContent={favoriteProfiles.length} color="error"></Badge>
+                            </IconButton>
+                            <ul className="dropdown-menu m-2" aria-labelledby="dropdownMenuClickableInside">
+                                {favoriteProfiles.length > 0 ? (
+                                    favoriteProfiles.map(profile => (
+                                        <li key={profile.id} className="d-flex li justify-content-between">
+                                            <Link to={`/learnmore/${profile.id}`} className="link">
+                                                <p className="name">
+                                                    {profile.user_name} {profile.last_name}
+                                                </p>
+                                            </Link>
+                                            <i className="button fa-solid fa-xmark" onClick={() => handleRemoveFavorite(profile.id)}></i>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="d-flex li justify-content-center">
+                                        <p>No tienes ningún favorito</p>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
+                )}
+            
         <div>
             <Button
                 id="fade-button"
@@ -43,12 +75,18 @@ export const FadeMenu = () => {
                 TransitionComponent={Fade}
                 className="mt-4"
             >
-                <MenuItem className="custom-menu-item" onClick={handleClose}> {/* Aplica la clase CSS personalizada al elemento MenuItem */}
-                    <Link to="/profile"><i className="fa-regular fa-user"></i> Mi perfil</Link> {/* Envuelve el enlace dentro del elemento MenuItem */}
-                </MenuItem>
-                <MenuItem className="custom-menu-item" onClick={handleClose}>
-                    <Link to="/finder"><i className="fa-solid fa-magnifying-glass"></i>  Buscar</Link>
-                </MenuItem>
+
+                {token && (
+                    <>
+                        <MenuItem className="custom-menu-item" onClick={handleClose}> {/* Aplica la clase CSS personalizada al elemento MenuItem */}
+                            <Link to="/profile"><i className="fa-regular fa-user"></i> Mi perfil</Link> {/* Envuelve el enlace dentro del elemento MenuItem */}
+                        </MenuItem>
+                        <MenuItem className="custom-menu-item" onClick={handleClose}>
+                            <Link to="/finder"><i className="fa-solid fa-magnifying-glass"></i>  Buscar</Link>
+                        </MenuItem>
+                    </>
+
+                )}
 
                 {!store.token ? (
                     <MenuItem className="custom-menu-item" onClick={handleClose}>
@@ -60,6 +98,7 @@ export const FadeMenu = () => {
                     </MenuItem>
                 )}
             </Menu>
+        </div>
         </div>
     );
 };
