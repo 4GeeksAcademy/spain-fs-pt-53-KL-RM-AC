@@ -99,7 +99,7 @@ export const LearnMore = () => {
                                 {showEmail && (
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <p><strong>Email:</strong> {userData.email}</p>
+                                            <p><strong>Email:</strong> <a href="https://www.google.com/gmail/about/">{userData.email}</a></p>
                                         </div>
                                     </div>
                                 )}

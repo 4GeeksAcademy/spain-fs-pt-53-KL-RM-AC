@@ -84,7 +84,7 @@ export const Navbar = () => {
                     {!token ? (
                         <>
                             <div className="m-3">
-                                <Link to={'/user-signup'} className="link">Registrarse</Link>
+                                <Link to={'/user-signup'} className="link"><i className="fa-solid fa-user-plus"></i> Registrarse</Link>
                             </div>
                             <div className="m-3">
                                 <Link to="/user-login" className="link"><i className="fa-solid fa-arrow-right-to-bracket"></i> Iniciar Sesión</Link>

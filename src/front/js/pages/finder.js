@@ -32,6 +32,7 @@ export const Finder = () => {
     const [filters, setFilters] = useState(initialFilters)
     const [noProfilesFound, setNoProfilesFound] = useState(false);
     const [filtersActive, setFiltersActive] = useState(false);
+    const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState("");
     const [lastName, setLastName] = useState("");
 

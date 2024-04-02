@@ -51,5 +51,8 @@
         border-radius: 5px;
         margin-bottom: 20px;
     }
+    .email{
+        text-decoration: none;
+    }
 
 }
