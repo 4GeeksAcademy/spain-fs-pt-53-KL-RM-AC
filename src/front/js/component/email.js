@@ -32,8 +32,9 @@ export const Emailjs = ({ isOpen, onClose, userEmail }) => { // Agrega userEmail
     e.preventDefault();
     setIsSending(true);
 
+  
     emailjs
-      .sendForm('service_fagtxs7', 'template_bu9rbda', form.current, {
+      .sendForm('service_fagtxs7', 'template_3rseqno', form.current, {
         publicKey: 'FZ1DV86eSiMbxSAyI', 
       })
       .then(
