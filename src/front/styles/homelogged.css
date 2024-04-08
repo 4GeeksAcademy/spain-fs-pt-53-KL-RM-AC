@@ -15,8 +15,9 @@
 
     .box {
         background-color: rgba(242, 244, 244, 0.616);
-        width: 500px;
+        width: 60%;
         padding: 3px;
+        margin: auto;
     }
 
     @media (max-width: 768px) {

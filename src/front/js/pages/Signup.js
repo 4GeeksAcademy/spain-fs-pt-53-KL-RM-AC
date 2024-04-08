@@ -17,6 +17,7 @@ export const SignUp = () => {
     });
     const [alertMessage, setAlertMessage] = useState("");
     const [open, setOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const handleClose = (event, reason) => {
@@ -35,7 +36,7 @@ export const SignUp = () => {
         if (!e.target.value.trim()) {
             setAlertMessage("Todos los campos son obligatorios");
         } else {
-            setAlertMessage(""); 
+            setAlertMessage("");
         }
     };
 
@@ -65,10 +66,12 @@ export const SignUp = () => {
                 setOpen(true)
                 console.error("Error al crear el usuario:", error);
             }
-            setOpen(true); 
+            setOpen(true);
         }
     };
-
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     const theme = createTheme({
         palette: {
             primary: {
@@ -97,12 +100,34 @@ export const SignUp = () => {
                                     <div className="mb-1">
                                         <label className="form-label">Correo electrónico</label>
                                         <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} autoComplete="current-email" />
+
                                     </div>
-                                    <div className="mb-1">
+                                    <div className="mb-1 input-container">
                                         <label className="form-label">Contraseña</label>
-                                        <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" />
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            className="form-control"
+                                            id="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            autoComplete="current-password"
+                                        />
+                                        <button
+                                            className="eye"
+                                            type="button"
+                                            onClick={handleTogglePasswordVisibility}
+                                        >
+                                            {showPassword ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+                                        </button>
+                                        <div id="passwordHelpBlock" className="form-text">
+                                            * La contraseña debe tener al menos 8 caracteres, incluir al menos un número y un carácter especial.
+                                        </div>
                                     </div>
-                                    <div> 
+
+
+
+                                    <div>
                                         <span>¿Ya estás registrado? <Link to="/user-login" className="link">  Iniciar Sesión</Link></span>
                                     </div>
                                 </div>

@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ModalFilteredUsers } from "../component/modalFilteredUsers";
+
+
 const LITERALS = {
     "Male": <i className="fa-solid fa-mars"></i>,
     "Female": <i className="fa-solid fa-venus"></i>,
@@ -23,6 +25,7 @@ export const Finder = () => {
         gender: "",
         pet: "",
         budget: "",
+        user_name: "",
     };
     const [usersData, setUsersData] = useState([]);
     const [favoriteProfiles, setFavoriteProfiles] = useState([]);
@@ -30,7 +33,8 @@ export const Finder = () => {
     const [noProfilesFound, setNoProfilesFound] = useState(false);
     const [filtersActive, setFiltersActive] = useState(false);
     const navigate = useNavigate();
-
+    const [searchValue, setSearchValue] = useState("");
+    const [lastName, setLastName] = useState("");
 
     const theme = createTheme({
         palette: {
@@ -64,13 +68,23 @@ export const Finder = () => {
 
 
     const handleSetFilter = (filter) => {
+        if (filter.user_name !== undefined) {
+            setSearchValue(filter.user_name);
+        }
+        if (filter.last_name !== undefined) {
+            setLastName(filter.last_name);
+        }
         setFilters({ ...filters, ...filter });
     };
 
-
     const handleFilteredUsers = () => {
-        actions.getUsersFilter(filters).then(data => {
-            console.log(data)
+        const filtersToSend = {
+            ...filters,
+            user_name: searchValue,
+            last_name: lastName
+        };
+
+        actions.getUsersFilter(filtersToSend).then(data => {
             if (data && data.length) {
                 setUsersData(data);
                 setFiltersActive(true);
@@ -84,15 +98,18 @@ export const Finder = () => {
     };
 
     const handleResetFilters = () => {
-        setFilters(initialFilters);
-        setFiltersActive(false);
+        setFilters(initialFilters); // Vacía los valores de los filtros
+        setFiltersActive(false); // Desactiva el estado de filtros activos
+        setSearchValue(""); // Vacía el campo de búsqueda
+        setLastName("");
+
+        // Llama a la función para obtener todos los usuarios nuevamente
         actions.getUsersFilter({}).then(data => {
             if (data && data.length) {
                 setUsersData(data);
                 setNoProfilesFound(false);
             }
         });
-
     };
 
 
@@ -139,6 +156,7 @@ export const Finder = () => {
     };
 
 
+
     if (!store.token || store.token === "" || store.token === undefined) {
         return <PageNotAllowed />;
     }
@@ -152,6 +170,24 @@ export const Finder = () => {
                             <div className="filter sticky-top">
                                 <h4>Filtros</h4>
                                 <form>
+                                    <div className="name">
+                                        <h5>Buscar por nombre</h5>
+                                        <div className="d-flex">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={searchValue}
+                                                onChange={(e) => setSearchValue(e.target.value)}
+                                            />
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={lastName}
+                                                onChange={(e) => setLastName(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
                                     <div className="situation">
                                         <h5>¿Qué buscas?</h5>
                                         <select id="find_roomie"
@@ -279,8 +315,8 @@ export const Finder = () => {
                     </div>
                     <ModalFilteredUsers show={noProfilesFound} handleClose={handleModalClose} />
                 </div>
-            </div>
-        </ThemeProvider>
+            </div >
+        </ThemeProvider >
     );
 
 };

@@ -1,5 +1,6 @@
 .finder {
     height: 100vh;
+
     .containerfinder {
         height: 100vh;
         max-width: 1200px;
@@ -24,6 +25,7 @@
     .finderbottom {
         margin-bottom: 60px;
     }
+
     .button {
 
         border-radius: 25px;
@@ -93,5 +95,8 @@
     .containerfinder .card .buttons button {
         margin-top: 8px;
         border-radius: 25px;
+    }
+    input{
+        margin-right: 4px;
     }
 }
