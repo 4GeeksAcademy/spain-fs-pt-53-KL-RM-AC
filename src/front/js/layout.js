@@ -18,6 +18,7 @@ import { HomeLogged } from "./pages/homelogged";
 import { SignUp } from "./pages/Signup";
 import { Login } from "./pages/Login";
 
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -31,7 +32,7 @@ const Layout = () => {
         <BrowserRouter basename={basename}>
             <ScrollToTop>
                 <Navbar />
-                <div className="containerLayout" style={{height:'100vh',}}>
+                <div className="containerLayout" style={{ height: '100vh', }}>
                     <Routes className="body">
                         <Route element={<Home />} path="/" />
                         <Route element={<MyProfile />} path="/profile" />
@@ -43,6 +44,8 @@ const Layout = () => {
                         <Route element={<LearnMore />} path='/learnmore/:id' />
                         <Route element={<SignUp />} path="/user-signup" />
                         <Route element={<Login />} path="/user-login" />
+
+
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

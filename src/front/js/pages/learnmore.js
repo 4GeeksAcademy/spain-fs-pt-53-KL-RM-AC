@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { Emailjs } from "../component/email";
 import "../../styles/learnmore.css";
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -37,6 +38,10 @@ export const LearnMore = () => {
 
     const handleClickContactar = () => {
         setShowEmail(true);
+    };
+
+    const handleCloseEmailModal = () => {
+        setShowEmail(false);
     };
 
     const theme = createTheme({
@@ -99,13 +104,17 @@ export const LearnMore = () => {
                                 {showEmail && (
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <p><strong>Email:</strong> {userData.email}</p>
+                                        <Emailjs isOpen={showEmail} onClose={handleCloseEmailModal} userEmail={userData.email} />
                                         </div>
                                     </div>
                                 )}
                                 <div className="row">
                                     <div className="col-md-12 d-flex justify-content-center">
-                                        <Button type="button" className="button " color="primary" variant="outlined"
+                                        <Button
+                                            type="button"
+                                            className="button "
+                                            color="primary"
+                                            variant="outlined"
                                             onClick={handleClickContactar}
                                         >
                                             Contactar

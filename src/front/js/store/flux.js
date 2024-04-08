@@ -368,35 +368,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-
 			getUsersFilter: async (filters) => {
-				const { token } = await getStore()
-
+				const { token } = await getStore();
+				
 				try {
-					const queryString = new URLSearchParams(filters).toString();
-					console.log(filters)
-					console.log(queryString)
-					// Realiza la solicitud GET a la ruta del servidor con la cadena de consulta
+					// Obtener el valor del input user_name y last_name del estado o de donde sea que lo tengas almacenado
+					const { user_name, last_name, ...otherFilters } = filters;
+					if (user_name) {
+						otherFilters.user_name = user_name;
+					}
+					if (last_name) {
+						otherFilters.last_name = last_name;
+					}
+			
+					// Convertir los filtros restantes en una cadena de consulta
+					const queryString = new URLSearchParams(otherFilters).toString();
+				
+					// Realizar la solicitud GET al servidor con la cadena de consulta
 					const response = await fetch(`${process.env.BACKEND_URL}/users/filter?${queryString}`, {
 						method: 'GET',
 						headers: {
 							"Authorization": "Bearer " + token,
 						}
 					});
-
+				
 					if (!response.ok) {
 						const data = await response.json();
 						throw new Error(data.error || 'Error al obtener usuarios filtrados');
 					}
-
+				
 					const filteredUsers = await response.json();
 					return filteredUsers;
-
+				
 				} catch (error) {
 					console.error('Error al obtener usuarios filtrados:', error);
 					throw error;
 				}
 			},
+			
+			
+			
+			
+			
 
 			getUserDetails: async () => {
 

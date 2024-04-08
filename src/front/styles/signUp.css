@@ -66,5 +66,19 @@
         height: 600px;
     }
 
+    .input-container {
+        position: relative;
+    }
+
+    .eye {
+        position: absolute;
+        top: 45%;
+        transform: translateY(-50%);
+        right: 10px;
+        cursor: pointer;
+        background-color: white;
+        border: none;
+    }
+
 
 }
