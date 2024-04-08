@@ -19,7 +19,7 @@ export const Emailjs = ({ isOpen, onClose, userEmail }) => { // Agrega userEmail
   const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] = useState({
     user_name: '',
-    user_email: userEmail, // Asigna el correo electrónico del usuario como valor inicial
+    user_email: userEmail, 
     message: ''
   });
 
@@ -33,6 +33,8 @@ export const Emailjs = ({ isOpen, onClose, userEmail }) => { // Agrega userEmail
     setIsSending(true);
 
   
+  console.log('Datos a enviar:', formData);
+
     emailjs
       .sendForm('service_fagtxs7', 'template_3rseqno', form.current, {
         publicKey: 'FZ1DV86eSiMbxSAyI', 
@@ -70,7 +72,7 @@ export const Emailjs = ({ isOpen, onClose, userEmail }) => { // Agrega userEmail
           <form ref={form} onSubmit={sendEmail}>
             <TextField
               margin="dense"
-              label="Name"
+              label="Nombre"
               name="user_name"
               value={formData.user_name}
               onChange={handleChange}
@@ -84,11 +86,11 @@ export const Emailjs = ({ isOpen, onClose, userEmail }) => { // Agrega userEmail
               value={formData.user_email}
               onChange={handleChange}
               fullWidth
-              disabled 
+            
             />
             <TextField
               margin="dense"
-              label="Message"
+              label="Asegurate de incluir tu correo o número de telefono"
               name="message"
               value={formData.message}
               onChange={handleChange}
@@ -103,7 +105,7 @@ export const Emailjs = ({ isOpen, onClose, userEmail }) => { // Agrega userEmail
               disabled={isSending}
               sx={{ mt: 2 }}
             >
-              {isSending ? 'Sending...' : 'Send'}
+              {isSending ? 'Enviando...' : 'Enviar'}
             </Button>
           </form>
         </Box>
